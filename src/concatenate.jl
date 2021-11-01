@@ -1,36 +1,28 @@
-using Dates: now, CompoundPeriod
+function concatenate(fq_, id="R1")::Nothing
 
-function concatenate(fq_, sa::String, pa::String)
+    if id == "R1"
 
-    st = now()
+        println("Using default read naming scheme \"R1\"")
+
+        println()
+
+    end
 
     fo_ = []
 
     re_ = []
 
-    naf_ = ["R1", "_1", "read1"]
-
-    nar_ = ["R2", "_2", "read2"]
-
     for fi in fq_
 
-        for na in naf_
+        if occursin(id, fi)
 
-            if occursin(na, fi)
-
-                push!(fo_, fi)
-
-            end
+            push!(fo_, fi)
 
         end
 
-        for na in nar_
+        if occursin(replace(id, "1" => "2", fi)
 
-            if occursin(na, fi)
-
-                push!(re_, fi)
-
-            end
+            push!(re_, fi)
 
         end
 
@@ -40,13 +32,19 @@ function concatenate(fq_, sa::String, pa::String)
 
     n_re = length(re_)
 
-    println("Number of forward read files = $n_fo\n")
+    println()
 
-    println("Number of reverse read files = $n_re\n")
+    println("Number of forward read files found = $n_fo")
 
-    paca = joinpath(pa, string(sa, "_cat"))
+    println("Number of reverse read files found = $n_re")
 
-    if ispath(paca)
+    println()
+
+    sa = last(splitdir(dirname(fq_[1])))
+
+    dica = joinpath(dirname(dirname(fq_[1])), string(sa, "_cat"))
+    
+    if ispath(dica)
 
         println(
             "Skipping concatenation because directory already exists:\n $paca\n",
@@ -60,35 +58,30 @@ function concatenate(fq_, sa::String, pa::String)
 
     else
 
-        run(pipeline(`mkdir $paca`))
+        run(`mkdir $dica`)
 
-        println("Combining forward reads...\n")
+        println("Concatenating read files...\n")
 
-        run(
-            pipeline(
-                `cat $fo_`,
-                stdout = joinpath(paca, string(sa, "_R1.fastq.gz")),
-            ),
-        )
+        gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 
-        println("Combining reverse reads...\n")
+        for gr in keys(gr_su)
 
-        run(
-            pipeline(
-                `cat $re_`,
-                stdout = joinpath(paca, string(sa, "_R2.fastq.gz")),
-            ),
-        )
+            println("this is the group: $gr")
 
-        println("Concatenated files saved at $paca\n")
+            run(
+                pipeline(
+                    `cat $gr`,
+                    stdout = joinpath(dica, string(sa, gr_su[gr])),
+                ),
+            )
+
+        println("Concatenated read files saved at $dica\n")
 
     end
 
-    en = now()
+end
 
-    ti = canonicalize(Dates.CompoundPeriod(en - st))
-
-    return println("Done at $en in $ti.\n")
+    return nothing
 
 end
 
