@@ -1,8 +1,8 @@
-function find(di::String)::Vector{String}::Array{Any, 1}
+function find(di::String)
 
     re_ = []
 
-    na_n = ([(".fq", 0), (".fastq", 0), ("fq.gz", 0), ("fastq.gz", 0)])
+    na_n = Dict(".fq" => 0, ".fastq" => 0, "fq.gz" => 0, "fastq.gz" => 0)
 
     for (ro, di_, fi_) in walkdir(di)
 
@@ -32,7 +32,11 @@ function find(di::String)::Vector{String}::Array{Any, 1}
 
     end
 
-    println(File report: $na_n)
+    println("Files found in $di:\n")
+    
+    for na in na_n println(na)
+
+    end
 
     return re_
 

@@ -5,7 +5,7 @@ function test()::Nothing
     for pr in [
         "skewer",
         "fastqc",
-        "multiqc"
+        "multiqc",
         "bgzip",
         "tabix",
         "minimap2",
