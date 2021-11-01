@@ -1,8 +1,8 @@
-function concatenate(fq_, id="R1")::Nothing
+function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     if id == "R1"
 
-        println("Using default read naming scheme \"R1\"")
+        println("Using default naming scheme: \"R1\" for forward and \"R2\" for reverse")
 
         println()
 
@@ -20,7 +20,7 @@ function concatenate(fq_, id="R1")::Nothing
 
         end
 
-        if occursin(replace(id, "1" => "2", fi)
+        if occursin(replace(id, "1" => "2"), fi)
 
             push!(re_, fi)
 
@@ -32,8 +32,6 @@ function concatenate(fq_, id="R1")::Nothing
 
     n_re = length(re_)
 
-    println()
-
     println("Number of forward read files found = $n_fo")
 
     println("Number of reverse read files found = $n_re")
@@ -42,18 +40,18 @@ function concatenate(fq_, id="R1")::Nothing
 
     sa = last(splitdir(dirname(fq_[1])))
 
-    dica = joinpath(dirname(dirname(fq_[1])), string(sa, "_cat"))
+    dica = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
     
     if ispath(dica)
 
         println(
-            "Skipping concatenation because directory already exists:\n $paca\n",
+            "Skipping concatenation because directory already exists:\n $dica\n",
         )
 
     elseif n_fo <= 1 && n_re <= 1
 
         println(
-            "Nothing to concatenate because number of forward reads ($n_fo) and number of reverse reads ($n_re) are <= 1.\n",
+            "Nothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n",
         )
 
     else
@@ -66,8 +64,6 @@ function concatenate(fq_, id="R1")::Nothing
 
         for gr in keys(gr_su)
 
-            println("this is the group: $gr")
-
             run(
                 pipeline(
                     `cat $gr`,
@@ -75,11 +71,11 @@ function concatenate(fq_, id="R1")::Nothing
                 ),
             )
 
-        println("Concatenated read files saved at $dica\n")
+        end
+
+        println("Concatenated files saved at: $dica")
 
     end
-
-end
 
     return nothing
 
