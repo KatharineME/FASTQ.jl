@@ -5,12 +5,14 @@ function test()::Nothing
     for pr in [
         "skewer",
         "fastqc",
+        "multiqc"
         "bgzip",
         "tabix",
         "minimap2",
         "samtools",
         "bcftools",
         "kallisto",
+        "star"
     ]
 
         run(`which $pr`)

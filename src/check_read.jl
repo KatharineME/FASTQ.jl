@@ -1,36 +1,28 @@
-using Dates: now, CompoundPeriod
+function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
 
-function check_read(fq_::Array, pa::String, n_jo::Int)
-
-    st = now()
-
-    if ispath(pa)
+    if ispath(di)
 
         println(
-            "Skipping check sequence because directory already exists:\n $pa\n",
+            "Skipping because directory already exists:\n $di\n",
         )
 
     else
 
-        println("($st) Checking sequence")
+        mkpath(di)
 
-        mkpath(pa)
+        println("Running FastQC ...")
 
-        run_command(
-            `fastqc --threads $(minimum((length(fq_), n_jo))) --outdir $pa $fq_`,
-        )
+        run(
+            `fastqc --threads $(minimum((length(fq_), n_jo))) --outdir $di $fq_`,
+           )
 
-        println("Checking sequence bias ...")
+        println("Running MultiQC ...")
 
-        run_command(`multiqc --outdir $pa $pa`)
+        run(`multiqc --outdir $di`)
 
     end
 
-    en = now()
-
-    ti = canonicalize(Dates.CompoundPeriod(en - st))
-
-    return println("Done at $en in $ti.\n")
+    return nothing 
 
 end
 

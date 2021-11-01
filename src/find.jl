@@ -1,42 +1,28 @@
-using Dates
+function find(di::String)::Vector{String}::Array{Any, 1}
 
-function find(pa::String)::Vector{String}
+    re_ = []
 
-    st = now()
+    na_n = ([(".fq", 0), (".fastq", 0), ("fq.gz", 0), ("fastq.gz", 0)])
 
-    println(st)
+    for (ro, di_, fi_) in walkdir(di)
 
-    n_fq = 0
+       for fi in fi_
 
-    n_gz = 0
+            if !occursin(".md5", fi)
 
-    fi_ = []
+                for (na, n) in na_n
 
-    naf_ = [".fastq", ".fq"]
+                    if endswith(fi, na)
 
-    nag_ = ["fastq.gz", "fq.gz"]
+                        na_n[na] += 1
 
-    for (ro, di_, xx_) in walkdir(pa)
+                        if endswith(fi, ".gz")
 
-        for xx in xx_
+                            push!(re_, joinpath(ro, fi))
 
-            for na in naf_
+                        end
 
-                if endswith(xx, na) && !occursin(".md5", xx)
-
-                    n_fq += 1
-
-                end
-
-            end
-
-            for na in nag_
-
-                if endswith(xx, na) && !occursin(".md5", xx)
-
-                    n_gz += 1
-
-                    push!(fi_, joinpath(ro, xx))
+                    end
 
                 end
 
@@ -46,21 +32,9 @@ function find(pa::String)::Vector{String}
 
     end
 
-    println(
-        "Number of .fastq or .fq files found in directories walked: $n_fq\n",
-    )
+    println(File report: $na_n)
 
-    println(
-        "Number of fastq.gz or fq.gz files found in directories walked: $n_gz\n",
-    )
-
-    en = now()
-
-    println(en)
-
-    println(canonicalize(Dates.CompoundPeriod(en - st)))
-
-    return fi_
+    return re_
 
 end
 
