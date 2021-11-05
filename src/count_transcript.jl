@@ -14,17 +14,15 @@ function count_transcript(
 
     if !ispath(id)
 
-        println("Creating kallisto index...\n")
+        println("Creating kallisto index...")
+
+        println()
 
         run(`kallisto index --index $id $fa`)
 
-        println("Done running kallisto index.\n")
+        println("Made kallisto index at $id")
 
-    end
-
-    if ispath(id)
-
-        println("kallisto index exists at: $id\n")
+        println()
 
     end
 
