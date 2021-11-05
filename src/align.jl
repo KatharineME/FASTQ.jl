@@ -4,53 +4,58 @@ function align(
     fq1::String,
     fq2::String,
     fa::String,
-    pa::String,
+    ba::String,
     n_jo::Int64,
     me::Int64,
 )::Nothing
 
 
-    id = string(fa, ".mmi")
+    fai = string(fa, ".mmi")
 
-    if !ispath(id)
+    if !ispath(fai)
 
-        run_command(`minimap2 -t $n_jo -d $id $fa`)
+        run(`minimap2 -t $n_jo -d $fai $fa`)
 
     end
 
-    di = splitdir(pa)[1]
+    di = splitdir(ba)[1]
 
     mkpath(di)
 
     if mo == "dna"
 
-        md = "-x sr"
+        md = "sr"
 
 
     elseif mo == "cdna"
 
-        md = "-ax splice -uf"
+        md = "splice -uf"
 
     end
 
-    run_command(
+    run(
         pipeline(
-            `minimap2 $md -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" -a $id $fq1 $fq2`,
-            `samtools sort --threads $n_jo -n`,
+            `minimap2 -ax $md -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" -a $fai $fq1 $fq2`,
+
             `samtools fixmate --threads $n_jo -m - -`,
+
             `samtools sort --threads $n_jo`,
-            "$pa.tmp",
+
+            "$ba.tmp",
         ),
     )
 
-    run_command(`samtools markdup --threads $n_jo -s $pa.tmp $pa`)
+minimap2 -ax sr -t 10 -K 4G -R "@RG\tID:$test\tSM:$test" /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz.mmi test_dna_4k.R1.fastq.gz test_dna_4k.R2.fastq.gz | samtools fixmate -u -m - - | samtools sort -u -@2 -T ./tmp/test_run_dna_tmp - | samtools markdup -@8 --reference /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz -O BAM - test_dna_final.bam
 
-    rm("$pa.tmp")
 
-    run_command(`samtools index -@ $n_jo $pa`)
+    run(`samtools markdup --threads $n_jo -s $ba.tmp $ba`)
 
-    run_command(
-        pipeline(`samtools flagstat --threads $n_jo $pa`, "$pa.flagstat"),
+    rm("$ba.tmp")
+
+    run(`samtools index -@ $n_jo $ba`)
+
+    run(
+        pipeline(`samtools flagstat --threads $n_jo $ba`, "$ba.flagstat"),
     )
 
 

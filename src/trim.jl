@@ -1,5 +1,13 @@
 using Dates: now, CompoundPeriod
 
+
+"""
+Illumina TruSeq adapters:
+
+--adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA 
+--adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+"""
+
 function trim(
     fq1::String,
     fq2::String,
@@ -15,6 +23,8 @@ function trim(
     println(st)
 
     mkpath(pa)
+
+    fastp -html --detect_adapter_for_pe --in1 $fq1 --in2 $fq2 --out1 --out2 
 
     run_command(
         `skewer --threads $n_jo -x $ad --mode pe --mean-quality 10 --end-quality 10 --compress --output $pa --quiet $fq1 $fq2`,

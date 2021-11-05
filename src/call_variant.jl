@@ -14,13 +14,13 @@ function call_variant(
 
     if !(isfile("$fa.fai") && ispath("$fa.gzi"))
 
-        run_command(`samtools faidx $fa`)
+        run(`samtools faidx $fa`)
 
     end
 
     if !ispath("$chs.tbi")
 
-        run_command(`tabix --force $chs`)
+        run(`tabix --force $chs`)
 
     end
 
@@ -68,7 +68,7 @@ function call_variant(
 
         pamr = joinpath(pam, "runWorkflow.py")
 
-        run_command(
+        run(
             `bash -c "source activate py2 && configManta.py $co --outputContig --runDir $pam && $pamr $ru"`,
         )
 
@@ -85,8 +85,6 @@ function call_variant(
 
     else
 
-        println("this is co right before strelka is configured: $co\n")
-
         st = "configureStrelkaGermlineWorkflow.py $co --runDir $pas"
 
     end
@@ -96,7 +94,7 @@ function call_variant(
 
     pasr = joinpath(pas, "runWorkflow.py")
 
-    run_command(`bash -c "source activate py2 && $st && $pasr $ru"`)
+    run(`bash -c "source activate py2 && $st && $pasr $ru"`)
 
 
     if ge != nothing && so != nothing
@@ -109,7 +107,7 @@ function call_variant(
 
         pain = joinpath(pas, pav, "somatic.indels.vcf.gz")
 
-        run_command(
+        run(
             pipeline(
                 `bcftools reheader --threads $n_jo --samples $sa $pain`,
                 "$pain.tmp",
@@ -118,11 +116,11 @@ function call_variant(
 
         mv("$pain.tmp", pain; force = true)
 
-        run_command(`tabix --force $pain`)
+        run(`tabix --force $pain`)
 
         pasv = joinpath(pas, pav, "somatic.snvs.vcf.gz")
 
-        run_command(
+        run(
             pipeline(
                 `bcftools reheader --threads $n_jo --samples $sa $pasv`,
                 "pasv.tmp",
@@ -131,7 +129,7 @@ function call_variant(
 
         mv("$pasv.tmp", pasv; force = true)
 
-        run_command(`tabix --force $pasv`)
+        run(`tabix --force $pasv`)
 
         vc_ = [joinpath(pam, pav, "somaticSV.vcf.gz"), pain, pasv]
 
@@ -152,7 +150,7 @@ function call_variant(
 
     paco = joinpath(pao, "concat.vcf.gz")
 
-    run_command(
+    run(
         pipeline(
             `bcftools concat --threads $n_jo --allow-overlaps $vc_`,
             `bcftools annotate --threads $n_jo --rename-chrs $chn`,
@@ -161,7 +159,7 @@ function call_variant(
         ),
     )
 
-    run_command(`tabix $paco`)
+    run(`tabix $paco`)
 
     sn = joinpath(pao, "snpeff")
 
@@ -169,7 +167,7 @@ function call_variant(
 
     snvc = joinpath(sn, "snpeff.vcf.gz")
 
-    run_command(
+    run(
         pipeline(
             `java -Xmx$(me)g -jar $pas GRCh38.99 -noLog -verbose -csvStats $(joinpath(sn, "stats.csv")) -htmlStats $(joinpath(sn, "stats.html")) $paco`,
             `bgzip --threads $n_jo --stdout`,
@@ -177,11 +175,11 @@ function call_variant(
         ),
     )
 
-    run_command(`tabix $snvc`)
+    run(`tabix $snvc`)
 
     ps = joinpath(pao, "pass.vcf.gz")
 
-    run_command(
+    run(
         pipeline(
             `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $snvc`,
             `bgzip --threads $n_jo --stdout`,
@@ -189,7 +187,7 @@ function call_variant(
         ),
     )
 
-    return run_command(`tabix $ps`)
+    return run(`tabix $ps`)
 
 end
 

@@ -32,3 +32,13 @@ Manifest.toml
 .DS_Store
 
 .ipynb_checkpoints
+
+test/data/*
+
+!test/data/test_cdna_4k.R1.fastq.gz
+
+!test/data/test_cdna_4k.R2.fastq.gz
+
+!test/data/test_dna_4k.R1.fastq.gz
+
+!test/data/test_dna_4k.R2.fastq.gz

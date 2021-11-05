@@ -24,19 +24,19 @@ function process_dna(
 
     end
 
-    pat = joinpath(pao, "trim/")
+    tr = joinpath(pao, "trim/")
 
-    trim(fq1, fq2, pat, n_jo, ad)
+    trim(fq1, fq2, tr, n_jo, ad)
 
-    fq1t = joinpath(pat, "trimmed-pair1.fastq.gz")
+    fq1t = joinpath(tr, "trimmed-pair1.fastq.gz")
 
-    fq2t = joinpath(pat, "trimmed-pair2.fastq.gz")
+    fq2t = joinpath(tr, "trimmed-pair2.fastq.gz")
 
     check([fq1t, fq2t], joinpath(pao, "check_trim"), n_jo)
 
-    paa = joinpath(pao, "align", "germ.bam")
+    ba = joinpath(pao, "align", "germ.bam")
 
-    align(mo, fq1t, fq2t, "Germ", fa, paa, n_jo, mej)
+    align(mo, fq1t, fq2t, "Germ", fa, ba, n_jo, mej)
 
     sp = splitext(fa)[1]
 
@@ -44,7 +44,7 @@ function process_dna(
 
     if !isfile(fag)
 
-        run_command(
+        run(
             pipeline(
                 `gzip --decompress $fa --stdout`,
                 `bgzip --threads $n_jo --stdout`,
@@ -58,7 +58,7 @@ function process_dna(
 
     return call_variant(
         mo,
-        paa,
+        ba,
         nothing,
         ta,
         fag,

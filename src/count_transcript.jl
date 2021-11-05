@@ -1,16 +1,12 @@
-using Dates
-
 function count_transcript(
     fa::String,
     pa::String,
-    n_jo::Int,
+    n_jo::Int64,
     fq1::String,
     fq2 = nothing,
     fr::Int64 = 51,
     sd::Float64 = 0.05,
-)
-
-    sa = now()
+)::Nothing
 
     println("Counting transcript\n")
 
@@ -20,7 +16,7 @@ function count_transcript(
 
         println("Creating kallisto index...\n")
 
-        run_command(`kallisto index --index $id $fa`)
+        run(`kallisto index --index $id $fa`)
 
         println("Done running kallisto index.\n")
 
@@ -36,7 +32,7 @@ function count_transcript(
 
     if fq2 !== nothing
 
-        run_command(
+        run(
             `kallisto quant --threads $n_jo --index $id --output-dir $pa $fq1 $fq2`,
         )
 
@@ -44,17 +40,13 @@ function count_transcript(
 
         println("Running single end psuedoalignment")
 
-        run_command(
+        run(
             `kallisto quant --single --fragment-length $fr --sd $sd --threads $n_jo --index $id --output-dir $pa $fq1`,
         )
 
     end
 
-    en = now()
-
-    ti = canonicalize(Dates.CompoundPeriod(en - sa))
-
-    return println("Done at $en in $ti.\n")
+    return nothing
 
 end
 

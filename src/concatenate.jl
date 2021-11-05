@@ -2,7 +2,7 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     if id == "R1"
 
-        println("Using default naming scheme: \"R1\" for forward and \"R2\" for reverse")
+        println("Using default naming scheme: \"R1\" for forward read files and \"R2\" for reverse read files")
 
         println()
 
@@ -12,17 +12,15 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     re_ = []
 
-    for fi in fq_
+    for fq in fq_
 
-        if occursin(id, fi)
+        if occursin(id, fq)
 
-            push!(fo_, fi)
+            push!(fo_, fq)
 
-        end
+        elseif occursin(replace(id, "1" => "2"), fq)
 
-        if occursin(replace(id, "1" => "2"), fi)
-
-            push!(re_, fi)
+            push!(re_, fq)
 
         end
 
@@ -40,25 +38,23 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     sa = last(splitdir(dirname(fq_[1])))
 
-    dica = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
+    co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
     
-    if ispath(dica)
+    if ispath(co)
 
         println(
-            "Skipping concatenation because directory already exists:\n $dica\n",
-        )
+            "Skipping concatenation because directory already exists:\n $co\n")
 
     elseif n_fo <= 1 && n_re <= 1
 
         println(
-            "Nothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n",
-        )
+            "Nothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n")
 
     else
 
-        run(`mkdir $dica`)
+        run(`mkdir $co`)
 
-        println("Concatenating read files...\n")
+        println("Concatenating ...\n")
 
         gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 
@@ -67,13 +63,13 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
             run(
                 pipeline(
                     `cat $gr`,
-                    stdout = joinpath(dica, string(sa, gr_su[gr])),
+                    stdout = joinpath(co, string(sa, gr_su[gr])),
                 ),
             )
 
         end
 
-        println("Concatenated files saved at: $dica")
+        println("Concatenated files saved at: $co")
 
     end
 
