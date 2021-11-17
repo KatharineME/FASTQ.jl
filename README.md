@@ -28,20 +28,21 @@ align()
 
 Minimap2 flags
 
-`-x ` 
+####`-x ` 
 A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how mnay secondary alignment should be output, and more. 
-`-a` 
+####`-a` 
 Generates CIGAR and output alignments in SAM format.
-`--sr` 
+####`--sr` 
 Enable short read mode.
-`--splice` Enable splice alignment mode.
-`-uf`
+####`--splice` 
+Enable splice alignment mode.
+####`-uf`
 Use transcript strand to find canonical splice sites. 
-`-t NUM`
+####`-t NUM`
 Number of threads
-`-K NUM`
+####`-K NUM`
 Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM pased here helps with load balancing in the multi-threading mode.
-`-R`
+####`-R`
 SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
 
 samtools fixmate
