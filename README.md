@@ -1,4 +1,4 @@
-# Fastq.jl.jl
+# Fastq.jl
 
 Turns raw sequencing reads into intpretable files like: VCF for variants or a gene by sample matrix for gene expression analysis.
 
@@ -37,20 +37,7 @@ Minimap2 flags
 `-K NUM` Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM pased here helps with load balancing in the multi-threading mode.
 `-R` SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
 
-Samtools flags
-
-samtools sort
---threads
--n
-
 samtools fixmate
-
-
-### `function2`
-
-```jl
-call_variant()
-```
 
 ## Contribution
 
