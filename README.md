@@ -20,7 +20,7 @@ cDNA > Gene by sample (Psuedoalignment)
 using Fastq.jl
 ```
 
-### `function1`
+### `align`
 
 ```jl
 align()
