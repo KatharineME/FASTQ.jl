@@ -45,8 +45,6 @@ Number of bases loaded into memory to process in a mini-batch [500M]. A large NU
 #### `-R`
 SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
 
-samtools fixmate
-
 ## Contribution
 
 To report a bug, request a feature, or leave a comment (about anything related to this repository), just [submit an issue](https://github.com/KatharineME/Fastq.jl.jl/issues/new/choose).
