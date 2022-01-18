@@ -45,7 +45,7 @@ function align(
         ),
     )
 
-minimap2 -ax sr -t 10 -K 4G -R "@RG\tID:$test\tSM:$test" /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz.mmi test_dna_4k.R1.fastq.gz test_dna_4k.R2.fastq.gz | samtools fixmate -u -m - - | samtools sort -u -@2 -T ./tmp/test_run_dna_tmp - | samtools markdup -@8 --reference /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz -O BAM - test_dna_final.bam
+### minimap2 -ax sr -t 10 -K 4G -R "@RG\tID:$test\tSM:$test" /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz.mmi test_dna_4k.R1.fastq.gz test_dna_4k.R2.fastq.gz | samtools fixmate -u -m - - | samtools sort -u -@2 -T ./tmp/test_run_dna_tmp - | samtools markdup -@8 --reference /home/jovyan/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz -O BAM - test_dna_final.bam
 
 
     run(`samtools markdup --threads $n_jo -s $ba.tmp $ba`)

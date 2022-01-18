@@ -12,17 +12,7 @@ cDNA > VCF (Genome alignment)
 
 cDNA > Gene by sample (Psuedoalignment)
 
-## Use
-
-```jl
-using Fastq.jl
-```
-
-### `align`
-
-```jl
-align()
-```
+## Tools
 
 Minimap2 flags
 
