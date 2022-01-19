@@ -1,12 +1,12 @@
 function align(
-    mo::String,
-    sa::String,
-    fq1::String,
-    fq2::String,
-    fa::String,
-    ba::String,
+    mo::String, #cdna or dna
+    sa::String, #
+    fq1::String, #read1
+    fq2::String, #read2
+    fa::String, #reference
+    ba::String, #bam directory
     n_jo::Int64,
-    me::Int64,
+    me::Int64, #memory
 )::Nothing
 
 
