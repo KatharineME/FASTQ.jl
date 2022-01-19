@@ -86,6 +86,20 @@ Threads
 #### `--reference PATH`
 Path to reference genome used for alignment
 
+### samtools index
+
+Indexes a coordinate sorted bgzipped compressed SAM, BAM, or CRAM file for random access.
+
+#### `-@NUM`
+Threads
+
+### samtools flagstat
+
+Counts the number of alignments for each samtools flag type and indicates how successful the alignment was. Information on each of the flags is in the [Samtools specification](https://samtools.github.io/hts-specs/SAMv1.pdf).
+
+#### `--threads NUM`
+Threads
+
 ## Contribution
 
 To report a bug, request a feature, or leave a comment (about anything related to this repository), just [submit an issue](https://github.com/KatharineME/Fastq.jl.jl/issues/new/choose).
