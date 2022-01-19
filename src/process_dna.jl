@@ -71,5 +71,3 @@ function process_dna(
     )
 
 end
-
-export process_dna

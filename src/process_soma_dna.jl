@@ -82,5 +82,3 @@ function process_soma_dna(
     )
 
 end
-
-export process_soma_dna

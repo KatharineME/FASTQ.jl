@@ -47,5 +47,3 @@ function count_transcript(
     return nothing
 
 end
-
-export count_transcript

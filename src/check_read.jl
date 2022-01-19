@@ -25,5 +25,3 @@ function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
     return nothing 
 
 end
-
-export check_read

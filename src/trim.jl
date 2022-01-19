@@ -39,5 +39,3 @@ function trim(
     return nothing
 
 end
-
-export trim

@@ -76,5 +76,3 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
     return nothing
 
 end
-
-export concatenate

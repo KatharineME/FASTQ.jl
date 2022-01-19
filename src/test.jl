@@ -32,5 +32,3 @@ function test()::Nothing
     return nothing
 
 end
-
-export test

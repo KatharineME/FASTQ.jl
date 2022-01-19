@@ -190,5 +190,3 @@ function call_variant(
     return run(`tabix $ps`)
 
 end
-
-export call_variant

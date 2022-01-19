@@ -63,7 +63,7 @@ Uncompressed output
 #### `-l 1`
 Fastest level of BAM compressed output
 
-#### `-@NUM`
+#### `--threads NUM`
 Threads
 
 #### `-T PATH`
@@ -90,7 +90,7 @@ Path to reference genome used for alignment
 
 Indexes a coordinate sorted bgzipped compressed SAM, BAM, or CRAM file for random access.
 
-#### `-@NUM`
+#### `--threads NUM`
 Threads
 
 ### samtools flagstat
@@ -99,6 +99,10 @@ Counts the number of alignments for each samtools flag type and indicates how su
 
 #### `--threads NUM`
 Threads
+
+#### `--output-fmt FORMAT`
+Sets output format to "tsv" or "json"
+
 
 ## Contribution
 

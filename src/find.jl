@@ -41,5 +41,3 @@ function find(di::String)
     return re_
 
 end
-
-export find
