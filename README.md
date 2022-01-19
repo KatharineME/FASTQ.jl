@@ -97,12 +97,15 @@ Threads
 
 Counts the number of alignments for each samtools flag type and indicates how successful the alignment was. Information on each of the flags is in the [Samtools specification](https://samtools.github.io/hts-specs/SAMv1.pdf).
 
+When the mapping of a read is ambiguous, it may have multiple mappings. One mapping is considered primary, and all the others have the __secondary__ flag set.
+
+When the mapping of a read is chimeric, meaning non-linear, one piece is considered representative, and the other piece(s) are given the __supplementary__ flag.
+
 #### `--threads NUM`
 Threads
 
 #### `--output-fmt FORMAT`
 Sets output format to "tsv" or "json"
-
 
 ## Contribution
 
