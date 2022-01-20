@@ -4,6 +4,8 @@ Turns raw sequencing reads into intpretable files like: VCF for variants or a ge
 
 ## Get Started on MacOS
 
+### Prepare environment
+
 ```
 git clone https://github.com/KatharineME/Fastq.jl
 brew install fastqc kallisto samtools bcftools
