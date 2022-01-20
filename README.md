@@ -2,17 +2,19 @@
 
 Turns raw sequencing reads into intpretable files like: VCF for variants or a gene by sample matrix for gene expression analysis.
 
-For each of the use cases below, there is a corresponding Jupyter Notebook workflow:
-
-Germline DNA > VCF (Genome alignment)
-
-Somatic DNA > VCF (Genome alignment)
-
-cDNA > VCF (Genome alignment)
-
-cDNA > Gene by sample (Psuedoalignment)
-
 ## Trim
+
+### fastp
+
+When building fastp from source on MacOS
+
+```sh
+git clone https://github.com/OpenGene/fastp.git
+cd fastp
+make
+sudo make install
+```
+Follow brew install or upgrade instructions if errors arise.
 
 
 
@@ -99,13 +101,13 @@ Indexes a coordinate sorted bgzipped compressed SAM, BAM, or CRAM file for rando
 #### `--threads NUM`
 Threads
 
-### samtools flagstat
+### samtools stats 
 
-Counts the number of alignments for each samtools flag type and interprets the combination of certain flags with the goal of indicating how well the alignment went. Information on each of the flags is in the [Samtools specification](https://samtools.github.io/hts-specs/SAMv1.pdf).
+Provides summary statistics on BAM files and outputs them in text file. Many of these statistics come from values in the FLAG column. `samtools stats` counts the number of alignments for each samtools flag type and interprets the combination of certain flags with the goal of indicating how well the alignment went. Information on each of the flags is in the [Samtools specification](https://samtools.github.io/hts-specs/SAMv1.pdf).
 
 ![flags](stuff/flag.png)
 
-In the actual alignment file, the second colum is FLAG. Each alignment has a flag value which is a unique combination of the flags in the table above. The number 77 for example is flags 1+4+8+64. Samtools flagstat deduces the independent flags and creates file wide statistics on them.
+In the SAM or BAM file, the second colum is FLAG. Each alignment has a flag value which is a unique combination of the flags in the table above. The number 77 for example is flags 1+4+8+64. `samtools stats` deduces the independent flags and creates file wide statistics on them.
 
 When the mapping of a read is ambiguous, it may have multiple mappings. One mapping is considered primary, and all the others have the __secondary__ flag set.
 
