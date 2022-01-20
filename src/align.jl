@@ -4,7 +4,7 @@ function align(
     fq1::String, #read1
     fq2::String, #read2
     fa::String, #reference
-    cr::String, #bam directory
+    ba::String, #bam directory
     n_jo::Int64,
     me::Int64, #memory
 )::Nothing
@@ -18,13 +18,13 @@ function align(
 
     end
 
-    di = splitdir(cr)[1]
+    di = splitdir(ba)[1]
 
     mkpath(di)
 
     if mo == "dna"
 
-        tm = joinpath(cr, "samtools_sort_temp")
+        tm = joinpath(ba, "samtools_sort_temp")
 
         run(
             pipeline(
@@ -34,13 +34,13 @@ function align(
 
                 `samtools sort --threads $n_jo -u -T $tm`,
 
-                `samtools markdup --threads $n_jo --reference $fa --output-fmt CRAM $cr`
+                `samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba`
                )
            )
 
-        run(`samtools index -@ $n_jo $cr`)
+        run(`samtools index -@ $n_jo $ba`)
 
-        run(`samtools stats --threads $n_jo $cr`, "$cr.stat")
+        run(`samtools stats --threads $n_jo $ba`, "$ba.stat")
 
     elseif mo == "cdna"
 
