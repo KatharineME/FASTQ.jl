@@ -8,7 +8,10 @@ Turns raw sequencing reads into intpretable files like: VCF for variants or a ge
 git clone https://github.com/KatharineME/Fastq.jl
 brew install fastqc kallisto samtools bcftools
 pip install multiqc
+# Unzip programs in Fastq.jl/tool/ and link their exectuables to your usr/local/bin/
 ```
+
+If the zipped programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
 Compile fastp from source
 
