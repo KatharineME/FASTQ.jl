@@ -10,7 +10,7 @@ brew install fastqc kallisto samtools bcftools
 pip install multiqc
 ```
 
-Compile fastp from source.
+Compile fastp from source
 
 ```sh
 git clone https://github.com/OpenGene/fastp.git
@@ -37,7 +37,7 @@ Compile star from source
 brew install gcc
 cd STAR-2.7.10a/source
 make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
-# STAR executable will be in make STAR-2.7.10a/bin/MacOSX_x86_64
+# STAR executable will be in STAR-2.7.10a/bin/MacOSX_x86_64
 ```
 
 ## Trim
