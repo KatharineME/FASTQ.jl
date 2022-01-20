@@ -18,7 +18,7 @@ Follow brew install or upgrade instructions if errors arise.
 
 
 
-## Alignment
+## Align
 
 ### minimap2
 
@@ -115,9 +115,6 @@ When the mapping of a read is chimeric, meaning non-linear, one piece is conside
 
 #### `--threads NUM`
 Threads
-
-#### `--output-fmt FORMAT`
-Sets output format to "tsv" or "json"
 
 ## Contribution
 
