@@ -2,21 +2,51 @@
 
 Turns raw sequencing reads into intpretable files like: VCF for variants or a gene by sample matrix for gene expression analysis.
 
-## Trim
+## Get Started on MacOS
 
-### fastp
+All the dependencies below you will need to install with the exception of Strelka which runs in a Docker container.
 
-When building fastp from source on MacOS
+```
+git clone https://github.com/KatharineME/Fastq.jl
+
+brew install fastqc kallisto samtools bcftools
+
+pip install multiqc
+```
+
+Compile fastp from source.
 
 ```sh
 git clone https://github.com/OpenGene/fastp.git
 cd fastp
 make
 sudo make install
+# Follow brew install or upgrade instructions if errors arise.
 ```
-Follow brew install or upgrade instructions if errors arise.
+
+Compile minimap2 from source
 
 
+```sh
+# Download source code for minimap2-2.24 from [releases page](https://github.com/lh3/minimap2/releases)
+cd minimap2-2.24
+make
+```
+
+Compile star from source
+
+
+```sh
+# Download STAR 2.7.10.a from [releases page](https://github.com/alexdobin/STAR/releases)
+brew install gcc
+cd STAR-2.7.10a/source
+make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
+# STAR executable will be in make STAR-2.7.10a/bin/MacOSX_x86_64
+```
+
+## Trim
+
+### fastp
 
 ## Align
 

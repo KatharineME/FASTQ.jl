@@ -3,7 +3,7 @@ function test()::Nothing
     println("Testing")
 
     for pr in [
-        "skewer",
+        "fastp",
         "fastqc",
         "multiqc",
         "bgzip",
