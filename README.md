@@ -4,13 +4,9 @@ Turns raw sequencing reads into intpretable files like: VCF for variants or a ge
 
 ## Get Started on MacOS
 
-All the dependencies below you will need to install with the exception of Strelka which runs in a Docker container.
-
 ```
 git clone https://github.com/KatharineME/Fastq.jl
-
 brew install fastqc kallisto samtools bcftools
-
 pip install multiqc
 ```
 
@@ -28,7 +24,7 @@ Compile minimap2 from source
 
 
 ```sh
-# Download source code for minimap2-2.24 from [releases page](https://github.com/lh3/minimap2/releases)
+# Download source code for minimap2-2.24 from https://github.com/lh3/minimap2/releases
 cd minimap2-2.24
 make
 ```
@@ -37,7 +33,7 @@ Compile star from source
 
 
 ```sh
-# Download STAR 2.7.10.a from [releases page](https://github.com/alexdobin/STAR/releases)
+# Download STAR 2.7.10.a from https://github.com/alexdobin/STAR/releases
 brew install gcc
 cd STAR-2.7.10a/source
 make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
