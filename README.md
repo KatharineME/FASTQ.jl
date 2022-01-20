@@ -12,6 +12,10 @@ cDNA > VCF (Genome alignment)
 
 cDNA > Gene by sample (Psuedoalignment)
 
+## Trim
+
+
+
 ## Alignment
 
 ### minimap2
