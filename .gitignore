@@ -41,3 +41,12 @@ test/data/*
 !test/data/test_dna_4k.R1.fastq.gz
 
 !test/data/test_dna_4k.R2.fastq.gz
+
+tool/*
+
+!tool/STAR-2.7.10a.zip
+
+!tool/fastp.zip
+
+!tool/minimap2-2.24.zip
+
