@@ -1,6 +1,6 @@
 function test(pa::String)::Nothing
 
-    println("Testing environment")
+    println("Checking for programs...\n")
 
     for pr in [
         "fastp",
@@ -18,6 +18,8 @@ function test(pa::String)::Nothing
         run(`which $pr`)
 
     end
+
+    println("\nTesting manta and strelka in docker container...\n")
 
     ma = "manta-1.6.0.centos6_x86_64"
 
@@ -50,9 +52,7 @@ function test(pa::String)::Nothing
 
         re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
 
-        println()
-
-        println(join(re, " "))
+        println("$(join(re, " "))\n")
 
     end
 
