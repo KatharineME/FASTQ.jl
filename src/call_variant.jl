@@ -89,6 +89,8 @@ function call_variant(
 
         st = "configureStrelkaGermlineWorkflow.py $co --runDir $pas"
 
+        # ./configureStrelkaGermlineWorkflow.py --referenceFasta /home/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz --callRegions /home/craft/data/grch/chromosome/chromosome.bed.gz --bam /home/craft/data/738/germ.bam --runDir /home/craft/tool/Fastq.jl/tool/strelka_config/
+
     end
 
 
