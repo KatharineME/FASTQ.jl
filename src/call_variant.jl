@@ -72,6 +72,8 @@ function call_variant(
             `bash -c "source activate py2 && configManta.py $co --outputContig --runDir $pam && $pamr $ru"`,
         )
 
+        # ./configManta.py --bam /home/craft/data/738/germ.bam --referenceFasta /home/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz --callRegions /home/craft/data/grch/chromosome/chromosome.bed.gz --outputContig --runDir /home/craft/tool/Fastq.jl/tool/manta_config/
+
     end
 
     pas = joinpath(pao, "strelka")
