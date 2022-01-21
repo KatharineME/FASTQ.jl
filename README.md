@@ -6,14 +6,17 @@ Turns raw sequencing reads into intpretable files like: VCF for variants or a ge
 
 ### Prepare environment
 
+
+#### 1.
 ```
 git clone https://github.com/KatharineME/Fastq.jl
 brew install fastqc kallisto samtools bcftools
 pip install multiqc
-# Unzip programs in Fastq.jl/tool/ and link their exectuables to your usr/local/bin/
 ```
 
-If the zipped programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
+#### 2.Unzip programs in Fastq.jl/tool/ and link their exectuables to your usr/local/bin/
+
+If programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
 Compile fastp from source
 
@@ -44,6 +47,9 @@ cd STAR-2.7.10a/source
 make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
 # STAR executable will be in STAR-2.7.10a/bin/MacOSX_x86_64
 ```
+
+#### 3. Get manta and strelka
+Download strelka-2.9.10.centos6_x86_64.tar.bz2 from [strelka releases](https://github.com/Illumina/strelka/releases). Download manta-1.6.0.centos6_x86_64.tar.bz2 from [manta releases](https://github.com/Illumina/manta/releases). Put them in the same directory and unzip each.
 
 ## Trim
 
