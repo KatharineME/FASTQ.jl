@@ -7,7 +7,7 @@ Turns raw sequencing reads into intpretable files like: VCF for variants or a ge
 ### Prepare environment
 
 
-#### 1.
+#### 1. Run
 ```
 git clone https://github.com/KatharineME/Fastq.jl
 brew install fastqc kallisto samtools bcftools
@@ -30,7 +30,6 @@ sudo make install
 
 Compile minimap2 from source
 
-
 ```sh
 # Download source code for minimap2-2.24 from https://github.com/lh3/minimap2/releases
 cd minimap2-2.24
@@ -38,7 +37,6 @@ make
 ```
 
 Compile star from source
-
 
 ```sh
 # Download STAR 2.7.10.a from https://github.com/alexdobin/STAR/releases
