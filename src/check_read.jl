@@ -3,7 +3,7 @@ function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
     if ispath(di)
 
         println(
-            "Skipping because directory already exists:\n $di\n",
+            "Skipping because directory already exists: $di",
         )
 
     else
