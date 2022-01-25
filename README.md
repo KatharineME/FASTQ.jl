@@ -14,7 +14,7 @@ brew install fastqc kallisto samtools bcftools
 pip install multiqc
 ```
 
-#### 2.Unzip programs in Fastq.jl/tool/ and link their exectuables to your usr/local/bin/
+#### 2.Unzip programs in Fastq.jl/tool/ and link their exectuables to usr/local/bin/
 
 IF programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
