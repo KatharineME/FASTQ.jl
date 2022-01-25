@@ -1,13 +1,5 @@
 function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
-    if id == "R1"
-
-        println("Using default naming scheme: \"R1\" for forward read files and \"R2\" for reverse read files")
-
-        println()
-
-    end
-
     fo_ = []
 
     re_ = []
@@ -39,11 +31,11 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
     sa = last(splitdir(dirname(fq_[1])))
 
     co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
-    
+
     if ispath(co)
 
         println(
-            "Skipping concatenation because directory already exists:\n $co\n")
+            "Skipping concatenation because directory already exists: $co")
 
     elseif n_fo <= 1 && n_re <= 1
 
@@ -54,7 +46,9 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
         run(`mkdir $co`)
 
-        println("Concatenating ...\n")
+        println("Concatenating ...")
+
+        println()
 
         gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 

@@ -32,9 +32,17 @@ function find(di::String)
 
     end
 
-    println("Files found in $di:\n")
+    println("File types found in $di:\n")
     
     for na in na_n println(na)
+
+    end
+
+    println("\nSize of gzipped files:\n")
+
+    for fi in re_
+
+        println("File $fi is: $(Base.format_bytes(stat(fi).size))")
 
     end
 
