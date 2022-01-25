@@ -52,7 +52,9 @@ make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
 
 Download strelka-2.9.10.centos6_x86_64.tar.bz2 from [strelka releases](https://github.com/Illumina/strelka/releases). 
 
-Download manta-1.6.0.centos6_x86_64.tar.bz2 from [manta releases](https://github.com/Illumina/manta/releases). Put them in the same directory and unzip each.
+Download manta-1.6.0.centos6_x86_64.tar.bz2 from [manta releases](https://github.com/Illumina/manta/releases). 
+
+Put manta and strelka in the same directory and unzip each.
 
 ## Trim
 
