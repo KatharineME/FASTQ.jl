@@ -16,7 +16,9 @@ include("process_dna.jl")
 
 include("process_soma_dna.jl")
 
-include("test.jl")
+include("test_environment.jl")
+
+include("test_strelka_and_manta.jl")
 
 include("trim.jl")
 

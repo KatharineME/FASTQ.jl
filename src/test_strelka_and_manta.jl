@@ -1,25 +1,4 @@
-function test(pa::String)::Nothing
-
-    println("Checking for programs...\n")
-
-    for pr in [
-        "fastp",
-        "fastqc",
-        "multiqc",
-        "bgzip",
-        "tabix",
-        "minimap2",
-        "samtools",
-        "bcftools",
-        "kallisto",
-        "star"
-    ]
-
-        run(`which $pr`)
-
-    end
-
-    println("\nTesting manta and strelka in docker container...\n")
+function test_strelka_and_manta(pa::String)::Nothing
 
     ma = "manta-1.6.0.centos6_x86_64"
 

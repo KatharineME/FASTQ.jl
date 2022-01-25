@@ -18,7 +18,7 @@ function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
 
         println("Running MultiQC ...")
 
-        run(`multiqc --outdir $di`)
+        run(`multiqc --outdir $di $di`)
 
     end
 
