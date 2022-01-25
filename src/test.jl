@@ -56,9 +56,9 @@ function test(pa::String)::Nothing
 
     end
 
-    println("Killing and removing docker container")
-
-    run(`docker kill $id "&&" docker rm $id`)
+    run(`docker kill $id`)
+    
+    run(`docker rm $id`)
 
     return nothing
 
