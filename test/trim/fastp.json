@@ -408,5 +408,5 @@
 		"overrepresented_sequences": {
 		}
 	},
-	"command": "fastp --detect_adapter_for_pe --html ../test/trim/fastp.html --in1 ../test/data/test_dna_4k.R1.fastq.gz --in2 ../test/data/test_dna_4k.R2.fastq.gz --out1 ../test/trim/test_dna_4k.R1.fastq.gz --out2 ../test/trim/test_dna_4k.R2.fastq.gz "
+	"command": "fastp --detect_adapter_for_pe --json ../test/trim/fastp.json --html ../test/trim/fastp.html --in1 ../test/data/test_dna_4k.R1.fastq.gz --in2 ../test/data/test_dna_4k.R2.fastq.gz --out1 ../test/trim/test_dna_4k.R1.fastq.gz --out2 ../test/trim/test_dna_4k.R2.fastq.gz "
 }
