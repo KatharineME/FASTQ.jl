@@ -15,12 +15,14 @@ function trim(
     println("Trimming...")
 
     mkpath(pa)
+
+    re = joinpath(pa, "fastp.html")
     
     ou1 = joinpath(pa, basename(fq1))
 
     ou2 = joinpath(pa, basename(fq2))
 
-    run(`fastp --detect_adapter_for_pe --html fastp.html --in1 $fq1 --in2 $fq2 --out1 $ou1 --out2 $ou2`)
+    run(`fastp --detect_adapter_for_pe --html $re --in1 $fq1 --in2 $fq2 --out1 $ou1 --out2 $ou2`)
 
     return nothing
 
