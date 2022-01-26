@@ -20,7 +20,7 @@ function trim(
 
     ou2 = joinpath(pa, basename(fq2))
 
-    run(`fastp --detect_adapter_for_pe --html fastp.html --in1 $fq1 --in2 $fq2 --out1 ou1 --out2 ou2`)
+    run(`fastp --detect_adapter_for_pe --html fastp.html --in1 $fq1 --in2 $fq2 --out1 $ou1 --out2 $ou2`)
 
     return nothing
 
