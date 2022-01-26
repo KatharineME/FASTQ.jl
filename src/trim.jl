@@ -1,39 +1,26 @@
-using Dates: now, CompoundPeriod
-
-"""
+#=
 Illumina TruSeq adapters:
 
 --adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA 
 --adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
-"""
+=#
 
 function trim(
     fq1::String,
     fq2::String,
     pa::String,
     n_jo::Int,
-    ad::String = "AGATCGGAAGAGC",
 )::Nothing
 
-    println("($st) Trimming")
-
-    st = now()
-
-    println(st)
+    println("Trimming...")
 
     mkpath(pa)
+    
+    ou1 = joinpath(pa, basename(fq1))
 
-    # fastp -html --detect_adapter_for_pe --in1 $fq1 --in2 $fq2 --out1 --out2 
+    ou2 = joinpath(pa, basename(fq2))
 
-    run_command(
-        `skewer --threads $n_jo -x $ad --mode pe --mean-quality 10 --end-quality 10 --compress --output $pa --quiet $fq1 $fq2`,
-    )
-
-    en = now()
-
-    println(en)
-
-    println(canonicalize(Dates.CompoundPeriod(en - st)))
+    run(`fastp --detect_adapter_for_pe --html fastp.html --in1 $fq1 --in2 $fq2 --out1 ou1 --out2 ou2`)
 
     return nothing
 

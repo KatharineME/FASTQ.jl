@@ -2,7 +2,6 @@ function process_dna(
     mo::String,
     fq1::String,
     fq2::String,
-    ad::String,
     ta::Bool,
     pao::String,
     fa::String,
@@ -26,7 +25,7 @@ function process_dna(
 
     tr = joinpath(pao, "trim/")
 
-    trim(fq1, fq2, tr, n_jo, ad)
+    trim(fq1, fq2, tr, n_jo)
 
     fq1t = joinpath(tr, "trimmed-pair1.fastq.gz")
 
