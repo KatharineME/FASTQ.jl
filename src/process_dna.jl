@@ -1,5 +1,6 @@
 function process_dna(
     mo::String,
+    sa::String, #G2451
     fq1::String,
     fq2::String,
     ta::Bool,
@@ -35,7 +36,15 @@ function process_dna(
 
     ba = joinpath(pao, "align", "germ.bam")
 
-    align(mo, fq1t, fq2t, "Germ", fa, ba, n_jo, mej)
+    if mo == "cdna"
+
+        align_cdna(sa, fq1t, fq2t,fa, ba, n_jo, mej)
+
+    elseif mo == "dna"
+
+        align_dna(sa, fq1t, fq2t,fa, ba, n_jo, mej)
+
+    end
 
     sp = splitext(fa)[1]
 

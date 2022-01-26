@@ -1,6 +1,8 @@
 module Fastq
 
-include("align.jl")
+include("align_cdna.jl")
+
+include("align_dna.jl")
 
 include("call_variant.jl")
 

@@ -9,7 +9,6 @@ function align(
     me::Int64, #memory
 )::Nothing
 
-
     fai = string(fa, ".mmi")
 
     if !ispath(fai)
