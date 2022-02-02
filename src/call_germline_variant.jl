@@ -49,7 +49,7 @@ function call_germline_variant(
     pav = joinpath("results", "variants")
 
 
-    # Configure manta
+    # Configure and run manta
 
     pam = joinpath(pao, "manta")
 
@@ -60,12 +60,13 @@ function call_germline_variant(
     id = run_docker_container(to, vo)
 
 
+    println("im stuck")
 
-
-    
     re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
 
     println("$(join(re, " "))\n")
+
+    
 
     run(
         `bash -c "source activate py2 && configManta.py $co --outputContig --runDir $pam && $pamr $ru"`,

@@ -18,6 +18,8 @@ function test_strelka_and_manta(pa::String)::Nothing
     
     vo = last(split(pa, "/"))
 
+    println(pa)
+
     id = run_docker_container(pa, vo)
 
     for sc in [
