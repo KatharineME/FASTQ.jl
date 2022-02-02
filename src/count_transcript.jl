@@ -14,15 +14,11 @@ function count_transcript(
 
     if !ispath(id)
 
-        println("Creating kallisto index...")
-
-        println()
+        println("\nCreating kallisto index...")
 
         run(`kallisto index --index $id $fa`)
 
-        println("Made kallisto index at $id")
-
-        println()
+        println("\nMade kallisto index at $id\n")
 
     end
 
@@ -30,6 +26,8 @@ function count_transcript(
 
     if fq2 !== nothing
 
+        println("Running paired end psuedoalignment")
+        
         run(
             `kallisto quant --threads $n_jo --index $id --output-dir $pa $fq1 $fq2`,
         )

@@ -14,9 +14,13 @@ function align_cdna(
 
         mkdir(ge)
 
+        println("\nMaking STAR indices (this may take a while)...\n")
+
         run(`star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`)
 
     end
+
+    println("\nRunning STAR...\n")
 
     run(`star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $sa`)
 

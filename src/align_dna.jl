@@ -3,7 +3,7 @@ function align_dna(
     fq1::String, #read1
     fq2::String, #read2
     fa::String, #reference
-    ba::String, #bam directory
+    ba::String, #final bam file
     n_jo::Int64,
     me::Int64, #memory
 )::Nothing
@@ -18,25 +18,30 @@ function align_dna(
 
     di = splitdir(ba)[1]
 
-    mkpath(di)
+    if !ispath(di)
 
-    tm = joinpath(ba, "samtools_sort_temp")
+        mkpath(di)
+
+    end
+
+    tm = joinpath(di, "samtools_sort.bam")
 
     run(
         pipeline(
-            `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" -a $fai $fq1 $fq2`,
-
+            `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" $fai $fq1 $fq2`,
             `samtools fixmate --threads $n_jo -u -m - -`,
-
-            `samtools sort --threads $n_jo -u -T $tm`,
-
-            `samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba`
-           )
+            `samtools sort --threads $n_jo -T $tm -u -`,
+            "$ba",
+           ),
        )
+    
+    run(`samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba final.bam`)
 
     run(`samtools index -@ $n_jo $ba`)
 
-    run(`samtools stats --threads $n_jo $ba`, "$ba.stat")
+    run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
+
+    println("\nAlignment finished.\n")
 
     return nothing
 

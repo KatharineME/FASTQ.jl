@@ -14,7 +14,11 @@ brew install fastqc kallisto samtools bcftools
 pip install multiqc
 ```
 
-#### 2.Unzip programs in Fastq.jl/tool/ and link their exectuables to usr/local/bin/
+#### 2. Download SnpEff
+
+Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `usr/local/bin`.
+
+#### 3.Unzip programs in Fastq.jl/tool/ and link their exectuables to usr/local/bin/
 
 IF programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
@@ -39,14 +43,14 @@ make
 Compile star from source
 
 ```sh
-# Download STAR 2.7.10.a from https://github.com/alexdobin/STAR/releases
+# Download STAR 2.7.9.a from https://github.com/alexdobin/STAR/releases
 brew install gcc
-cd STAR-2.7.10a/source
-make STARforMacStatic CXX=/usr/local/Cellar/gcc/8.2.0/bin/g++-8
-# STAR executable will be in STAR-2.7.10a/bin/MacOSX_x86_64
+cd STAR-2.7.9a/source
+make STARforMacStatic CXX=/usr/local/Cellar/gcc/11.2.0_3/bin/g++-11
+# STAR executable will be in STAR-2.7.9a/bin/MacOSX_x86_64
 ```
 
-#### 3. Get Docker, manta, and strelka
+#### 4. Get Docker, manta, and strelka
 
 [Get docker](https://docs.docker.com/get-docker/).
 
@@ -60,27 +64,38 @@ Put manta and strelka in the same directory and unzip each.
 
 ### fastp
 
+Trims and preprocesses read files.
+
+#### `detect_adapter_for_pe`
+Detect the adapter sequence. This is done by default with single-end sequencing, but for paired end, you must pass this option.
+
+#### `json`
+Specify path for json report
+
+#### `html`
+Specify path for html report
+
 ## Align
 
 ### minimap2
 
 #### `-x ` 
-A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more
+A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
 
 #### `-a` 
-Generates CIGAR and output alignments in SAM format
+Generates CIGAR and output alignments in SAM format.
 
 #### `--sr` 
-Enable short read mode
+Enable short read mode.
 
 #### `--splice` 
-Enable splice alignment mode
+Enable splice alignment mode.
 
 #### `-uf`
 Use transcript strand to find canonical splice sites. 
 
 #### `-t NUM`
-Number of threads
+Number of threads.
 
 #### `-K NUM`
 Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM pased here helps with load balancing in the multi-threading mode.
@@ -93,29 +108,26 @@ SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
 Corrects flaws in read-pairing that the aligner may have introduced. It ensures the SAM FLAG, RNEXT, PNEXT, and TLEN fields are correct and consistent.
 
 #### `-u`
-Uncompressed output
+Uncompressed output.
 
 #### `-m`
-Add mate score tag
+Add mate score tag.
 
 #### `-` 
-A synonym for stdin and stdout in samtools
+A synonym for stdin and stdout in samtools.
 
 ### samtools sort
 
 Orders aligned reads by chromosome and coordinate. sort is highly parallel so adding threads is beneficial.
 
 #### `-u`
-Uncompressed output
+Uncompressed output.
 
 #### `-l 1`
-Fastest level of BAM compressed output
-
-#### `--threads NUM`
-Threads
+Fastest level of BAM compressed output.
 
 #### `-T PATH`
-Specificy a temporary storage directory like `/tmp/example_prefix/`
+Specificy a temporary storage directory like `/tmp/example_prefix/`.
 
 ### samtools markdup
 
@@ -128,20 +140,14 @@ The issue of when and whether to remove duplicates is debated. Duplicates as def
 Duplicates may be removed before alignment or after. The risk with removing duplicates before alignment is that you are actually removing real signal instead of duplicate fragments. The risk with removing duplicates after alignment is that you may remove fragments with unique sequences that happen to share coordinates with another alignment.
 
 #### `-r`
-Remove reads marked with duplicate flag
-
-#### `-@NUM`
-Threads
+Remove reads marked with duplicate flag.
 
 #### `--reference PATH`
-Path to reference genome used for alignment
+Path to reference genome used for alignment.
 
 ### samtools index
 
 Indexes a coordinate sorted bgzipped compressed SAM, BAM, or CRAM file for random access.
-
-#### `--threads NUM`
-Threads
 
 ### samtools stats 
 
@@ -155,8 +161,36 @@ When the mapping of a read is ambiguous, it may have multiple mappings. One mapp
 
 When the mapping of a read is chimeric, meaning non-linear, one piece is considered representative, and the other piece(s) are given the __supplementary__ flag.
 
-#### `--threads NUM`
-Threads
+## Call Variants
+
+### Strelka
+
+#### `--rna` (configure option)
+Applies specific settings for the rna-seq variant calling use case. This option is still in development.
+
+#### `--exome` (configure option)
+Applies settings for the whole exome seqquencing use case which include disabling high depth filters.
+
+#### `--callRegions PATH` (configure option)
+Pass in a bed file with regions to check for variants in. Bed file must be gzipped and tabixed.
+
+#### `--quiet` (run option)
+Sends error log to `${STRELKA_ANALYSIS_PATH}/workspace/pyflow.data/logs/pyflow_log.txt` instead of stdout.
+
+#### `--mode local`
+Runs locally as opposed to running on a cluster.
+
+#### 
+
+### Manta
+
+For somatic variant calling, it is best practice to run manta first and then configure strelka by passing in `--indelCandidates ${MANTA_ANALYSIS_PATH}/results/variants/candidateSmallIndels.vcf.gz`, then finally run strelka. For germline variant calling, this isn't suggested. 
+
+
+
+### SnpEff
+
+Annotates variant with impact (high, moderate, low, or modifier), functional consequence (early stop codon, missense mutation, synonymous mutation, etc.), potential clinical significance, and more.
 
 ## Contribution
 

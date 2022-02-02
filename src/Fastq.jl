@@ -1,10 +1,16 @@
 module Fastq
 
+include("run_docker_container.jl")
+
+include("remove_docker_container.jl")
+
 include("align_cdna.jl")
 
 include("align_dna.jl")
 
-include("call_variant.jl")
+include("call_germline_variant.jl")
+
+include("call_somatic_variant.jl")
 
 include("check_read.jl")
 

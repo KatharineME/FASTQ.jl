@@ -18,10 +18,7 @@ function test_strelka_and_manta(pa::String)::Nothing
     
     vo = last(split(pa, "/"))
 
-    id = readlines(pipeline(
-                 `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`,
-               )
-       )
+    id = run_docker_container(pa, vo)
 
     for sc in [
         joinpath(ma, "bin", "runMantaWorkflowDemo.py"),
@@ -35,9 +32,9 @@ function test_strelka_and_manta(pa::String)::Nothing
 
     end
 
-    run(`docker kill $id`)
-    
-    run(`docker rm $id`)
+    println(typeof(id))
+
+    remove_docker_container(id)
 
     return nothing
 

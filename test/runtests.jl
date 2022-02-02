@@ -1,11 +1,20 @@
+TE = joinpath(tempdir(), "Fastq.test", "")
+
+if isdir(TE)
+
+    rm(TE; recursive = true)
+
+end
+
+mkdir(TE)
+
+println("Made ", TE)
+
 using Revise
+using BenchmarkTools
 
 using Fastq
 
-Fastq.test()
+rm(TE; recursive = true)
 
-di = "../test/data"
-
-re_ = Fastq.find(di)
-
-Fastq.concatenate(re_, "R1")
+println("Removed ", TE)
