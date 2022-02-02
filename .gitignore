@@ -49,5 +49,5 @@ test/data/*
 tool/*
 
 !tool/fastp.zip
-!tool/STAR-2.7.9a
+!tool/STAR-2.7.9a.zip
 !tool/minimap2-2.24.zip
