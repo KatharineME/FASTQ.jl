@@ -174,23 +174,33 @@ Applies settings for the whole exome seqquencing use case which include disablin
 #### `--callRegions PATH` (configure option)
 Pass in a bed file with regions to check for variants in. Bed file must be gzipped and tabixed.
 
+#### `--indelCandidates PATH` (configure option)
+Pass pre-predicted indels. If running the somatic workflow, its best practice to pass manta's output `candidateSmallIndels.vcf.gz` here. If running the germline workflow, this is not recommended.
+
 #### `--quiet` (run option)
 Sends error log to `${STRELKA_ANALYSIS_PATH}/workspace/pyflow.data/logs/pyflow_log.txt` instead of stdout.
 
 #### `--mode local`
 Runs locally as opposed to running on a cluster.
 
-#### 
 
 ### Manta
 
-For somatic variant calling, it is best practice to run manta first and then configure strelka by passing in `--indelCandidates ${MANTA_ANALYSIS_PATH}/results/variants/candidateSmallIndels.vcf.gz`, then finally run strelka. For germline variant calling, this isn't suggested. 
 
-
+#### `--indelCandidates PATH`
 
 ### SnpEff
 
 Annotates variant with impact (high, moderate, low, or modifier), functional consequence (early stop codon, missense mutation, synonymous mutation, etc.), potential clinical significance, and more.
+
+ ### bcftools concat
+ Concatenate two vcfs with the same sample set.
+
+### bcftools annotate
+
+#### `rename-chrs PATH`
+will rename the chromosmes in a vcf according to the text file passed.
+
 
 ## Contribution
 

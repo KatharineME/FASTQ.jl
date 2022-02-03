@@ -1,10 +1,3 @@
-#=
-Illumina TruSeq adapters:
-
---adapter_sequence=AGATCGGAAGAGCACACGTCTGAACTCCAGTCA 
---adapter_sequence_r2=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
-=#
-
 function trim(
     fq1::String,
     fq2::String,
@@ -22,8 +15,6 @@ function trim(
         
         mkpath(pa)
 
-        println("Trimming...")
-
         ht = joinpath(pa, "fastp.html")
 
         js = joinpath(pa, "fastp.json")
@@ -33,6 +24,8 @@ function trim(
         ou2 = joinpath(pa, basename(fq2))
 
         run(`fastp --detect_adapter_for_pe --json $js --html $ht --in1 $fq1 --in2 $fq2 --out1 $ou1 --out2 $ou2`)
+
+        println("\nTrimming finished\n")
 
     end
 

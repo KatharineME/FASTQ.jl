@@ -4,7 +4,7 @@ function remove_docker_container(id::Vector{String})::Nothing
     
     run(`docker rm $id`)
 
-    println("Docker container was removed")
+    println("\nDocker container was removed\n")
 
     return nothing
 

@@ -24,6 +24,8 @@ function align_cdna(
 
     run(`star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $sa`)
 
+    println("\ncDNA Alignment finished\n")
+
     return nothing
 
 end

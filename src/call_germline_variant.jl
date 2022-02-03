@@ -10,7 +10,7 @@ function call_germline_variant(
     me::Int,
     to::String, #path to tools: strelka and manta
     pas::String, #path to snpeff
-)
+)::Nothing
 
     if !(isfile("$fa.fai") && ispath("$fa.gzi"))
 
@@ -24,10 +24,41 @@ function call_germline_variant(
 
     end
 
+    if !ispath(pao)
+
+        mkdir(pao)
+
+    end
+
 
     # Set config parameters
 
-    co = "--referenceFasta $fa --callRegions $chs --bam $ba"
+    vot = basename(to)
+
+    pab = dirname(abspath(ba))
+
+    vob = basename(pab)
+
+    pag = dirname(abspath(fa))
+
+    vog = basename(pag)
+    
+    vof = joinpath(vog, basename(fa))
+
+    voc = joinpath(vog, "chromosome", basename(chs))
+
+    voba = joinpath(vob, basename(ba))
+
+    pao = abspath(pao)
+
+    voo = basename(pao)
+    
+    pam = joinpath(voo, "manta")
+
+    pamr = joinpath(pam, "runWorkflow.py")
+    
+    
+    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voba"
 
     if ta
 
@@ -49,42 +80,48 @@ function call_germline_variant(
     pav = joinpath("results", "variants")
 
 
+
+    # Run the docker container
+
+    id = readlines(pipeline(
+                 `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $pab:/home/$vob --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
+               )
+       )
+
+
     # Configure and run manta
 
-    pam = joinpath(pao, "manta")
+    sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py" 
 
-    pamr = joinpath(pam, "runWorkflow.py")
-
-    vo = last(split(to, "/"))
-    
-    id = run_docker_container(to, vo)
-
-
-    println("im stuck")
-
-    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
+    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$pam && ./home/$pamr $ru"`))
 
     println("$(join(re, " "))\n")
 
+   
+
+    # Configure and run strelka
+
+    past = joinpath(voo, "strelka")
     
-
-    run(
-        `bash -c "source activate py2 && configManta.py $co --outputContig --runDir $pam && $pamr $ru"`,
-        )
-
-
-    # Configure strelka
-
-    past = joinpath(pao, "strelka")
-    
-    st = "configureStrelkaGermlineWorkflow.py $co --runDir $past"
-
-
-    # Run strelka
-
     pasr = joinpath(past, "runWorkflow.py")
 
-    run(`bash -c "source activate py2 && $st && $pasr $ru"`)
+    sc = "strelka-2.9.10.centos6_x86_64/bin/configureStrelkaGermlineWorkflow.py"
+
+    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$past && ./home/$pasr $ru"`))
+
+    println("$(join(re, " "))\n")
+    
+    
+
+    # Remove docker container
+
+    remove_docker_container(id)
+
+    return
+
+    
+
+    ## Bcftools
 
     if mo == "cdna"
 
@@ -117,9 +154,9 @@ function call_germline_variant(
 
     sn = joinpath(pao, "snpeff")
 
-    mkpath(sn)
-
     snvc = joinpath(sn, "snpeff.vcf.gz")
+    
+    mkpath(sn)
 
     run(
         pipeline(
@@ -141,6 +178,8 @@ function call_germline_variant(
         ),
     )
 
-    return run(`tabix $ps`)
+    run(`tabix $ps`)
+
+    return nothing 
 
 end

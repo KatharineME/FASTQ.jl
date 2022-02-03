@@ -18,9 +18,7 @@ function test_strelka_and_manta(pa::String)::Nothing
     
     vo = last(split(pa, "/"))
 
-    println(pa)
-
-    id = run_docker_container(pa, vo)
+    id = readlines(pipeline(`docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`))
 
     for sc in [
         joinpath(ma, "bin", "runMantaWorkflowDemo.py"),

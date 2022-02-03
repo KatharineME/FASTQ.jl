@@ -41,7 +41,7 @@ function align_dna(
 
     run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
 
-    println("\nAlignment finished.\n")
+    println("\nDNA Alignment finished\n")
 
     return nothing
 
