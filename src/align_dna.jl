@@ -7,20 +7,20 @@ function align_dna(
     n_jo::Int64,
     me::Int64, #memory
 )::Nothing
+    
+    di = dirname(ba)
+
+    if check_directory(di, "align dna")
+
+        return nothing
+
+    end
 
     fai = string(fa, ".mmi")
 
     if !ispath(fai)
 
         run(`minimap2 -t $n_jo -d $fai $fa`)
-
-    end
-
-    di = splitdir(ba)[1]
-
-    if !ispath(di)
-
-        mkpath(di)
 
     end
 

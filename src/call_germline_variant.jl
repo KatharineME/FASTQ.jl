@@ -1,6 +1,6 @@
 function call_germline_variant(
     mo::String,
-    ba::Union{String, Nothing},
+    ge::String,
     ta::Bool,
     fa::String,
     chs::String,
@@ -24,41 +24,21 @@ function call_germline_variant(
 
     end
 
-    if !ispath(pao)
+    if check_directory(pao, "call germline variant")
 
-        mkdir(pao)
+        return nothing
 
     end
 
+    # Run docker container
+
+    id, voo, vof, voc, voge, vot = run_docker_container(to, fa, chs, ge, pao)
+
+    
 
     # Set config parameters
-
-    vot = basename(to)
-
-    pab = dirname(abspath(ba))
-
-    vob = basename(pab)
-
-    pag = dirname(abspath(fa))
-
-    vog = basename(pag)
     
-    vof = joinpath(vog, basename(fa))
-
-    voc = joinpath(vog, "chromosome", basename(chs))
-
-    voba = joinpath(vob, basename(ba))
-
-    pao = abspath(pao)
-
-    voo = basename(pao)
-    
-    pam = joinpath(voo, "manta")
-
-    pamr = joinpath(pam, "runWorkflow.py")
-    
-    
-    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voba"
+    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voge"
 
     if ta
 
@@ -73,24 +53,19 @@ function call_germline_variant(
     end
 
 
+
     # Set run parameters
 
     ru = "--mode local --jobs $n_jo --memGb $me --quiet"
 
-    pav = joinpath("results", "variants")
-
-
-
-    # Run the docker container
-
-    id = readlines(pipeline(
-                 `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $pab:/home/$vob --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
-               )
-       )
 
 
     # Configure and run manta
 
+    pam = joinpath(voo, "manta")
+
+    pamr = joinpath(pam, "runWorkflow.py")
+    
     sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py" 
 
     re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$pam && ./home/$pamr $ru"`))
@@ -117,21 +92,21 @@ function call_germline_variant(
 
     remove_docker_container(id)
 
-    return
 
-    
 
     ## Bcftools
 
+    pav = joinpath("results", "variants")
+    
     if mo == "cdna"
 
-        vc_ = [joinpath(pas, pav, "variants.vcf.gz")]
+        vc_ = [joinpath(past, pav, "variants.vcf.gz")]
 
     else
 
         vc_ = [
             joinpath(pam, pav, "diploidSV.vcf.gz"),
-            joinpath(pas, pav, "variants.vcf.gz"),
+            joinpath(past, pav, "variants.vcf.gz"),
         ]
 
     end
@@ -150,7 +125,7 @@ function call_germline_variant(
     run(`tabix $paco`)
 
 
-    # SNPEFF
+    # Snpeff
 
     sn = joinpath(pao, "snpeff")
 

@@ -7,8 +7,12 @@ function count_transcript(
     fr::Int64 = 51,
     sd::Float64 = 0.05,
 )::Nothing
+    
+    if check_directory(pa, "count transcript")
 
-    println("Counting transcript\n")
+        return nothing
+
+    end
 
     id = "$fa.kallisto_index"
 
@@ -21,8 +25,6 @@ function count_transcript(
         println("\nMade kallisto index at $id\n")
 
     end
-
-    mkpath(pa)
 
     if fq2 !== nothing
 

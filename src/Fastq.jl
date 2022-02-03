@@ -14,6 +14,8 @@ include("call_somatic_variant.jl")
 
 include("check_read.jl")
 
+include("check_directory.jl")
+
 include("concatenate.jl")
 
 include("count_transcript.jl")

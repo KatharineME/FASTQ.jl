@@ -1,44 +1,48 @@
 function call_somatic_variant(
     mo::String,
-    ge::Union{String, Nothing},
-    so::Union{String, Nothing},
-    ta::Bool,
+    ge::String,
+    so::String,
     fa::String,
     chs::String,
     chn::String,
     pao::String,
     n_jo::Int,
     me::Int,
+    to::String,
     pas::String,
-)
+)::Nothing
 
     if !(isfile("$fa.fai") && ispath("$fa.gzi"))
 
         run(`samtools faidx $fa`)
 
     end
-
+    
     if !ispath("$chs.tbi")
 
         run(`tabix --force $chs`)
 
     end
+   
+    if check_directory(pao, "call somatic variant")
+
+        return nothing
+
+    end
+
+
+    # Run docker container
+    
+    id, voo, vof, voc, voge, vot = run_docker_container(to, fa, chs, ge, pao)
+
+
+    println("docker is running")
+
 
     # Set config parameters
 
     co = "--referenceFasta $fa --callRegions $chs --normalBam $ge --tumorBam $so"
 
-    if ta
-
-        co = "$co --exome"
-
-    end
-
-    if mo == "cdna"
-
-        co = "$co --rna"
-
-    end
 
     # Set run parameters
 
@@ -46,86 +50,73 @@ function call_somatic_variant(
 
     pav = joinpath("results", "variants")
 
-    if mo == "dna"
 
-        pam = joinpath(pao, "manta")
 
-        pamr = joinpath(pam, "runWorkflow.py")
+    # Configure and run manta
 
-        run(
-            `bash -c "source activate py2 && configManta.py $co --outputContig --runDir $pam && $pamr $ru"`,
-        )
+    pam = joinpath(pao, "manta")
 
-        # ./configManta.py --bam /home/craft/data/738/germ.bam --referenceFasta /home/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz --callRegions /home/craft/data/grch/chromosome/chromosome.bed.gz --outputContig --runDir /home/craft/tool/Fastq.jl/tool/manta_config/
+    pamr = joinpath(pam, "runWorkflow.py")
 
-    end
+    sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py" 
+
+    se =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$pam && ./home/$pamr $ru"`))
+
+    println("$(join(re, " "))\n")
+
+    println("configured docker")
+
+
+
+    # Configure and run strelka
 
     pas = joinpath(pao, "strelka")
-
-
-    # Configure strelka
-
+    
     st = "configureStrelkaSomaticWorkflow.py $co --indelCandidates $(joinpath(pam, pav, "candidateSmallIndels.vcf.gz")) --runDir $pas"
-
-        # ./configureStrelkaGermlineWorkflow.py --referenceFasta /home/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz --callRegions /home/craft/data/grch/chromosome/chromosome.bed.gz --bam /home/craft/data/738/germ.bam --runDir /home/craft/tool/Fastq.jl/tool/strelka_config/
-
-    # Run strelka
 
     pasr = joinpath(pas, "runWorkflow.py")
 
     run(`bash -c "source activate py2 && $st && $pasr $ru"`)
 
 
-    if ge != nothing && so != nothing
 
-        sa = joinpath(pao, "sample.txt")
+    # bcftools
 
-        # TODO: get sample names (maybe from .bam) and use them instead of "Germ" and "Soma"
+    sa = joinpath(pao, "sample.txt")
 
-        open(io -> write(io, "Germ\nSoma"), sa; write = true)
+    # TODO: get sample names (maybe from .bam) and use them instead of "Germ" and "Soma"
 
-        pain = joinpath(pas, pav, "somatic.indels.vcf.gz")
+    open(io -> write(io, "Germ\nSoma"), sa; write = true)
 
-        run(
-            pipeline(
-                `bcftools reheader --threads $n_jo --samples $sa $pain`,
-                "$pain.tmp",
-            ),
-        )
+    pain = joinpath(pas, pav, "somatic.indels.vcf.gz")
 
-        mv("$pain.tmp", pain; force = true)
+    run(
+        pipeline(
+            `bcftools reheader --threads $n_jo --samples $sa $pain`,
+            "$pain.tmp",
+        ),
+    )
 
-        run(`tabix --force $pain`)
+    mv("$pain.tmp", pain; force = true)
 
-        pasv = joinpath(pas, pav, "somatic.snvs.vcf.gz")
+    run(`tabix --force $pain`)
 
-        run(
-            pipeline(
-                `bcftools reheader --threads $n_jo --samples $sa $pasv`,
-                "pasv.tmp",
-            ),
-        )
+    pasv = joinpath(pas, pav, "somatic.snvs.vcf.gz")
 
-        mv("$pasv.tmp", pasv; force = true)
+    run(
+        pipeline(
+            `bcftools reheader --threads $n_jo --samples $sa $pasv`,
+            "pasv.tmp",
+        ),
+    )
 
-        run(`tabix --force $pasv`)
+    mv("$pasv.tmp", pasv; force = true)
 
-        vc_ = [joinpath(pam, pav, "somaticSV.vcf.gz"), pain, pasv]
+    run(`tabix --force $pasv`)
 
-    elseif mo == "cdna"
+    vc_ = [joinpath(pam, pav, "somaticSV.vcf.gz"), pain, pasv]
 
-        vc_ = [joinpath(pas, pav, "variants.vcf.gz")]
 
-        println("this is vc_: $vc_")
-
-    else
-
-        vc_ = [
-            joinpath(pam, pav, "diploidSV.vcf.gz"),
-            joinpath(pas, pav, "variants.vcf.gz"),
-        ]
-
-    end
 
     paco = joinpath(pao, "concat.vcf.gz")
 
@@ -139,6 +130,10 @@ function call_somatic_variant(
     )
 
     run(`tabix $paco`)
+
+    
+
+    # snpeff
 
     sn = joinpath(pao, "snpeff")
 

@@ -1,4 +1,4 @@
-function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
+function concatenate(fq_::Vector{Any}, na::String="R1")::Nothing
 
     fo_ = []
 
@@ -6,11 +6,11 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     for fq in fq_
 
-        if occursin(id, fq)
+        if occursin(na, fq)
 
             push!(fo_, fq)
 
-        elseif occursin(replace(id, "1" => "2"), fq)
+        elseif occursin(replace(na, "1" => "2"), fq)
 
             push!(re_, fq)
 
@@ -22,33 +22,26 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
     n_re = length(re_)
 
-    println("Number of forward read files found = $n_fo")
+    println("Number of forward read files found = $n_fo\n")
 
-    println("Number of reverse read files found = $n_re")
-
-    println()
+    println("Number of reverse read files found = $n_re\n")
 
     sa = last(splitdir(dirname(fq_[1])))
 
     co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
 
-    if ispath(co)
+    if check_directory(co, "concatenate")
 
-        println(
-            "Skipping concatenation because directory already exists: $co")
+        return nothing
 
     elseif n_fo <= 1 && n_re <= 1
 
         println(
-            "Nothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n")
+            "\nNothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n")
 
     else
 
-        run(`mkdir $co`)
-
-        println("Concatenating ...")
-
-        println()
+        println("\nConcatenating ...\n")
 
         gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 
@@ -63,7 +56,7 @@ function concatenate(fq_::Vector{Any}, id::String="R1")::Nothing
 
         end
 
-        println("Concatenated files saved at: $co")
+        println("\nConcatenated files saved at: $co\n")
 
     end
 
