@@ -12,18 +12,8 @@ function call_somatic_variant(
     pas::String,
 )::Nothing
 
-    if !(isfile("$fa.fai") && ispath("$fa.gzi"))
+    index_genome_files(fa, chs)
 
-        run(`samtools faidx $fa`)
-
-    end
-    
-    if !ispath("$chs.tbi")
-
-        run(`tabix --force $chs`)
-
-    end
-   
     if check_directory(pao, "call somatic variant")
 
         return nothing
@@ -32,91 +22,69 @@ function call_somatic_variant(
 
 
     # Run docker container
-    
-    id, voo, vof, voc, voge, vot = run_docker_container(to, fa, chs, ge, pao)
-
-
-    println("docker is running")
+   
+    id, voo, vof, voc, vogefi, vosofi, vot = run_docker_container(to, fa, chs, ge, pao, so)
 
 
     # Set config parameters
 
-    co = "--referenceFasta $fa --callRegions $chs --normalBam $ge --tumorBam $so"
+    co = "--referenceFasta /home/$vof --callRegions /home/$voc --normalBam /home/$vogefi --tumorBam /home/$vosofi"
 
 
     # Set run parameters
 
-    ruString = "--mode local --jobs $n_jo --memGb $me --quiet"
-
-    pav = joinpath("results", "variants")
+    ru = "--mode local --jobs $n_jo --memGb $me --quiet"
 
 
 
     # Configure and run manta
 
-    pam = joinpath(pao, "manta")
+    pam = configure_and_run_manta(voo, id, vot, co, ru)
 
-    pamr = joinpath(pam, "runWorkflow.py")
-
-    sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py" 
-
-    se =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$pam && ./home/$pamr $ru"`))
-
-    println("$(join(re, " "))\n")
-
-    println("configured docker")
+    println(pam)
 
 
 
     # Configure and run strelka
 
-    pas = joinpath(pao, "strelka")
+    pav = joinpath("results", "variants")
+
+    past = joinpath(voo, "strelka")
     
-    st = "configureStrelkaSomaticWorkflow.py $co --indelCandidates $(joinpath(pam, pav, "candidateSmallIndels.vcf.gz")) --runDir $pas"
+    pasr = joinpath(past, "runWorkflow.py")
 
-    pasr = joinpath(pas, "runWorkflow.py")
+    sc = "strelka-2.9.10.centos6_x86_64/bin/configureStrelkaSomaticWorkflow.py"
 
-    run(`bash -c "source activate py2 && $st && $pasr $ru"`)
+    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", pam, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$past && ./home/$pasr $ru"`))
 
+    println("$(join(re, " "))\n")
+
+   
+
+    # Remove docker container
+
+    remove_docker_container(id)
 
 
     # bcftools
 
     sa = joinpath(pao, "sample.txt")
+    
+    open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
-    # TODO: get sample names (maybe from .bam) and use them instead of "Germ" and "Soma"
+    ie = joinpath(past, pav, "somatic.indels.vcf.gz")
 
-    open(io -> write(io, "Germ\nSoma"), sa; write = true)
+    ier = reheader_vcf(sa, ie, n_jo)
 
-    pain = joinpath(pas, pav, "somatic.indels.vcf.gz")
+    sv = joinpath(past, pav, "somatic.snvs.vcf.gz")
 
-    run(
-        pipeline(
-            `bcftools reheader --threads $n_jo --samples $sa $pain`,
-            "$pain.tmp",
-        ),
-    )
+    svr = reheader_vcf(sa, sv, n_jo)
 
-    mv("$pain.tmp", pain; force = true)
+    svm = joinpath(pam, pav, "somaticSV.vcf.gz")
 
-    run(`tabix --force $pain`)
+    svmr = reheader_vcf(sa, svm, n_jo)
 
-    pasv = joinpath(pas, pav, "somatic.snvs.vcf.gz")
-
-    run(
-        pipeline(
-            `bcftools reheader --threads $n_jo --samples $sa $pasv`,
-            "pasv.tmp",
-        ),
-    )
-
-    mv("$pasv.tmp", pasv; force = true)
-
-    run(`tabix --force $pasv`)
-
-    vc_ = [joinpath(pam, pav, "somaticSV.vcf.gz"), pain, pasv]
-
-
+    vc_ = [ier, svr, svmr]
 
     paco = joinpath(pao, "concat.vcf.gz")
 
@@ -131,36 +99,11 @@ function call_somatic_variant(
 
     run(`tabix $paco`)
 
-    
 
     # snpeff
 
-    sn = joinpath(pao, "snpeff")
+    run_snpeff(pao, me, pas, paco, n_jo)
 
-    mkpath(sn)
-
-    snvc = joinpath(sn, "snpeff.vcf.gz")
-
-    run(
-        pipeline(
-            `java -Xmx$(me)g -jar $pas GRCh38.99 -noLog -verbose -csvStats $(joinpath(sn, "stats.csv")) -htmlStats $(joinpath(sn, "stats.html")) $paco`,
-            `bgzip --threads $n_jo --stdout`,
-            snvc,
-        ),
-    )
-
-    run(`tabix $snvc`)
-
-    ps = joinpath(pao, "pass.vcf.gz")
-
-    run(
-        pipeline(
-            `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $snvc`,
-            `bgzip --threads $n_jo --stdout`,
-            ps,
-        ),
-    )
-
-    return run(`tabix $ps`)
+    return nothing 
 
 end

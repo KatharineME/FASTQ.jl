@@ -1,9 +1,5 @@
 module Fastq
 
-include("run_docker_container.jl")
-
-include("remove_docker_container.jl")
-
 include("align_cdna.jl")
 
 include("align_dna.jl")
@@ -18,13 +14,25 @@ include("check_directory.jl")
 
 include("concatenate.jl")
 
+include("configure_and_run_manta.jl")
+
 include("count_transcript.jl")
 
 include("find.jl")
 
+include("index_genome_files.jl")
+
 include("process_dna.jl")
 
 include("process_soma_dna.jl")
+
+include("reheader_vcf.jl")
+
+include("run_docker_container.jl")
+
+include("run_snpeff.jl")
+
+include("remove_docker_container.jl")
 
 include("test_environment.jl")
 

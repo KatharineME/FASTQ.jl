@@ -6,15 +6,15 @@ function process_dna(
     ta::Bool,
     pao::String,
     fa::String,
-    chi::String,
+    chs::String,
     chn::String,
     pas::String,
     n_jo::Int,
     met::Int,
     mej::Int,
-)
+)::Nothing
 
-    for pa in [fq1, fq2, fa, chi, chn, pas]
+    for pa in [fq1, fq2, fa, chs, chn, pas]
 
         if !isfile(pa)
 
@@ -28,21 +28,21 @@ function process_dna(
 
     trim(fq1, fq2, tr, n_jo)
 
-    fq1t = joinpath(tr, "trimmed-pair1.fastq.gz")
+    fq1t = joinpath(tr, "trimmed.R1.fastq.gz")
 
-    fq2t = joinpath(tr, "trimmed-pair2.fastq.gz")
+    fq2t = joinpath(tr, "trimmed.R2.fastq.gz")
 
-    check([fq1t, fq2t], joinpath(pao, "check_trim"), n_jo)
+    check_read([fq1t, fq2t], joinpath(pao, "check_trim"), n_jo)
 
     ba = joinpath(pao, "align", "germ.bam")
 
-    if mo == "cdna"
+    if mo == "dna"
 
-        align_cdna(sa, fq1t, fq2t,fa, ba, n_jo, mej)
+        align_dna(sa, fq1t, fq2t, fa, ba, n_jo, mej)
+    
+    elseif mo == "cdna"
 
-    elseif mo == "dna"
-
-        align_dna(sa, fq1t, fq2t,fa, ba, n_jo, mej)
+        align_cdna(sa, fq1t, fq2t, fa, ba, n_jo, mej)
 
     end
 
@@ -64,18 +64,20 @@ function process_dna(
 
     pav = joinpath(pao, "call_variant")
 
-    return call_variant(
+    call_variant(
         mo,
         ba,
         nothing,
         ta,
         fag,
-        chi,
+        chs,
         chn,
         pav,
         n_jo,
         met,
         pas,
     )
+
+    return nothing
 
 end

@@ -1,31 +1,50 @@
-function run_docker_container(to::String, fa::String, chs::String, ba::String, pao::String)
+function run_docker_container(to::String, fa::String, chs::String, ge::String, pao::String, so=nothing)
 
     vot = basename(to)
 
-    pab = dirname(abspath(ge))
+    page = dirname(abspath(ge))
 
-    vob = basename(pab)
+    voge = basename(page)
+
+    vogefi = joinpath(voge, basename(ge))
 
     pag = dirname(abspath(fa))
 
     vog = basename(pag)
-    
+
     vof = joinpath(vog, basename(fa))
 
     voc = joinpath(vog, "chromosome", basename(chs))
-
-    voge = joinpath(vob, basename(ge))
 
     pao = abspath(pao)
 
     voo = basename(pao)
     
-    id = readlines(pipeline(
-                 `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $pab:/home/$vob --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
+    if so != nothing
+
+        paso = dirname(abspath(so))
+
+        voso = basename(paso)
+
+        vosofi = joinpath(voso, basename(so))
+
+        id = readlines(pipeline(
+                 `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $paso:/home/$voso --volume $pao:/home/$voo centos:centos6 bash`,
                )
        )
 
-    return id, voo, vof, voc, voge, vot
+        return id, voo, vof, voc, vogefi, vosofi, vot
+
+    else
+
+        id = readlines(pipeline(
+                     `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
+                   )
+           )
+
+        return id, voo, vof, voc, vogefi, vot
+
+    end
 
 end
 

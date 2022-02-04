@@ -12,17 +12,7 @@ function call_germline_variant(
     pas::String, #path to snpeff
 )::Nothing
 
-    if !(isfile("$fa.fai") && ispath("$fa.gzi"))
-
-        run(`samtools faidx $fa`)
-
-    end
-
-    if !ispath("$chs.tbi")
-
-        run(`tabix --force $chs`)
-
-    end
+    index_genome_files(fa, chs)
 
     if check_directory(pao, "call germline variant")
 
@@ -30,15 +20,17 @@ function call_germline_variant(
 
     end
 
+
+
     # Run docker container
 
-    id, voo, vof, voc, voge, vot = run_docker_container(to, fa, chs, ge, pao)
+    id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao)
 
     
 
     # Set config parameters
     
-    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voge"
+    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"
 
     if ta
 
@@ -61,18 +53,9 @@ function call_germline_variant(
 
 
     # Configure and run manta
-
-    pam = joinpath(voo, "manta")
-
-    pamr = joinpath(pam, "runWorkflow.py")
     
-    sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py" 
+    pam = configure_and_run_manta(pao, id, vot, co, ru)
 
-    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$pam && ./home/$pamr $ru"`))
-
-    println("$(join(re, " "))\n")
-
-   
 
     # Configure and run strelka
 
@@ -94,7 +77,7 @@ function call_germline_variant(
 
 
 
-    ## Bcftools
+    ## bcftools
 
     pav = joinpath("results", "variants")
     
@@ -125,35 +108,9 @@ function call_germline_variant(
     run(`tabix $paco`)
 
 
-    # Snpeff
+    # snpeff
 
-    sn = joinpath(pao, "snpeff")
-
-    snvc = joinpath(sn, "snpeff.vcf.gz")
-    
-    mkpath(sn)
-
-    run(
-        pipeline(
-            `java -Xmx$(me)g -jar $pas GRCh38.99 -noLog -verbose -csvStats $(joinpath(sn, "stats.csv")) -htmlStats $(joinpath(sn, "stats.html")) $paco`,
-            `bgzip --threads $n_jo --stdout`,
-            snvc,
-        ),
-    )
-
-    run(`tabix $snvc`)
-
-    ps = joinpath(pao, "pass.vcf.gz")
-
-    run(
-        pipeline(
-            `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $snvc`,
-            `bgzip --threads $n_jo --stdout`,
-            ps,
-        ),
-    )
-
-    run(`tabix $ps`)
+    run_snpeff(pao, me, pas, paco, n_jo)
 
     return nothing 
 

@@ -15,9 +15,9 @@ function trim(
 
     js = joinpath(pa, "fastp.json")
     
-    ou1 = joinpath(pa, basename(fq1))
+    ou1 = joinpath(pa, "trimmed.R1.fastq.gz")
 
-    ou2 = joinpath(pa, basename(fq2))
+    ou2 = joinpath(pa, "trimmed.R2.fastq.gz")
 
     run(`fastp --detect_adapter_for_pe --json $js --html $ht --in1 $fq1 --in2 $fq2 --out1 $ou1 --out2 $ou2`)
 
