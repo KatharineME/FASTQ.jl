@@ -14,6 +14,12 @@ function process_soma_dna(
     snpeff::String,
 )
 
+    if check_directory(pao, "process somatic dna")
+
+       return nothing
+
+    end
+
     for file_path in [ge1, ge2, so1, so2, fa, chsi, chna]
 
         if !isfile(file_path)
@@ -28,17 +34,17 @@ function process_soma_dna(
 
     trim_sequence(ge1, ge2, paou, pagetr, n_jo)
 
-    ge1tr = "$pagetr-trimmed-pair1.fastq.gz"
+    ge1tr = "$pagetr-trimmed.R1.fastq.gz"
 
-    ge2tr = "$pagetr-trimmed-pair2.fastq.gz"
+    ge2tr = "$pagetr-trimmed.R2.fastq.gz"
 
     pasotr = joinpath(paou, "trim_sequence", "soma")
 
     trim_sequence(so1, so2, pasotr, n_jo)
 
-    so1tr = "$pasotr-trimmed-pair1.fastq.gz"
+    so1tr = "$pasotr-trimmed.R1.fastq.gz"
 
-    so2tr = "$pasotr-trimmed-pair2.fastq.gz"
+    so2tr = "$pasotr-trimmed.R2.fastq.gz"
 
     check_read([ge1tr, ge2tr, so1tr, so2tr], joinpath(paou, "check_raw"), n_jo)
 

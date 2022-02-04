@@ -10,9 +10,15 @@ function process_dna(
     chn::String,
     pas::String,
     n_jo::Int,
-    met::Int,
-    mej::Int,
+    me::Int,
+    to::String,
 )::Nothing
+
+    if check_directory(pao, "process germline dna")
+
+       return nothing
+
+    end
 
     for pa in [fq1, fq2, fa, chs, chn, pas]
 
@@ -38,43 +44,27 @@ function process_dna(
 
     if mo == "dna"
 
-        align_dna(sa, fq1t, fq2t, fa, ba, n_jo, mej)
+        align_dna(sa, fq1t, fq2t, fa, ba, n_jo, me)
     
     elseif mo == "cdna"
 
-        align_cdna(sa, fq1t, fq2t, fa, ba, n_jo, mej)
+        align_cdna(sa, fq1t, fq2t, fa, ba, n_jo, me)
 
     end
 
-    sp = splitext(fa)[1]
+    pav = joinpath(pao, "call_germline_variant")
 
-    fag = "$sp.bgz"
-
-    if !isfile(fag)
-
-        run(
-            pipeline(
-                `gzip --decompress $fa --stdout`,
-                `bgzip --threads $n_jo --stdout`,
-                fag,
-            ),
-        )
-
-    end
-
-    pav = joinpath(pao, "call_variant")
-
-    call_variant(
+    call_germline_variant(
         mo,
         ba,
-        nothing,
         ta,
-        fag,
+        fa,
         chs,
         chn,
         pav,
         n_jo,
-        met,
+        me,
+        to,
         pas,
     )
 
