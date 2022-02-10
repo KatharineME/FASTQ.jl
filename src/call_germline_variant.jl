@@ -21,7 +21,6 @@ function call_germline_variant(
     end
 
 
-
     # Run docker container
 
     id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao)
