@@ -30,9 +30,9 @@ function process_dna(
 
     trim(fq1, fq2, tr, n_jo)
 
-    fq1t = joinpath(tr, "trimmed.R1.fastq.gz")
+    fq1t = joinpath(tr, TRIMMED_R1)
 
-    fq2t = joinpath(tr, "trimmed.R2.fastq.gz")
+    fq2t = joinpath(tr, TRIMMED_R2)
 
     check_read([fq1t, fq2t], joinpath(pao, "check_trim"), n_jo)
 

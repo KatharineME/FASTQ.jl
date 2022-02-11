@@ -1,6 +1,6 @@
 function make_directory(pa, pr)
 
-    pa = abspath(pa)
+    pa = get_full_path(pa)
 
     if !ispath(pa)
 

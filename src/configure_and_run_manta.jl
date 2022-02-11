@@ -4,7 +4,7 @@ function configure_and_run_manta(voo, id, vot, co, ru)
 
     pamr = joinpath(pam, "runWorkflow.py")
 
-    sc = "manta-1.6.0.centos6_x86_64/bin/configManta.py"
+    sc = "$MANTA/bin/configManta.py"
 
     re = readlines(
         pipeline(

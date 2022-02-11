@@ -1,10 +1,6 @@
 function test_strelka_and_manta(pa)
 
-    ma = "manta-1.6.0.centos6_x86_64"
-
-    st = "strelka-2.9.10.centos6_x86_64"
-
-    for pr in [ma, st]
+    for pr in [MANTA, STRELKA]
 
         if !(pr in readdir(pa))
 
@@ -23,9 +19,9 @@ function test_strelka_and_manta(pa)
     )
 
     for sc in [
-        joinpath(ma, "bin", "runMantaWorkflowDemo.py"),
-        joinpath(st, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
-        joinpath(st, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
+        joinpath(MANTA, "bin", "runMantaWorkflowDemo.py"),
+        joinpath(STRELKA, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
+        joinpath(STRELKA, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     ]
 
         re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))

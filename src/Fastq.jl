@@ -14,9 +14,13 @@ include("concatenate.jl")
 
 include("configure_and_run_manta.jl")
 
+include("constant.jl")
+
 include("count_transcript.jl")
 
 include("find.jl")
+
+include("get_full_path.jl")
 
 include("index_genome_files.jl")
 
