@@ -8,9 +8,9 @@ include("call_germline_variant.jl")
 
 include("call_somatic_variant.jl")
 
-include("check_read.jl")
-
 include("check_directory.jl")
+
+include("check_read.jl")
 
 include("concatenate.jl")
 
@@ -28,11 +28,11 @@ include("process_soma_dna.jl")
 
 include("reheader_vcf.jl")
 
+include("remove_docker_container.jl")
+
 include("run_docker_container.jl")
 
 include("run_snpeff.jl")
-
-include("remove_docker_container.jl")
 
 include("test_environment.jl")
 
