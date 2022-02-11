@@ -1,4 +1,4 @@
-function test_strelka_and_manta(pa::String)::Nothing
+function test_strelka_and_manta(pa)
 
     ma = "manta-1.6.0.centos6_x86_64"
 
@@ -8,9 +8,7 @@ function test_strelka_and_manta(pa::String)::Nothing
 
         if !(pr in readdir(pa))
 
-            println("You dont have the correct version ($pr)")
-
-            return
+            error("You dont have the correct version ($pr)")
 
         end
 
@@ -36,10 +34,8 @@ function test_strelka_and_manta(pa::String)::Nothing
 
     end
 
-    println(typeof(id))
-
     remove_docker_container(id)
 
-    return nothing
+    return
 
 end

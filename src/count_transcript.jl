@@ -1,18 +1,6 @@
-function count_transcript(
-    fa::String,
-    pa::String,
-    n_jo::Int64,
-    fq1::String,
-    fq2 = nothing,
-    fr::Int64 = 51,
-    sd::Float64 = 0.05,
-)::Nothing
+function count_transcript(fa, pa, n_jo, fq1, fq2 = nothing, fr = 51, sd = 0.05)
 
-    if check_directory(pa, "count transcript")
-
-        return nothing
-
-    end
+    @assert make_directory(pa, "count transcript")
 
     id = "$fa.kallisto_index"
 
@@ -42,6 +30,6 @@ function count_transcript(
 
     end
 
-    return nothing
+    return
 
 end

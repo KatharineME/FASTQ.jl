@@ -1,10 +1,6 @@
-function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
+function check_read(fq_, di, n_jo)
 
-    if check_directory(di, "check read")
-
-        return nothing
-
-    end
+    @assert make_directory(di, "check read")
 
     println("Running FastQC ...")
 
@@ -14,6 +10,6 @@ function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
 
     run(`multiqc --outdir $di $di`)
 
-    return nothing
+    return
 
 end

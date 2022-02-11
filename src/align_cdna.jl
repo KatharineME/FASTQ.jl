@@ -1,19 +1,14 @@
 function align_cdna(
-    pr::String,
-    fq1::String, #read1
-    fq2::String, #read2
-    fa::String, #reference
-    n_jo::Int64,
-    me::Int64, #memory
-)::Nothing
+    pr,
+    fq1, #read1
+    fq2, #read2
+    fa, #reference
+    n_jo,
+)
 
     pa = dirname(pr)
 
-    if check_directory(pa, "align cdna")
-
-        return nothing
-
-    end
+    @assert make_directory(pa, "align cdna")
 
     ge = joinpath(dirname(fa), "star_indexes")
 
@@ -21,7 +16,7 @@ function align_cdna(
 
         mkdir(ge)
 
-        println("\nMaking STAR indices (this may take a while)...\n")
+        println("\nMaking STAR indices, this may take a while...\n")
 
         run(
             `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`,
@@ -43,6 +38,6 @@ function align_cdna(
 
     println("\ncDNA Alignment finished\n")
 
-    return nothing
+    return
 
 end

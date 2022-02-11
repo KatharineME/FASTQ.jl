@@ -1,20 +1,16 @@
 function align_dna(
-    sa::String,
-    fq1::String, #read1
-    fq2::String, #read2
-    fa::String, #reference
-    ba::String, #final bam file
-    n_jo::Int64,
-    me::Int64, #memory
-)::Nothing
+    sa,
+    fq1, #read1
+    fq2, #read2
+    fa, #reference
+    ba, #final bam file
+    n_jo,
+    me, #memory
+)
 
     di = dirname(ba)
 
-    if check_directory(di, "align dna")
-
-        return nothing
-
-    end
+    @assert make_directory(di, "align dna")
 
     fai = string(fa, ".mmi")
 
@@ -43,6 +39,6 @@ function align_dna(
 
     println("\nDNA Alignment finished\n")
 
-    return nothing
+    return
 
 end

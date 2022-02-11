@@ -1,11 +1,4 @@
-function run_docker_container(
-    to::String,
-    fa::String,
-    chs::String,
-    ge::String,
-    pao::String,
-    so = nothing,
-)
+function run_docker_container(to, fa, chs, ge, pao, so)
 
     vot = basename(to)
 
@@ -27,7 +20,7 @@ function run_docker_container(
 
     voo = basename(pao)
 
-    if so != nothing
+    if so !== nothing
 
         paso = dirname(abspath(so))
 

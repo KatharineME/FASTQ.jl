@@ -1,4 +1,4 @@
-function index_genome_files(fa::String, chs::String)::Nothing
+function index_genome_files(fa, chs)
 
     if !(isfile("$fa.fai") && ispath("$fa.gzi"))
 
@@ -12,6 +12,6 @@ function index_genome_files(fa::String, chs::String)::Nothing
 
     end
 
-    return nothing
+    return
 
 end

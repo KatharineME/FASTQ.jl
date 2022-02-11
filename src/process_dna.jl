@@ -1,24 +1,20 @@
 function process_dna(
-    mo::String,
-    sa::String, #G2451
-    fq1::String,
-    fq2::String,
-    ta::Bool,
-    pao::String,
-    fa::String,
-    chs::String,
-    chn::String,
-    pas::String,
-    n_jo::Int,
-    me::Int,
-    to::String,
-)::Nothing
+    mo,
+    sa, #G2451
+    fq1,
+    fq2,
+    ta,
+    pao,
+    fa,
+    chs,
+    chn,
+    pas,
+    n_jo,
+    me,
+    to,
+)
 
-    if check_directory(pao, "process germline dna")
-
-        return nothing
-
-    end
+    @assert make_directory(pao, "process germline dna")
 
     for pa in [fq1, fq2, fa, chs, chn, pas]
 
@@ -56,6 +52,6 @@ function process_dna(
 
     call_germline_variant(mo, ba, ta, fa, chs, chn, pav, n_jo, me, to, pas)
 
-    return nothing
+    return
 
 end

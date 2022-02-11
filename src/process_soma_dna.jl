@@ -1,24 +1,6 @@
-function process_soma_dna(
-    ge1::String,
-    ge2::String,
-    so1::String,
-    so2::String,
-    ta::Bool,
-    paou::String,
-    fa::String,
-    chsi::String,
-    chna::String,
-    n_jo::Int,
-    meto::Int,
-    mejo::Int,
-    snpeff::String,
-)
+function process_soma_dna(ge1, ge2, so1, so2, ta, paou, fa, chsi, chna, n_jo, meto, mejo, snpeff)
 
-    if check_directory(pao, "process somatic dna")
-
-        return nothing
-
-    end
+    @assert make_directory(pao, "process somatic dna")
 
     for file_path in [ge1, ge2, so1, so2, fa, chsi, chna]
 
@@ -70,6 +52,8 @@ function process_soma_dna(
 
     pava = joinpath(paou, "find_variant")
 
-    return find_variant(pageal, pasoal, ta, fagz, chsi, chna, pava, n_jo, meto, snpeff)
+    find_variant(pageal, pasoal, ta, fagz, chsi, chna, pava, n_jo, meto, snpeff)
+
+    return
 
 end

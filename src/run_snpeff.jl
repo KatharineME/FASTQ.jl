@@ -28,6 +28,6 @@ function run_snpeff(pao, me, pas, paco, n_jo)
 
     run(`tabix $ps`)
 
-    return nothing
+    return
 
 end

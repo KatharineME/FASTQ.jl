@@ -1,4 +1,4 @@
-function test_environment()::Nothing
+function test_local_environment()
 
     println("Checking for programs...\n")
 
@@ -20,6 +20,6 @@ function test_environment()::Nothing
 
     end
 
-    return nothing
+    return
 
 end

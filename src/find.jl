@@ -1,4 +1,4 @@
-function find(di::String)
+function find(di)
 
     re_ = []
 
@@ -35,6 +35,7 @@ function find(di::String)
     println("File types found in $di:\n")
 
     for na in na_n
+
         println(na)
 
     end

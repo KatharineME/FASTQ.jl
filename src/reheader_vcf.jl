@@ -1,4 +1,4 @@
-function reheader_vcf(sa, pa, n_jo)::String
+function reheader_vcf(sa, pa, n_jo)
 
     na = string(split(basename(pa), "vcf.gz")[1], "reheader.vcf.gz")
 

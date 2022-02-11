@@ -1,25 +1,8 @@
-function call_somatic_variant(
-    mo::String,
-    ge::String,
-    so::String,
-    fa::String,
-    chs::String,
-    chn::String,
-    pao::String,
-    n_jo::Int,
-    me::Int,
-    to::String,
-    pas::String,
-)::Nothing
+function call_somatic_variant(mo, ge, so, fa, chs, chn, pao, n_jo, me, to, pas)
 
     index_genome_files(fa, chs)
 
-    if check_directory(pao, "call somatic variant")
-
-        return nothing
-
-    end
-
+    @assert make_directory(pao, "call somatic variant")
 
     # Run docker container
 
@@ -108,6 +91,6 @@ function call_somatic_variant(
 
     run_snpeff(pao, me, pas, paco, n_jo)
 
-    return nothing
+    return
 
 end

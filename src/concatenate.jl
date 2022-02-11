@@ -1,4 +1,4 @@
-function concatenate(fq_::Vector{Any}, na::String = "R1")::Nothing
+function concatenate(fq_, na = "R1")
 
     fo_ = []
 
@@ -30,11 +30,9 @@ function concatenate(fq_::Vector{Any}, na::String = "R1")::Nothing
 
     co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
 
-    if check_directory(co, "concatenate")
+    @assert make_directory(co, "concatenate")
 
-        return nothing
-
-    elseif n_fo <= 1 && n_re <= 1
+    if n_fo <= 1 && n_re <= 1
 
         println(
             "\nNothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n",
@@ -56,6 +54,6 @@ function concatenate(fq_::Vector{Any}, na::String = "R1")::Nothing
 
     end
 
-    return nothing
+    return
 
 end

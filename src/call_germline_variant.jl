@@ -1,25 +1,20 @@
 function call_germline_variant(
-    mo::String,
-    ge::String,
-    ta::Bool,
-    fa::String,
-    chs::String,
-    chn::String,
-    pao::String,
-    n_jo::Int,
-    me::Int,
-    to::String, #path to tools: strelka and manta
-    pas::String, #path to snpeff
-)::Nothing
+    mo,
+    ge,
+    ta,
+    fa,
+    chs,
+    chn,
+    pao,
+    n_jo,
+    me,
+    to, #path to tools: strelka and manta
+    pas, #path to snpeff
+)
 
     index_genome_files(fa, chs)
 
-    if check_directory(pao, "call germline variant")
-
-        return nothing
-
-    end
-
+    @assert make_directory(pao, "call germline variant")
 
     # Run docker container
 
@@ -112,6 +107,6 @@ function call_germline_variant(
 
     run_snpeff(pao, me, pas, paco, n_jo)
 
-    return nothing
+    return
 
 end

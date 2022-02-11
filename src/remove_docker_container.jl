@@ -1,4 +1,4 @@
-function remove_docker_container(id::Vector{String})::Nothing
+function remove_docker_container(id)
 
     run(`docker kill $id`)
 
@@ -6,6 +6,6 @@ function remove_docker_container(id::Vector{String})::Nothing
 
     println("\nDocker container was removed\n")
 
-    return nothing
+    return
 
 end
