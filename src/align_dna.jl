@@ -1,12 +1,4 @@
-function align_dna(
-    sa,
-    fq1, #read1
-    fq2, #read2
-    fa, #reference
-    ba, #final bam file
-    n_jo,
-    me, #memory
-)
+function align_dna(sa, fq1, fq2, fa, ba, n_jo, me)
 
     di = dirname(ba)
 

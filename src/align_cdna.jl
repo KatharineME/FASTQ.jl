@@ -1,10 +1,4 @@
-function align_cdna(
-    pr,
-    fq1, #read1
-    fq2, #read2
-    fa, #reference
-    n_jo,
-)
+function align_cdna(pr, fq1, fq2, fa, n_jo)
 
     pa = dirname(pr)
 

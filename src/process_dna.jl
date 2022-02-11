@@ -1,18 +1,4 @@
-function process_dna(
-    mo,
-    sa, #G2451
-    fq1,
-    fq2,
-    ta,
-    pao,
-    fa,
-    chs,
-    chn,
-    pas,
-    n_jo,
-    me,
-    to,
-)
+function process_dna(mo, sa, fq1, fq2, ta, pao, fa, chs, chn, pas, n_jo, me, to)
 
     @assert make_directory(pao, "process germline dna")
 

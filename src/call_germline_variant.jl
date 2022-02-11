@@ -1,16 +1,4 @@
-function call_germline_variant(
-    mo,
-    ge,
-    ta,
-    fa,
-    chs,
-    chn,
-    pao,
-    n_jo,
-    me,
-    to, #path to tools: strelka and manta
-    pas, #path to snpeff
-)
+function call_germline_variant(mo, ge, ta, fa, chs, chn, pao, n_jo, me, to, pas)
 
     index_genome_files(fa, chs)
 
