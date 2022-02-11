@@ -111,12 +111,7 @@ function call_variant(
 
         pain = joinpath(pas, pav, "somatic.indels.vcf.gz")
 
-        run(
-            pipeline(
-                `bcftools reheader --threads $n_jo --samples $sa $pain`,
-                "$pain.tmp",
-            ),
-        )
+        run(pipeline(`bcftools reheader --threads $n_jo --samples $sa $pain`, "$pain.tmp"))
 
         mv("$pain.tmp", pain; force = true)
 
@@ -124,12 +119,7 @@ function call_variant(
 
         pasv = joinpath(pas, pav, "somatic.snvs.vcf.gz")
 
-        run(
-            pipeline(
-                `bcftools reheader --threads $n_jo --samples $sa $pasv`,
-                "pasv.tmp",
-            ),
-        )
+        run(pipeline(`bcftools reheader --threads $n_jo --samples $sa $pasv`, "pasv.tmp"))
 
         mv("$pasv.tmp", pasv; force = true)
 
@@ -145,10 +135,7 @@ function call_variant(
 
     else
 
-        vc_ = [
-            joinpath(pam, pav, "diploidSV.vcf.gz"),
-            joinpath(pas, pav, "variants.vcf.gz"),
-        ]
+        vc_ = [joinpath(pam, pav, "diploidSV.vcf.gz"), joinpath(pas, pav, "variants.vcf.gz")]
 
     end
 

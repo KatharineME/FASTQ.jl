@@ -7,7 +7,7 @@ function count_transcript(
     fr::Int64 = 51,
     sd::Float64 = 0.05,
 )::Nothing
-    
+
     if check_directory(pa, "count transcript")
 
         return nothing
@@ -29,10 +29,8 @@ function count_transcript(
     if fq2 !== nothing
 
         println("Running paired end psuedoalignment")
-        
-        run(
-            `kallisto quant --threads $n_jo --index $id --output-dir $pa $fq1 $fq2`,
-        )
+
+        run(`kallisto quant --threads $n_jo --index $id --output-dir $pa $fq1 $fq2`)
 
     elseif fq2 === nothing
 

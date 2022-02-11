@@ -4,12 +4,7 @@ function reheader_vcf(sa, pa, n_jo)::String
 
     par = joinpath(dirname(pa), na)
 
-    run(
-        pipeline(
-            `bcftools reheader --threads $n_jo --samples $sa $pa`,
-            "$par",
-        ),
-    )
+    run(pipeline(`bcftools reheader --threads $n_jo --samples $sa $pa`, "$par"))
 
     run(`tabix --force $par`)
 

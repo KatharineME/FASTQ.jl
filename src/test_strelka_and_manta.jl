@@ -15,10 +15,14 @@ function test_strelka_and_manta(pa::String)::Nothing
         end
 
     end
-    
+
     vo = last(split(pa, "/"))
 
-    id = readlines(pipeline(`docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`))
+    id = readlines(
+        pipeline(
+            `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`,
+        ),
+    )
 
     for sc in [
         joinpath(ma, "bin", "runMantaWorkflowDemo.py"),
@@ -26,7 +30,7 @@ function test_strelka_and_manta(pa::String)::Nothing
         joinpath(st, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     ]
 
-        re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
+        re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
 
         println("$(join(re, " "))\n")
 

@@ -5,7 +5,7 @@ function index_genome_files(fa::String, chs::String)::Nothing
         run(`samtools faidx $fa`)
 
     end
-    
+
     if !ispath("$chs.tbi")
 
         run(`tabix --force $chs`)
@@ -15,4 +15,3 @@ function index_genome_files(fa::String, chs::String)::Nothing
     return nothing
 
 end
-

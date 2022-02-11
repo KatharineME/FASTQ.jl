@@ -8,14 +8,12 @@ function check_read(fq_::Array, di::String, n_jo::Int)::Nothing
 
     println("Running FastQC ...")
 
-    run(
-        `fastqc --threads $(minimum((length(fq_), n_jo))) --outdir $di $fq_`,
-       )
+    run(`fastqc --threads $(minimum((length(fq_), n_jo))) --outdir $di $fq_`)
 
     println("Running MultiQC ...")
 
     run(`multiqc --outdir $di $di`)
 
-    return nothing 
+    return nothing
 
 end

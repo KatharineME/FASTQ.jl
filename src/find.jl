@@ -6,7 +6,7 @@ function find(di::String)
 
     for (ro, di_, fi_) in walkdir(di)
 
-       for fi in fi_
+        for fi in fi_
 
             if !occursin(".md5", fi)
 
@@ -33,8 +33,9 @@ function find(di::String)
     end
 
     println("File types found in $di:\n")
-    
-    for na in na_n println(na)
+
+    for na in na_n
+        println(na)
 
     end
 

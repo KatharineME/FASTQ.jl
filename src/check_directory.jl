@@ -4,7 +4,7 @@ function check_directory(pa::String, pr::String)::Bool
 
     if ispath(pa)
 
-        println("\nSkipping $pr because directory already exists:\n $pa\n") 
+        println("\nSkipping $pr because directory already exists:\n $pa\n")
 
         bo = true
 

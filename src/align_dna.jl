@@ -7,7 +7,7 @@ function align_dna(
     n_jo::Int64,
     me::Int64, #memory
 )::Nothing
-    
+
     di = dirname(ba)
 
     if check_directory(di, "align dna")
@@ -32,9 +32,9 @@ function align_dna(
             `samtools fixmate --threads $n_jo -u -m - -`,
             `samtools sort --threads $n_jo -T $tm -u -`,
             "$ba",
-           ),
-       )
-    
+        ),
+    )
+
     run(`samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba final.bam`)
 
     run(`samtools index -@ $n_jo $ba`)

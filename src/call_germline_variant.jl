@@ -25,10 +25,10 @@ function call_germline_variant(
 
     id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao)
 
-    
+
 
     # Set config parameters
-    
+
     co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"
 
     if ta
@@ -52,23 +52,27 @@ function call_germline_variant(
 
 
     # Configure and run manta
-    
+
     pam = configure_and_run_manta(pao, id, vot, co, ru)
 
 
     # Configure and run strelka
 
     past = joinpath(voo, "strelka")
-    
+
     pasr = joinpath(past, "runWorkflow.py")
 
     sc = "strelka-2.9.10.centos6_x86_64/bin/configureStrelkaGermlineWorkflow.py"
 
-    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$past && ./home/$pasr $ru"`))
+    re = readlines(
+        pipeline(
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$past && ./home/$pasr $ru"`,
+        ),
+    )
 
     println("$(join(re, " "))\n")
-    
-    
+
+
 
     # Remove docker container
 
@@ -79,17 +83,14 @@ function call_germline_variant(
     ## bcftools
 
     pav = joinpath("results", "variants")
-    
+
     if mo == "cdna"
 
         vc_ = [joinpath(past, pav, "variants.vcf.gz")]
 
     else
 
-        vc_ = [
-            joinpath(pam, pav, "diploidSV.vcf.gz"),
-            joinpath(past, pav, "variants.vcf.gz"),
-        ]
+        vc_ = [joinpath(pam, pav, "diploidSV.vcf.gz"), joinpath(past, pav, "variants.vcf.gz")]
 
     end
 
@@ -111,6 +112,6 @@ function call_germline_variant(
 
     run_snpeff(pao, me, pas, paco, n_jo)
 
-    return nothing 
+    return nothing
 
 end

@@ -16,7 +16,7 @@ function process_dna(
 
     if check_directory(pao, "process germline dna")
 
-       return nothing
+        return nothing
 
     end
 
@@ -45,7 +45,7 @@ function process_dna(
     if mo == "dna"
 
         align_dna(sa, fq1t, fq2t, fa, ba, n_jo, me)
-    
+
     elseif mo == "cdna"
 
         align_cdna(sa, fq1t, fq2t, fa, ba, n_jo, me)
@@ -54,19 +54,7 @@ function process_dna(
 
     pav = joinpath(pao, "call_germline_variant")
 
-    call_germline_variant(
-        mo,
-        ba,
-        ta,
-        fa,
-        chs,
-        chn,
-        pav,
-        n_jo,
-        me,
-        to,
-        pas,
-    )
+    call_germline_variant(mo, ba, ta, fa, chs, chn, pav, n_jo, me, to, pas)
 
     return nothing
 

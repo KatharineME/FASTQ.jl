@@ -16,7 +16,7 @@ function process_soma_dna(
 
     if check_directory(pao, "process somatic dna")
 
-       return nothing
+        return nothing
 
     end
 
@@ -63,28 +63,13 @@ function process_soma_dna(
     if !isfile(fagz)
 
         run_command(
-            pipeline(
-                `gzip --decompress $fa --stdout`,
-                `bgzip --threads $n_jo --stdout`,
-                fagz,
-            ),
+            pipeline(`gzip --decompress $fa --stdout`, `bgzip --threads $n_jo --stdout`, fagz),
         )
 
     end
 
     pava = joinpath(paou, "find_variant")
 
-    return find_variant(
-        pageal,
-        pasoal,
-        ta,
-        fagz,
-        chsi,
-        chna,
-        pava,
-        n_jo,
-        meto,
-        snpeff,
-    )
+    return find_variant(pageal, pasoal, ta, fagz, chsi, chna, pava, n_jo, meto, snpeff)
 
 end

@@ -1,4 +1,11 @@
-function run_docker_container(to::String, fa::String, chs::String, ge::String, pao::String, so=nothing)
+function run_docker_container(
+    to::String,
+    fa::String,
+    chs::String,
+    ge::String,
+    pao::String,
+    so = nothing,
+)
 
     vot = basename(to)
 
@@ -19,7 +26,7 @@ function run_docker_container(to::String, fa::String, chs::String, ge::String, p
     pao = abspath(pao)
 
     voo = basename(pao)
-    
+
     if so != nothing
 
         paso = dirname(abspath(so))
@@ -28,23 +35,24 @@ function run_docker_container(to::String, fa::String, chs::String, ge::String, p
 
         vosofi = joinpath(voso, basename(so))
 
-        id = readlines(pipeline(
-                 `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $paso:/home/$voso --volume $pao:/home/$voo centos:centos6 bash`,
-               )
-       )
+        id = readlines(
+            pipeline(
+                `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $paso:/home/$voso --volume $pao:/home/$voo centos:centos6 bash`,
+            ),
+        )
 
         return id, voo, vof, voc, vogefi, vosofi, vot
 
     else
 
-        id = readlines(pipeline(
-                     `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
-                   )
-           )
+        id = readlines(
+            pipeline(
+                `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
+            ),
+        )
 
         return id, voo, vof, voc, vogefi, vot
 
     end
 
 end
-

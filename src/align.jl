@@ -28,14 +28,11 @@ function align(
         run(
             pipeline(
                 `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" -a $fai $fq1 $fq2`,
-
                 `samtools fixmate --threads $n_jo -u -m - -`,
-
                 `samtools sort --threads $n_jo -u -T $tm`,
-
-                `samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba`
-               )
-           )
+                `samtools markdup --threads $n_jo --reference $fa --output-fmt BAM $ba`,
+            ),
+        )
 
         run(`samtools index -@ $n_jo $ba`)
 
@@ -51,12 +48,16 @@ function align(
             mkdir(ge)
 
             # Generate genome indexes for STAR
-            run(`star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`)
+            run(
+                `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`,
+            )
 
         end
 
         # Run STAR
-        run(`star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $sa`)
+        run(
+            `star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $sa`,
+        )
 
     end
 

@@ -3,7 +3,7 @@ function run_snpeff(pao, me, pas, paco, n_jo)
     sn = joinpath(pao, "snpeff")
 
     snvc = joinpath(sn, "snpeff.vcf.gz")
-    
+
     mkpath(sn)
 
     run(

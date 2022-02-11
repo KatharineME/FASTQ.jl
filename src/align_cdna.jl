@@ -23,14 +23,18 @@ function align_cdna(
 
         println("\nMaking STAR indices (this may take a while)...\n")
 
-        run(`star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`)
+        run(
+            `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $ge --genomeFastaFiles $fa`,
+        )
 
     end
 
     println("\nRunning STAR...\n")
 
-    run(`star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`)
-   
+    run(
+        `star --runThreadN $n_jo --genomeDir $ge --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
+    )
+
     ba = string(pr, "Aligned.sortedByCoord.out.bam")
 
     run(`samtools index -@ $n_jo $ba`)

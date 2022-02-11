@@ -22,7 +22,7 @@ function call_somatic_variant(
 
 
     # Run docker container
-   
+
     id, voo, vof, voc, vogefi, vosofi, vot = run_docker_container(to, fa, chs, ge, pao, so)
 
 
@@ -50,16 +50,20 @@ function call_somatic_variant(
     pav = joinpath("results", "variants")
 
     past = joinpath(voo, "strelka")
-    
+
     pasr = joinpath(past, "runWorkflow.py")
 
     sc = "strelka-2.9.10.centos6_x86_64/bin/configureStrelkaSomaticWorkflow.py"
 
-    re =  readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", pam, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$past && ./home/$pasr $ru"`))
+    re = readlines(
+        pipeline(
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", pam, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$past && ./home/$pasr $ru"`,
+        ),
+    )
 
     println("$(join(re, " "))\n")
 
-   
+
 
     # Remove docker container
 
@@ -69,7 +73,7 @@ function call_somatic_variant(
     # bcftools
 
     sa = joinpath(pao, "sample.txt")
-    
+
     open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
     ie = joinpath(past, pav, "somatic.indels.vcf.gz")
@@ -104,6 +108,6 @@ function call_somatic_variant(
 
     run_snpeff(pao, me, pas, paco, n_jo)
 
-    return nothing 
+    return nothing
 
 end

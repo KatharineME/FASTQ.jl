@@ -1,4 +1,4 @@
-function concatenate(fq_::Vector{Any}, na::String="R1")::Nothing
+function concatenate(fq_::Vector{Any}, na::String = "R1")::Nothing
 
     fo_ = []
 
@@ -37,7 +37,8 @@ function concatenate(fq_::Vector{Any}, na::String="R1")::Nothing
     elseif n_fo <= 1 && n_re <= 1
 
         println(
-            "\nNothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n")
+            "\nNothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n",
+        )
 
     else
 
@@ -47,12 +48,7 @@ function concatenate(fq_::Vector{Any}, na::String="R1")::Nothing
 
         for gr in keys(gr_su)
 
-            run(
-                pipeline(
-                    `cat $gr`,
-                    stdout = joinpath(co, string(sa, gr_su[gr])),
-                ),
-            )
+            run(pipeline(`cat $gr`, stdout = joinpath(co, string(sa, gr_su[gr]))))
 
         end
 
