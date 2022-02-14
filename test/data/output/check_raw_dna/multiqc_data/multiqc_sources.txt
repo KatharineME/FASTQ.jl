@@ -1,0 +1,3 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	test_dna_4k.R2	/Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna/test_dna_4k.R2_fastqc.zip
+FastQC	all_sections	test_dna_4k.R1	/Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna/test_dna_4k.R1_fastqc.zip

@@ -1,0 +1,4 @@
+[2022-02-14T17:59:56.304700Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels_tabix] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:56.318220Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels_tabix] [wrapperSignal] taskStart
+[2022-02-14T17:59:56.323650Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels_tabix] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:56.324637Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels_tabix] [wrapperSignal] taskElapsedSec 0

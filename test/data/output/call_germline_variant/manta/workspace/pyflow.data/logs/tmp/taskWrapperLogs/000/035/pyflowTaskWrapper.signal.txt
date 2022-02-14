@@ -1,0 +1,4 @@
+[2022-02-14T17:59:11.342909Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:makeGraphTmpDir] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:11.357133Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:makeGraphTmpDir] [wrapperSignal] taskStart
+[2022-02-14T17:59:11.360981Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:makeGraphTmpDir] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:11.362046Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:makeGraphTmpDir] [wrapperSignal] taskElapsedSec 0

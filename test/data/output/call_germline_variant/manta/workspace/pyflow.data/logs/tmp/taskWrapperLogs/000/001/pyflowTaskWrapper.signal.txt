@@ -1,0 +1,4 @@
+[2022-02-14T17:59:07.309164Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_generateStats_000] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:07.326197Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_generateStats_000] [wrapperSignal] taskStart
+[2022-02-14T17:59:07.452892Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_generateStats_000] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:07.455099Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_generateStats_000] [wrapperSignal] taskElapsedSec 0

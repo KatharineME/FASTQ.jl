@@ -1,0 +1,3 @@
+Sample	FastQC_mqc-generalstats-fastqc-percent_duplicates	FastQC_mqc-generalstats-fastqc-percent_gc	FastQC_mqc-generalstats-fastqc-avg_sequence_length	FastQC_mqc-generalstats-fastqc-percent_fails	FastQC_mqc-generalstats-fastqc-total_sequences
+test_dna_4k.R1	0.024999999999991473	47.0	124.5355	27.27272727272727	4000.0
+test_dna_4k.R2	0.04999999999999716	47.0	124.4845	18.181818181818183	4000.0

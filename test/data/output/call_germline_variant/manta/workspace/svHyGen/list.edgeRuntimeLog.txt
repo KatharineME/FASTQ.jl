@@ -1,0 +1,1 @@
+/home/call_germline_variant/manta/workspace/svHyGen/edgeRuntimeLog.0000.txt

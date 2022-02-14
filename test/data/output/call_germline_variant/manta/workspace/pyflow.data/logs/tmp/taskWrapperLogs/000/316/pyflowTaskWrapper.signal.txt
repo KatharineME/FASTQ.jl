@@ -1,0 +1,4 @@
+[2022-02-14T17:59:55.963625Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:sort_sortCandidateSV] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:55.978073Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:sort_sortCandidateSV] [wrapperSignal] taskStart
+[2022-02-14T17:59:56.047834Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:sort_sortCandidateSV] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:56.048928Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:sort_sortCandidateSV] [wrapperSignal] taskElapsedSec 0

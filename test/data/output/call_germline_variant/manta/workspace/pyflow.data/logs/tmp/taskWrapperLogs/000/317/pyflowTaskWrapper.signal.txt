@@ -1,0 +1,4 @@
+[2022-02-14T17:59:56.133821Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortCandidateSV] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:56.151689Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortCandidateSV] [wrapperSignal] taskStart
+[2022-02-14T17:59:56.158084Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortCandidateSV] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:56.159173Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortCandidateSV] [wrapperSignal] taskElapsedSec 0

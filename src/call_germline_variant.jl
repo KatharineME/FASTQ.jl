@@ -6,7 +6,7 @@ function call_germline_variant(mo, ge, ta, fa, chs, chn, pao, n_jo, me, to, pas)
 
     # Run docker container
 
-    id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao)
+    id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao, nothing)
 
 
 
@@ -36,7 +36,7 @@ function call_germline_variant(mo, ge, ta, fa, chs, chn, pao, n_jo, me, to, pas)
 
     # Configure and run manta
 
-    pam = configure_and_run_manta(pao, id, vot, co, ru)
+    pam = configure_and_run_manta(voo, id, vot, co, ru)
 
 
     # Configure and run strelka
@@ -45,7 +45,7 @@ function call_germline_variant(mo, ge, ta, fa, chs, chn, pao, n_jo, me, to, pas)
 
     pasr = joinpath(past, "runWorkflow.py")
 
-    sc = "strelka-2.9.10.centos6_x86_64/bin/configureStrelkaGermlineWorkflow.py"
+    sc = "$STRELKA/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(

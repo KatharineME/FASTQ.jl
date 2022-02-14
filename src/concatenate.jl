@@ -30,8 +30,6 @@ function concatenate(fq_, na = "R1")
 
     co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
 
-    @assert make_directory(co, "concatenate")
-
     if n_fo <= 1 && n_re <= 1
 
         println(
@@ -39,6 +37,8 @@ function concatenate(fq_, na = "R1")
         )
 
     else
+
+        @assert make_directory(co, "concatenate")
 
         println("\nConcatenating ...\n")
 

@@ -1,0 +1,4 @@
+[2022-02-14T18:01:36.682485Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+Sample000+countErrors_chromId_000_chr1_0077] [wrapperSignal] wrapperStart
+[2022-02-14T18:01:36.704040Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+Sample000+countErrors_chromId_000_chr1_0077] [wrapperSignal] taskStart
+[2022-02-14T18:01:36.810343Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+Sample000+countErrors_chromId_000_chr1_0077] [wrapperSignal] taskExitCode 0
+[2022-02-14T18:01:36.812338Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+Sample000+countErrors_chromId_000_chr1_0077] [wrapperSignal] taskElapsedSec 0

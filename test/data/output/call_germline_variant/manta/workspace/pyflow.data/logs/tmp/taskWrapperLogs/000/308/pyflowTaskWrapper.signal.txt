@@ -1,0 +1,4 @@
+[2022-02-14T17:59:53.358604Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:mergeLocusGraph] [wrapperSignal] wrapperStart
+[2022-02-14T17:59:53.373476Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:mergeLocusGraph] [wrapperSignal] taskStart
+[2022-02-14T17:59:54.288881Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:mergeLocusGraph] [wrapperSignal] taskExitCode 0
+[2022-02-14T17:59:54.289934Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:mergeLocusGraph] [wrapperSignal] taskElapsedSec 0

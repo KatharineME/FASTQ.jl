@@ -1,0 +1,26 @@
+(dp0
+S'isShellCmd'
+p1
+I01
+sS'cmd'
+p2
+S'cat "/home/call_germline_variant/strelka/workspace/genomeSegment.tmpdir/segment.chromId_008_chr9_0003.genome.S1.vcf" | "/home/tool/strelka-2.9.10.centos6_x86_64/libexec/bgzip9" -c >| "/home/call_germline_variant/strelka/workspace/genomeSegment.tmpdir/segment.chromId_008_chr9_0003.genome.S1.vcf.gz"'
+p3
+sS'errFile'
+p4
+S'/home/call_germline_variant/strelka/workspace/pyflow.data/logs/pyflow_tasks_stderr_log.txt'
+p5
+sS'outFile'
+p6
+S'/home/call_germline_variant/strelka/workspace/pyflow.data/logs/pyflow_tasks_stdout_log.txt'
+p7
+sS'env'
+p8
+NsS'nCores'
+p9
+I1
+sS'cwd'
+p10
+S''
+p11
+s.

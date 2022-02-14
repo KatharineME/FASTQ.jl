@@ -1,0 +1,4 @@
+[2022-02-14T18:03:49.633974Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+removeTmpDir] [wrapperSignal] wrapperStart
+[2022-02-14T18:03:49.649090Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+removeTmpDir] [wrapperSignal] taskStart
+[2022-02-14T18:03:51.306934Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+removeTmpDir] [wrapperSignal] taskExitCode 0
+[2022-02-14T18:03:51.307884Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:EstimateSeqErrorParams+removeTmpDir] [wrapperSignal] taskElapsedSec 1
