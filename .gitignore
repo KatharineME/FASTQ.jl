@@ -50,6 +50,9 @@ test/*
 !test/data/test_dna_4k.R1.fastq.gz
 !test/data/test_dna_4k.R2.fastq.gz
 
+test/data/output
+
+!test/data/output/.gitkeep
 
 tool/*
 

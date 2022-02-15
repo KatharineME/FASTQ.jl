@@ -1,5 +1,7 @@
 module Fastq
 
+include("setting.jl")
+
 include("support/align_cdna.jl")
 
 include("support/align_dna.jl")
@@ -37,8 +39,6 @@ include("support/remove_docker_container.jl")
 include("support/run_docker_container.jl")
 
 include("support/run_snpeff.jl")
-
-include("support/setting.jl")
 
 include("support/test_local_environment.jl")
 
