@@ -1,5 +1,5 @@
-GraphBuildTime	0.0277h wall, 0.0241h user + 0.0009h system = 0.0250h CPU (90.01%)
-GraphMergeTime	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (46.29%)
+GraphBuildTime	0.0348h wall, 0.0308h user + 0.0012h system = 0.0320h CPU (92.00%)
+GraphMergeTime	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (39.39%)
 disjointSubgraphs	0
 nodes	0
 directedEdges	0

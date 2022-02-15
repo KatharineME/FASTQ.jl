@@ -1,4 +1,4 @@
-[2022-02-14T17:59:56.243659Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] wrapperStart
-[2022-02-14T17:59:56.257811Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskStart
-[2022-02-14T17:59:56.264274Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskExitCode 0
-[2022-02-14T17:59:56.265155Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:07:46.814830Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] wrapperStart
+[2022-02-14T23:07:46.833808Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskStart
+[2022-02-14T23:07:46.841722Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:07:46.843216Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:tabix_sortDiploidSV] [wrapperSignal] taskElapsedSec 0

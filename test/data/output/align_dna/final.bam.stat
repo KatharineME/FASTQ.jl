@@ -1,6 +1,6 @@
 # This file was produced by samtools stats (1.14+htslib-1.14) and can be plotted using plot-bamstats
 # This file contains statistics for all reads.
-# The command line was:  stats --threads 8 data/output/align_dna/final.bam
+# The command line was:  stats --threads 8 /Users/kate/craft/tool/Fastq.jl/test/data/output/align_dna/final.bam
 # CHK, Checksum	[2]Read Names	[3]Sequences	[4]Qualities
 # CHK, CRC32 of reads which passed filtering followed by addition (32bit overflow)
 CHK	d7afaea9	209707e1	db230a82

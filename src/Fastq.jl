@@ -1,47 +1,49 @@
 module Fastq
 
-include("align_cdna.jl")
+include("support/align_cdna.jl")
 
-include("align_dna.jl")
+include("support/align_dna.jl")
 
-include("call_germline_variant.jl")
+include("support/call_germline_variant.jl")
 
-include("call_somatic_variant.jl")
+include("support/call_somatic_variant.jl")
 
-include("check_read.jl")
+include("support/check_read.jl")
 
-include("concatenate.jl")
+include("support/concatenate.jl")
 
-include("configure_and_run_manta.jl")
+include("support/configure_and_run_manta.jl")
 
-include("constant.jl")
+include("support/constant.jl")
 
-include("count_transcript.jl")
+include("support/count_transcript.jl")
 
-include("find.jl")
+include("support/find.jl")
 
-include("get_full_path.jl")
+include("support/get_full_path.jl")
 
-include("index_genome_files.jl")
+include("support/index_genome_files.jl")
 
-include("make_directory.jl")
+include("support/make_directory.jl")
 
-include("process_dna.jl")
+include("workflow/process_dna.jl")
 
-include("process_soma_dna.jl")
+include("workflow/process_soma_dna.jl")
 
-include("reheader_vcf.jl")
+include("support/reheader_vcf.jl")
 
-include("remove_docker_container.jl")
+include("support/remove_docker_container.jl")
 
-include("run_docker_container.jl")
+include("support/run_docker_container.jl")
 
-include("run_snpeff.jl")
+include("support/run_snpeff.jl")
 
-include("test_local_environment.jl")
+include("support/setting.jl")
 
-include("test_strelka_and_manta.jl")
+include("support/test_local_environment.jl")
 
-include("trim.jl")
+include("support/test_strelka_and_manta.jl")
+
+include("support/trim.jl")
 
 end

@@ -408,5 +408,5 @@
 		"overrepresented_sequences": {
 		}
 	},
-	"command": "fastp --detect_adapter_for_pe --thread 8 --json data/output/trim/fastp.json --html data/output/trim/fastp.html --in1 data/dna/test_dna_4k.R1.fastq.gz --in2 data/dna/test_dna_4k.R2.fastq.gz --out1 data/output/trim/trimmed.R1.fastq.gz --out2 data/output/trim/trimmed.R2.fastq.gz "
+	"command": "fastp --detect_adapter_for_pe --thread 8 --json /Users/kate/craft/tool/Fastq.jl/test/data/output/trim/fastp.json --html /Users/kate/craft/tool/Fastq.jl/test/data/output/trim/fastp.html --in1 /Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R1.fastq.gz --in2 /Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R2.fastq.gz --out1 /Users/kate/craft/tool/Fastq.jl/test/data/output/trim/trimmed.R1.fastq.gz --out2 /Users/kate/craft/tool/Fastq.jl/test/data/output/trim/trimmed.R2.fastq.gz "
 }

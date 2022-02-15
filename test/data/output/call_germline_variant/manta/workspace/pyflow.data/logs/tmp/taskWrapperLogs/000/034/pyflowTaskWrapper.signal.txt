@@ -1,4 +1,4 @@
-[2022-02-14T17:59:11.344669Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] wrapperStart
-[2022-02-14T17:59:11.358178Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskStart
-[2022-02-14T17:59:11.376619Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskExitCode 0
-[2022-02-14T17:59:11.378558Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:06:51.844261Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] wrapperStart
+[2022-02-14T23:06:51.861730Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskStart
+[2022-02-14T23:06:51.886209Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:06:51.887698Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_removeTmpDir] [wrapperSignal] taskElapsedSec 0

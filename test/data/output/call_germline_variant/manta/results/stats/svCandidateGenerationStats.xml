@@ -3,9 +3,9 @@
 <boost_serialization signature="serialization::archive" version="12">
 <edgeData>
 	<lifeTime>
-		<wall>7.98122999999999916e-01</wall>
+		<wall>8.86370000000000102e-01</wall>
 		<user>3.20000000000000007e-01</user>
-		<system>8.00000000000000017e-02</system>
+		<system>1.60000000000000003e-01</system>
 	</lifeTime>
 	<selfEdges>
 		<totalTime>

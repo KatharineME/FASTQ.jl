@@ -1,4 +1,4 @@
-[2022-02-14T18:05:33.059042Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] wrapperStart
-[2022-02-14T18:05:33.080269Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskStart
-[2022-02-14T18:05:33.088523Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskExitCode 0
-[2022-02-14T18:05:33.090093Z] [84d7d473757e] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:12:39.162160Z] [9c51e7188033] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] wrapperStart
+[2022-02-14T23:12:39.196162Z] [9c51e7188033] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskStart
+[2022-02-14T23:12:39.209693Z] [9c51e7188033] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:12:39.212114Z] [9c51e7188033] [1734_1] [pyflowTaskWrapper:CallGenome+compressGenomeSegment_chromId_002_chr3_0016_gVCF_S1] [wrapperSignal] taskElapsedSec 0

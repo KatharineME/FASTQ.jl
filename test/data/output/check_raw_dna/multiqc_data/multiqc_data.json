@@ -133,7 +133,7 @@
             }
         }
     ],
-    "report_multiqc_command": "/Users/kate/.pyenv/versions/3.10.2/bin/multiqc --outdir data/output/check_raw_dna data/output/check_raw_dna",
+    "report_multiqc_command": "/Users/kate/.pyenv/versions/3.10.2/bin/multiqc --outdir /Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna /Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna",
     "report_plot_data": {
         "fastqc_sequence_counts_plot": {
             "plot_type": "bar_graph",
@@ -3860,9 +3860,9 @@
         "/Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna"
     ],
     "config_analysis_dir": [
-        "data/output/check_raw_dna"
+        "/Users/kate/craft/tool/Fastq.jl/test/data/output/check_raw_dna"
     ],
-    "config_creation_date": "2022-02-14, 10:52",
+    "config_creation_date": "2022-02-15, 13:46",
     "config_git_hash": null,
     "config_intro_text": null,
     "config_report_comment": null,

@@ -1,6 +1,6 @@
 EdgeStatsReport
-SVGenTotalHours	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (50.12%)
-NonEdgeHours	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (50.12%)
+SVGenTotalHours	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (54.15%)
+NonEdgeHours	0.0002h wall, 0.0001h user + 0.0000h system = 0.0001h CPU (54.15%)
 
 [AllEdges]
 InputEdgeCount	0

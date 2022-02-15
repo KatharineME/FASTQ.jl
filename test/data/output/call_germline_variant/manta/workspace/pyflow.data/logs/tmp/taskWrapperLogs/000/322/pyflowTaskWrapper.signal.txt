@@ -1,4 +1,4 @@
-[2022-02-14T17:59:56.133832Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] wrapperStart
-[2022-02-14T17:59:56.151724Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskStart
-[2022-02-14T17:59:56.208905Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskExitCode 0
-[2022-02-14T17:59:56.209923Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:07:46.704518Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] wrapperStart
+[2022-02-14T23:07:46.725941Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskStart
+[2022-02-14T23:07:46.803260Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:07:46.804702Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:extractSmallIndels] [wrapperSignal] taskElapsedSec 0

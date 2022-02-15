@@ -1,4 +1,4 @@
-[2022-02-14T17:59:54.496125Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] wrapperStart
-[2022-02-14T17:59:54.512327Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskStart
-[2022-02-14T17:59:54.542666Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskExitCode 0
-[2022-02-14T17:59:54.543833Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:07:45.846711Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] wrapperStart
+[2022-02-14T23:07:45.870015Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskStart
+[2022-02-14T23:07:45.899316Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:07:45.901215Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:locusGraphStats] [wrapperSignal] taskElapsedSec 0

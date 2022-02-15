@@ -1,4 +1,4 @@
-[2022-02-14T17:59:07.174977Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] wrapperStart
-[2022-02-14T17:59:07.198936Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskStart
-[2022-02-14T17:59:07.204485Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskExitCode 0
-[2022-02-14T17:59:07.206177Z] [84d7d473757e] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskElapsedSec 0
+[2022-02-14T23:06:46.893629Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] wrapperStart
+[2022-02-14T23:06:46.919176Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskStart
+[2022-02-14T23:06:46.925922Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskExitCode 0
+[2022-02-14T23:06:46.927696Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getAlignmentStats_makeTmpDir] [wrapperSignal] taskElapsedSec 0
