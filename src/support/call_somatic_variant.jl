@@ -20,10 +20,14 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     end
 
+    # Set runtime parameters
 
+    ru = set_strelka_manta_run(n_jo, me)
+
+    
     # Configure and run manta
 
-    vom = configure_and_run_manta(voo, id, vot, co, RU)
+    vom = configure_and_run_manta(voo, id, vot, co, ru)
 
 
     # Configure and run strelka
@@ -50,7 +54,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
     remove_docker_container(id)
 
 
-    # bcftools
+    # Combine vcfs
 
     past = joinpath(pao, "strelka")
 

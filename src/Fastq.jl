@@ -36,6 +36,8 @@ include("support/run_docker_container.jl")
 
 include("support/run_snpeff.jl")
 
+include("support/set_strelka_manta_run.jl")
+
 include("support/test_local_environment.jl")
 
 include("support/test_strelka_and_manta.jl")

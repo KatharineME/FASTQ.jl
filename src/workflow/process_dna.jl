@@ -1,6 +1,6 @@
 function process_dna(se)
 
-    n_jo, me, mo, ta, sa, to, ou, ger1, ger2, _, _, ge, _, chs, chn, sn = read_setting(se)
+    n_jo, me, mo, ta, _, _, sa, to, ou, ger1, ger2, _, _, ge, _, chs, chn, sn = read_setting(se)
 
     @assert make_directory(ou, "process dna")
 

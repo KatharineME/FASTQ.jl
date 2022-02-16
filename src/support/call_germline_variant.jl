@@ -27,9 +27,14 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
     end
 
 
+    # Set runtime parameters
+
+    ru = set_strelka_manta_run(n_jo, me)
+
+
     # Configure and run manta
 
-    configure_and_run_manta(voo, id, vot, co, RU)
+    configure_and_run_manta(voo, id, vot, co, ru)
 
 
     # Configure and run strelka
@@ -54,7 +59,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
     remove_docker_container(id)
 
 
-    ## bcftools
+    ## Combine vcfs
 
     pav = joinpath("results", "variants")
 

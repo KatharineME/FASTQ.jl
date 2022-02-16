@@ -7,6 +7,10 @@
 
     "ta": false,
 
+    "fr": 51,
+
+    "sd": 0.05,
+
     "sa": "test",
 
     "to": "../tool",

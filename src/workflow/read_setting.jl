@@ -12,6 +12,10 @@ function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_e
 
     ta = fe_va["ta"]
 
+    fr = fe_va["fe"]
+
+    sd = fe_va["sd"]
+
     sa = fe_va["sa"]
 
     to = fe_va["to"]
@@ -36,6 +40,6 @@ function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_e
 
     sn = fe_va["sn"]
 
-    return n_jo, me, mo, ta, sa, to, ou, ger1, ger2, sor1, sor2, ge, tr, chs, chn, sn
+    return n_jo, me, mo, ta, fr, sd, sa, to, ou, ger1, ger2, sor1, sor2, ge, tr, chs, chn, sn
 
 end
