@@ -1,4 +1,0 @@
-[2022-02-14T23:07:33.126601Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:makeLocusGraph_chromId_008_chr9-1-138394717_0011] [wrapperSignal] wrapperStart
-[2022-02-14T23:07:33.154501Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:makeLocusGraph_chromId_008_chr9-1-138394717_0011] [wrapperSignal] taskStart
-[2022-02-14T23:07:33.950023Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:makeLocusGraph_chromId_008_chr9-1-138394717_0011] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:07:33.951844Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:makeLocusGraph_chromId_008_chr9-1-138394717_0011] [wrapperSignal] taskElapsedSec 0

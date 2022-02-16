@@ -1,1 +1,0 @@
-/home/call_germline_variant/manta/workspace/svHyGen/diploidSV.0000.vcf

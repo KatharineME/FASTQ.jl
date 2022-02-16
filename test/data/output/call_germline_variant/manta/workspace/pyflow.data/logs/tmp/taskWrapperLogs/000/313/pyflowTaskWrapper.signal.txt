@@ -1,4 +1,0 @@
-[2022-02-14T23:07:45.989767Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:generateCandidateSV_0000] [wrapperSignal] wrapperStart
-[2022-02-14T23:07:46.008265Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:generateCandidateSV_0000] [wrapperSignal] taskStart
-[2022-02-14T23:07:46.178710Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:generateCandidateSV_0000] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:07:46.180176Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:generateCandidateSV_0000] [wrapperSignal] taskElapsedSec 0

@@ -1,4 +1,0 @@
-[2022-02-14T23:07:46.326855Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sortEdgeRuntimeLogs] [wrapperSignal] wrapperStart
-[2022-02-14T23:07:46.350458Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sortEdgeRuntimeLogs] [wrapperSignal] taskStart
-[2022-02-14T23:07:46.435644Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sortEdgeRuntimeLogs] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:07:46.437212Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sortEdgeRuntimeLogs] [wrapperSignal] taskElapsedSec 0

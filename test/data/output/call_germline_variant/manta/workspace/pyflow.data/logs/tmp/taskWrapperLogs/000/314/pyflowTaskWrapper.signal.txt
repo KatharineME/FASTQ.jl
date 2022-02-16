@@ -1,4 +1,0 @@
-[2022-02-14T23:07:46.319454Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:fixVcfHeader_sortCandidateSV] [wrapperSignal] wrapperStart
-[2022-02-14T23:07:46.340144Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:fixVcfHeader_sortCandidateSV] [wrapperSignal] taskStart
-[2022-02-14T23:07:46.387395Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:fixVcfHeader_sortCandidateSV] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:07:46.388829Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:fixVcfHeader_sortCandidateSV] [wrapperSignal] taskElapsedSec 0

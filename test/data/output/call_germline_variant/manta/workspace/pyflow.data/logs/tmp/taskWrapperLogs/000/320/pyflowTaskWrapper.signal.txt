@@ -1,4 +1,0 @@
-[2022-02-14T23:07:46.500575Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sort_sortDiploidSV] [wrapperSignal] wrapperStart
-[2022-02-14T23:07:46.520513Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sort_sortDiploidSV] [wrapperSignal] taskStart
-[2022-02-14T23:07:46.709675Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sort_sortDiploidSV] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:07:46.711240Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:sort_sortDiploidSV] [wrapperSignal] taskElapsedSec 0

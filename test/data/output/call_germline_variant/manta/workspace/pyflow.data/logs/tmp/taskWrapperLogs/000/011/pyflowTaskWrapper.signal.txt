@@ -1,4 +1,0 @@
-[2022-02-14T23:06:47.282504Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_sample000_estimateChromDepth_004_chr5] [wrapperSignal] wrapperStart
-[2022-02-14T23:06:47.318593Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_sample000_estimateChromDepth_004_chr5] [wrapperSignal] taskStart
-[2022-02-14T23:06:48.313144Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_sample000_estimateChromDepth_004_chr5] [wrapperSignal] taskExitCode 0
-[2022-02-14T23:06:48.315434Z] [9c51e7188033] [51_1] [pyflowTaskWrapper:getChromDepth_sample000_estimateChromDepth_004_chr5] [wrapperSignal] taskElapsedSec 0
