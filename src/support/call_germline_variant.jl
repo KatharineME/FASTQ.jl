@@ -55,7 +55,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
 
     ## bcftools
-    
+
     pav = joinpath("results", "variants")
 
     if mo == "cdna"
@@ -64,7 +64,10 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     else
 
-        vc_ = [joinpath(pao, "manta", pav, "diploidSV.vcf.gz"), joinpath(pao, "strelka", pav, "variants.vcf.gz")]
+        vc_ = [
+            joinpath(pao, "manta", pav, "diploidSV.vcf.gz"),
+            joinpath(pao, "strelka", pav, "variants.vcf.gz"),
+        ]
 
     end
 

@@ -22,16 +22,16 @@ function process_soma_dna(se)
 
     trso = joinpath(ou, "trim", "somatic")
 
-    sr1 = joinpath(trso, TRIMMED_R1) 
+    sr1 = joinpath(trso, TRIMMED_R1)
 
     sr2 = joinpath(trso, TRIMMED_R2)
-   
+
     for g in [[ger1, ger2, trge], [sor1, sor2, trso]]
 
         trim(g[1], g[2], g[3], n_jo)
 
     end
-    
+
     check_read([gr1, gr2, sr1, sr2], joinpath(ou, "check_trim"), n_jo)
 
     al = joinpath(ou, "align_$mo")

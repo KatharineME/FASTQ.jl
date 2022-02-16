@@ -33,7 +33,7 @@ function process_dna(se)
         align_dna(al, sa, ba, r1t, r2t, ge, n_jo, me)
 
     elseif mo == "cdna"
-        
+
         align_cdna(al, sa, r1t, r2t, ge, n_jo)
 
     end

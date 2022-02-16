@@ -7,4 +7,3 @@ const RU = "--mode local --jobs $n_jo --memGb $me --quiet" # strelka and manta r
 const TRIMMED_R1 = "trimmed.R1.fastq.gz"
 
 const TRIMMED_R2 = "trimmed.R2.fastq.gz"
-

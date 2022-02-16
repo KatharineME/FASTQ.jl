@@ -51,7 +51,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
 
     # bcftools
-    
+
     past = joinpath(pao, "strelka")
 
     sa = joinpath(pao, "sample.txt")
