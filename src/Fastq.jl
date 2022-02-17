@@ -18,8 +18,6 @@ include("support/configure_and_run_manta.jl")
 
 include("support/constant.jl")
 
-include("support/count_transcript.jl")
-
 include("support/find.jl")
 
 include("support/get_full_path.jl")
@@ -27,6 +25,8 @@ include("support/get_full_path.jl")
 include("support/index_genome_files.jl")
 
 include("support/make_directory.jl")
+
+include("support/psuedoalign.jl")
 
 include("support/reheader_vcf.jl")
 

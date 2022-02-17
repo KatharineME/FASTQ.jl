@@ -1,4 +1,4 @@
-function align_cdna(al, sa, fq1, fq2, ge, n_jo)
+function align_cdna(al, sa, r1, r2, ge, n_jo)
 
     @assert make_directory(al, "align cdna")
 
@@ -18,10 +18,10 @@ function align_cdna(al, sa, fq1, fq2, ge, n_jo)
 
     println("\nRunning STAR...\n")
 
-    pr = joinpath(al, "$(sa)_")
+    pr = joinpath(al, "$(sa).")
 
     run(
-        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $fq1 $fq2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
+        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
     )
 
     ba = string(pr, "Aligned.sortedByCoord.out.bam")

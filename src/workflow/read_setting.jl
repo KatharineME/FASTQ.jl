@@ -1,6 +1,6 @@
 using JSON: parsefile
 
-function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_example.json"))
+function read_setting(se)
 
     fe_va = parsefile(se)
 
@@ -12,7 +12,7 @@ function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_e
 
     ta = fe_va["ta"]
 
-    fr = fe_va["fe"]
+    fr = fe_va["fr"]
 
     sd = fe_va["sd"]
 
@@ -22,9 +22,9 @@ function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_e
 
     ou = fe_va["ou"]
 
-    ger1 = fe_va["ger1"]
+    r1 = fe_va["r1"]
 
-    ger2 = fe_va["ger2"]
+    r2 = fe_va["r2"]
 
     sor1 = fe_va["sor1"]
 
@@ -40,6 +40,6 @@ function read_setting(se = joinpath(dirname(dirname(@__DIR__)), "input/setting_e
 
     sn = fe_va["sn"]
 
-    return n_jo, me, mo, ta, fr, sd, sa, to, ou, ger1, ger2, sor1, sor2, ge, tr, chs, chn, sn
+    return n_jo, me, mo, ta, fr, sd, sa, to, ou, r1, r2, sor1, sor2, ge, tr, chs, chn, sn
 
 end

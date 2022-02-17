@@ -1,19 +1,20 @@
 function examine_read(se)
 
-    n_jo, _, _, _, _, _, ou, ger1, ger2, sor1, sor2, _, _, _, _, _ = read_setting(se)
+    n_jo, _, _, _, _, _, _, _, ou, r1, r2, sor1, sor2, _, _, _, _, _ = read_setting(se)
 
-    find(dirname(ger1))
+    find(dirname(r1))
 
-    if ger1 !== nothing && sor1 !== nothing
+    println()
 
-        re_ = [ger1, ger2, sor1, sor2]
-
+    if sor1 !== nothing
+        
         find(dirname(sor1))
 
+        re_ = [r1, r2, sor1, sor2]
 
     else
 
-        re_ = [ger1, ger2]
+        re_ = [r1, r2]
 
     end
 

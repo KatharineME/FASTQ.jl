@@ -13,13 +13,13 @@
 
     "sa": "test",
 
-    "to": "../tool",
+    "to": "/Users/kate/craft/tool/Fastq.jl/tool",
 
     "ou": "/Users/kate/craft/tool/Fastq.jl/test/data/output",
 
-    "ger1": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R1.fastq.gz",
+    "r1": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R1.fastq.gz",
 
-    "ger2": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R2.fastq.gz",
+    "r2": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R2.fastq.gz",
 
     "sor1": "/Users/kate/craft/data/2451_copy/raw_data/G2451/G2451_10K_R1.fq.gz",
 

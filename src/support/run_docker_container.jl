@@ -20,6 +20,12 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
     voo = basename(pao)
 
+    com = ["docker", "run", "--interactive", "--detach", "--tty", "--user", "root", "--memory=30g"]
+
+    vo = ["--volume", "$to:/home/$vot", "--volume", "$page:/home/$voge", "--volume", "$pag:/home/$vog", "--volume", "$pao:/home/$voo"]
+
+    con = ["centos:centos6", "bash"]
+
     if so !== nothing
 
         paso = dirname(get_full_path(so))
@@ -30,7 +36,7 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
         id = readlines(
             pipeline(
-                `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $paso:/home/$voso --volume $pao:/home/$voo centos:centos6 bash`,
+                `$com $vo --volume $paso:/home/$voso $con`,
             ),
         )
 
@@ -40,7 +46,7 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
         id = readlines(
             pipeline(
-                `docker run --interactive --detach --tty --user root --memory=30g --volume $to:/home/$vot --volume $page:/home/$voge --volume $pag:/home/$vog --volume $pao:/home/$voo centos:centos6 bash`,
+                `$com $vo $con`,
             ),
         )
 

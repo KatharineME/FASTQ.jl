@@ -1,10 +1,12 @@
 function process_soma_dna(se)
 
-    n_jo, me, mo, ta, sa, to, ou, ger1, ger2, sor1, sor2, ge, _, chs, chn, sn = read_setting(se)
+    n_jo, me, mo, ta, _, _, sa, to, ou, r1, r2, sor1, sor2, ge, _, chs, chn, sn = read_setting(se)
 
-    @assert make_directory(ou, "process somatic dna")
+    pa = joinpath(ou, "process_somatic_dna")
 
-    for pa in [ger1, ger2, sor1, sor2, ge, chs, chn, sn]
+    @assert make_directory(pa, "process somatic dna")
+
+    for pa in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 
         if !isfile(pa)
 
@@ -14,27 +16,27 @@ function process_soma_dna(se)
 
     end
 
-    trge = joinpath(ou, "trim", "germline")
+    trge = joinpath(pa, "trim", "germline")
 
     gr1 = joinpath(trge, TRIMMED_R1)
 
     gr2 = joinpath(trge, TRIMMED_R2)
 
-    trso = joinpath(ou, "trim", "somatic")
+    trso = joinpath(pa, "trim", "somatic")
 
     sr1 = joinpath(trso, TRIMMED_R1)
 
     sr2 = joinpath(trso, TRIMMED_R2)
 
-    for g in [[ger1, ger2, trge], [sor1, sor2, trso]]
+    for g in [[r1, r2, trge], [sor1, sor2, trso]]
 
         trim(g[1], g[2], g[3], n_jo)
 
     end
 
-    check_read([gr1, gr2, sr1, sr2], joinpath(ou, "check_trim"), n_jo)
+    check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), n_jo)
 
-    al = joinpath(ou, "align_$mo")
+    al = joinpath(pa, "align_$mo")
 
     bage = joinpath(al, "$sa.germline.bam")
 
@@ -46,7 +48,7 @@ function process_soma_dna(se)
 
     end
 
-    pav = joinpath(ou, "call_somatic_variant")
+    pav = joinpath(pa, "call_somatic_variant")
 
     call_somatic_variant(ta, bage, baso, ge, chs, chn, pav, n_jo, me, to, sn)
 

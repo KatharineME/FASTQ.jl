@@ -1,10 +1,12 @@
 function process_dna(se)
 
-    n_jo, me, mo, ta, _, _, sa, to, ou, ger1, ger2, _, _, ge, _, chs, chn, sn = read_setting(se)
+    n_jo, me, mo, ta, _, _, sa, to, ou, r1, r2, _, _, ge, _, chs, chn, sn = read_setting(se)
 
-    @assert make_directory(ou, "process dna")
+    pa = joinpath(ou, "process_dna")
 
-    for pa in [ger1, ger2, ge, chs, chn, sn]
+    @assert make_directory(pa, "process dna")
+
+    for pa in [r1, r2, ge, chs, chn, sn]
 
         if !isfile(pa)
 
@@ -14,17 +16,17 @@ function process_dna(se)
 
     end
 
-    tr = joinpath(ou, "trim/")
+    tr = joinpath(pa, "trim/")
 
-    trim(ger1, ger2, tr, n_jo)
+    trim(r1, r2, tr, n_jo)
 
     r1t = joinpath(tr, TRIMMED_R1)
 
     r2t = joinpath(tr, TRIMMED_R2)
 
-    check_read([r1t, r2t], joinpath(ou, "check_trim"), n_jo)
+    check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
 
-    al = joinpath(ou, "align_$mo")
+    al = joinpath(pa, "align_$mo")
 
     ba = joinpath(al, "$sa.bam")
 
@@ -37,10 +39,12 @@ function process_dna(se)
         align_cdna(al, sa, r1t, r2t, ge, n_jo)
 
     end
+    
+    bam = joinpath(al, "$sa.markdup.bam")
 
-    pav = joinpath(ou, "call_germline_variant")
+    pav = joinpath(pa, "call_germline_variant")
 
-    call_germline_variant(mo, ta, ba, ge, chs, chn, pav, n_jo, me, to, sn)
+    call_germline_variant(mo, ta, bam, ge, chs, chn, pav, n_jo, me, to, sn)
 
     return
 

@@ -1,8 +1,8 @@
-function index_genome_files(fa, chs)
+function index_genome_files(ge, chs)
 
-    if !(isfile("$fa.fai") && ispath("$fa.gzi"))
+    if !(isfile("$ge.fai") && ispath("$ge.gzi"))
 
-        run(`samtools faidx $fa`)
+        run(`samtools faidx $ge`)
 
     end
 
