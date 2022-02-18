@@ -18,7 +18,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     fu = ["kallisto", "quant"]
 
-    ru = ["--threads","$n_jo", "--index", "$id", "--output-dir",  "$pa"]
+    ru = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$pa"]
 
     if r2 !== nothing
 
@@ -30,9 +30,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
         println("Running single end psuedoalignment")
 
-        run(
-            `$fu --single --fragment-length $fr --sd $sd $ru $r1`,
-        )
+        run(`$fu --single --fragment-length $fr --sd $sd $ru $r1`)
 
     end
 

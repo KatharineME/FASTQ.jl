@@ -4,7 +4,7 @@ function make_directory(pa, pr)
 
     if !ispath(pa)
 
-        mkdir(pa)
+        mkpath(pa)
 
         return true
 

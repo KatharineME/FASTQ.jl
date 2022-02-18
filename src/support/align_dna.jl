@@ -10,7 +10,7 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
     end
 
-    tm = joinpath(al, "samtools_sort.bam")
+    tm = joinpath(al, "samtools_sort")
 
     run(
         pipeline(

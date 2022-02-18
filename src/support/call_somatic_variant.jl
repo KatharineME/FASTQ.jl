@@ -7,8 +7,23 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     # Run docker container
 
+    println()
+
+    println(ge)
+
+    println(so)
+
+    println()
+
     id, voo, vof, voc, vogefi, vosofi, vot = run_docker_container(to, fa, chs, ge, pao, so)
 
+    println()
+
+    println(vogefi)
+
+    println(vosofi)
+
+    println()
 
     # Set config parameters
 
@@ -24,7 +39,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     ru = set_strelka_manta_run(n_jo, me)
 
-    
+
     # Configure and run manta
 
     vom = configure_and_run_manta(voo, id, vot, co, ru)

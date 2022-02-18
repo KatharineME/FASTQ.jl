@@ -6,17 +6,19 @@ function process_soma_dna(se)
 
     @assert make_directory(pa, "process somatic dna")
 
-    for pa in [r1, r2, sor1, sor2, ge, chs, chn, sn]
+    for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 
-        if !isfile(pa)
+        if !isfile(fi)
 
-            error("$pa does not exist.")
+            error("$fi does not exist.")
 
         end
 
     end
 
     trge = joinpath(pa, "trim", "germline")
+
+    println("im here")
 
     gr1 = joinpath(trge, TRIMMED_R1)
 
@@ -36,21 +38,27 @@ function process_soma_dna(se)
 
     check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), n_jo)
 
-    al = joinpath(pa, "align_$mo")
+    alg = joinpath(pa, "align_$(mo)_germline")
 
-    bage = joinpath(al, "$sa.germline.bam")
+    als = joinpath(pa, "align_$(mo)_somatic")
 
-    baso = joinpath(al, "$sa.somatic.bam")
+    bage = joinpath(alg, "$sa.bam")
 
-    for g in [[bage, gr2, gr2], [baso, sr1, sr2]]
+    baso = joinpath(als, "$sa.bam")
 
-        align_dna(al, sa, g[1], g[2], g[3], ge, n_jo, me)
+    for g in [[alg, bage, gr2, gr2], [als, baso, sr1, sr2]]
+
+        align_dna(g[1], sa, g[2], g[3], g[4], ge, n_jo, me)
 
     end
 
     pav = joinpath(pa, "call_somatic_variant")
 
-    call_somatic_variant(ta, bage, baso, ge, chs, chn, pav, n_jo, me, to, sn)
+    bagem = joinpath(alg, "$sa.markdup.bam")
+
+    basom = joinpath(als, "$sa.markdup.bam")
+
+    call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, to, sn)
 
     return
 

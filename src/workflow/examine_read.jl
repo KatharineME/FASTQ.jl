@@ -6,15 +6,15 @@ function examine_read(se)
 
     println()
 
-    if sor1 !== nothing
-        
-        find(dirname(sor1))
+    if isempty(sor1) || sor1 === nothing
 
-        re_ = [r1, r2, sor1, sor2]
+        re_ = [r1, r2]
 
     else
 
-        re_ = [r1, r2]
+        find(dirname(sor1))
+
+        re_ = [r1, r2, sor1, sor2]
 
     end
 

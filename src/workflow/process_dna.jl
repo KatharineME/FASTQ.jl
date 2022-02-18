@@ -39,7 +39,7 @@ function process_dna(se)
         align_cdna(al, sa, r1t, r2t, ge, n_jo)
 
     end
-    
+
     bam = joinpath(al, "$sa.markdup.bam")
 
     pav = joinpath(pa, "call_germline_variant")
