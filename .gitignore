@@ -38,21 +38,7 @@ docs/site/
 
 deps/lib
 
-test/*
-
-!test/runtests.jl
-!test/runtests.ipynb
-
-!test/data
-
-!test/data/test_cdna_4k.R1.fastq.gz
-!test/data/test_cdna_4k.R2.fastq.gz
-!test/data/test_dna_4k.R1.fastq.gz
-!test/data/test_dna_4k.R2.fastq.gz
-
-test/data/output
-
-!test/data/output/.gitkeep
+test/data/output/*
 
 tool/*
 
