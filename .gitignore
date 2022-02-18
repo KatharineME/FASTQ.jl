@@ -36,12 +36,10 @@ docs/site/
 # ---
 # Package specific things
 
-deps/lib
-
-test/data/output/*
-
 tool/*
 
 !tool/fastp.zip
 !tool/STAR-2.7.9a.zip
 !tool/minimap2-2.24.zip
+
+test/data/output/*
