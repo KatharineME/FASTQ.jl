@@ -1,6 +1,6 @@
 function align_cdna(al, sa, r1, r2, ge, n_jo)
 
-    @assert make_directory(al, "align cdna")
+    @assert Fastq.submodule_name.make_directory(al, "align cdna")
 
     id = joinpath(dirname(ge), "star_indexes")
 
@@ -16,7 +16,7 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
     end
 
-    println("\nRunning STAR...\n")
+    #log("Running STAR")
 
     pr = joinpath(al, "$(sa).")
 
@@ -24,7 +24,7 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
         `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
     )
 
-    ba = string(pr, "Aligned.sortedByCoord.out.bam")
+    ba = "$(pr)Aligned.sortedByCoord.out.bam"
 
     run(`samtools index -@ $n_jo $ba`)
 
@@ -32,6 +32,18 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
     println("\ncDNA Alignment finished\n")
 
-    return
-
 end
+
+#function log(io, st)
+#
+#    me = "($time) $st" 
+#
+#    write(io, st)
+#
+#    println("="^99)
+#
+#    println(st)
+#
+#    println("="^99)
+#
+#end

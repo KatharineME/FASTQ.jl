@@ -1,10 +1,10 @@
 function test_strelka_and_manta(pa)
 
-    for pr in [MANTA, STRELKA]
+    for pr in (MANTA, STRELKA)
 
         if !(pr in readdir(pa))
 
-            error("You dont have the correct version ($pr)")
+            error("you dont have the correct version ($pr)")
 
         end
 

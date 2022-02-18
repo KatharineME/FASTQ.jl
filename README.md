@@ -1,8 +1,8 @@
 # Fastq.jl
 
-Turns raw sequencing reads into intpretable files like: VCF for variants or a gene by sample matrix for gene expression analysis.
+Turns raw sequencing reads into intpretable files: VCF for variants or a gene by sample matrix for gene expression analysis.
 
-## Get Started on MacOS
+## Get started on MacOS
 
 ### Prepare environment
 
@@ -24,7 +24,7 @@ IF programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
 Compile fastp from source
 
-```sh
+```bash
 git clone https://github.com/OpenGene/fastp.git
 cd fastp
 make
@@ -34,15 +34,16 @@ sudo make install
 
 Compile minimap2 from source
 
-```sh
+```bash
 # Download source code for minimap2-2.24 from https://github.com/lh3/minimap2/releases
 cd minimap2-2.24
+
 make
 ```
 
 Compile star from source
 
-```sh
+```bash
 # Download STAR 2.7.9.a from https://github.com/alexdobin/STAR/releases
 brew install gcc
 cd STAR-2.7.9a/source
@@ -226,10 +227,12 @@ Concatenate two vcfs with the same sample set.
 
 will rename the chromosmes in a vcf according to the text file passed.
 
-## Contribution
+---
 
-To report a bug, request a feature, or leave a comment (about anything related to this repository), just [submit an issue](https://github.com/KatharineME/Fastq.jl.jl/issues/new/choose).
+## :wave: :cowboy_hat_face: Howdy
+
+To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/GIT_USER_NAME/TEMPLATE.jl/issues/new/choose).
 
 ---
 
-Made by https://github.com/KwatMDPhD/PkgRepository.jl
+_Powered by https://github.com/KwatMDPhD/PkgRepository.jl_
