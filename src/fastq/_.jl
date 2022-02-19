@@ -1,13 +1,17 @@
 module fastq
 
-#using stuff
-#using other_stuff
-#using ..Fastq
+include("align_cdna.jl")
 
-CO = "constant"
+include("align_dna.jl")
+
+include("check_read.jl")
+
+include("concatenate.jl")
+
+include("find.jl")
+
+include("psuedoalign.jl")
 
 include("trim.jl")
-
-#include("another_path.jl")
 
 end
