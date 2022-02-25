@@ -20,23 +20,23 @@ function process_soma_dna(se)
 
     println("im here")
 
-    gr1 = joinpath(trge, TRIMMED_R1)
+    gr1 = joinpath(trge, Fastq.TRIMMED_R1)
 
-    gr2 = joinpath(trge, TRIMMED_R2)
+    gr2 = joinpath(trge, Fastq.TRIMMED_R2)
 
     trso = joinpath(pa, "trim", "somatic")
 
-    sr1 = joinpath(trso, TRIMMED_R1)
+    sr1 = joinpath(trso, Fastq.TRIMMED_R1)
 
-    sr2 = joinpath(trso, TRIMMED_R2)
+    sr2 = joinpath(trso, Fastq.TRIMMED_R2)
 
     for g in [[r1, r2, trge], [sor1, sor2, trso]]
 
-        trim(g[1], g[2], g[3], n_jo)
+        Fastq.fastq.trim(g[1], g[2], g[3], n_jo)
 
     end
 
-    check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), n_jo)
+    Fastq.fastq.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), n_jo)
 
     alg = joinpath(pa, "align_$(mo)_germline")
 
@@ -48,7 +48,7 @@ function process_soma_dna(se)
 
     for g in [[alg, bage, gr2, gr2], [als, baso, sr1, sr2]]
 
-        align_dna(g[1], sa, g[2], g[3], g[4], ge, n_jo, me)
+        Fastq.fastq.align_dna(g[1], sa, g[2], g[3], g[4], ge, n_jo, me)
 
     end
 
@@ -58,7 +58,7 @@ function process_soma_dna(se)
 
     basom = joinpath(als, "$sa.markdup.bam")
 
-    call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, to, sn)
+    Fastq.bam.call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, to, sn)
 
     return
 

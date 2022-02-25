@@ -2,13 +2,13 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
     vot = basename(to)
 
-    page = dirname(get_full_path(ge))
+    page = dirname(Fastq.support.get_full_path(ge))
 
     voge = basename(page)
 
     vogefi = joinpath(voge, basename(ge))
 
-    pag = dirname(get_full_path(fa))
+    pag = dirname(Fastq.support.get_full_path(fa))
 
     vog = basename(pag)
 
@@ -16,7 +16,7 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
     voc = joinpath(vog, "chromosome", basename(chs))
 
-    pao = get_full_path(pao)
+    pao = Fastq.support.get_full_path(pao)
 
     voo = basename(pao)
 
@@ -37,7 +37,7 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
     if so !== nothing
 
-        paso = dirname(get_full_path(so))
+        paso = dirname(Fastq.support.get_full_path(so))
 
         voso = basename(paso)
 

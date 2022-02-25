@@ -1,6 +1,6 @@
 function align_cdna(al, sa, r1, r2, ge, n_jo)
 
-    @assert Fastq.submodule_name.make_directory(al, "align cdna")
+    @assert Fastq.support.make_directory(al, "align cdna")
 
     id = joinpath(dirname(ge), "star_indexes")
 

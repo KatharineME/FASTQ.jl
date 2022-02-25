@@ -18,13 +18,13 @@ function process_dna(se)
 
     tr = joinpath(pa, "trim/")
 
-    trim(r1, r2, tr, n_jo)
+    Fastq.fastq.trim(r1, r2, tr, n_jo)
 
-    r1t = joinpath(tr, TRIMMED_R1)
+    r1t = joinpath(tr, Fastq.TRIMMED_R1)
 
-    r2t = joinpath(tr, TRIMMED_R2)
+    r2t = joinpath(tr, Fastq.TRIMMED_R2)
 
-    check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
+    Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
 
     al = joinpath(pa, "align_$mo")
 
@@ -32,11 +32,11 @@ function process_dna(se)
 
     if mo == "dna"
 
-        align_dna(al, sa, ba, r1t, r2t, ge, n_jo, me)
+        Fastq.fastq.align_dna(al, sa, ba, r1t, r2t, ge, n_jo, me)
 
     elseif mo == "cdna"
 
-        align_cdna(al, sa, r1t, r2t, ge, n_jo)
+        Fastq.fastq.align_cdna(al, sa, r1t, r2t, ge, n_jo)
 
     end
 
@@ -44,7 +44,7 @@ function process_dna(se)
 
     pav = joinpath(pa, "call_germline_variant")
 
-    call_germline_variant(mo, ta, bam, ge, chs, chn, pav, n_jo, me, to, sn)
+    Fastq.bam.call_germline_variant(mo, ta, bam, ge, chs, chn, pav, n_jo, me, to, sn)
 
     return
 

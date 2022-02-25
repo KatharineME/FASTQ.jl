@@ -1,5 +1,7 @@
 module support
 
+using ..Fastq
+
 include("get_full_path.jl")
 
 include("index_genome_files.jl")

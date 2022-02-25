@@ -1,5 +1,7 @@
 module bam
 
+using ..Fastq
+
 include("call_germline_variant.jl")
 
 include("call_somatic_variant.jl")

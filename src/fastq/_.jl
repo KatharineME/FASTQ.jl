@@ -1,5 +1,7 @@
 module fastq
 
+using ..Fastq
+
 include("align_cdna.jl")
 
 include("align_dna.jl")

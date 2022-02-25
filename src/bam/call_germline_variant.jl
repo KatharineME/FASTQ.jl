@@ -1,6 +1,6 @@
 function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
-    index_genome_files(fa, chs)
+    Fastq.support.index_genome_files(fa, chs)
 
     @assert make_directory(pao, "call germline variant")
 
@@ -43,7 +43,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     vosr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$STRELKA/bin/configureStrelkaGermlineWorkflow.py"
+    sc = "$(Fastq.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -78,7 +78,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     paco = joinpath(pao, "concat.vcf.gz")
 
-    combine_vcf(vc_, chn, paco, n_jo)
+    Fastq.vcf.combine_vcf(vc_, chn, paco, n_jo)
 
     run(`tabix $paco`)
 

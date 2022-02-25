@@ -1,6 +1,7 @@
 module command
 
 using JSON
+using ..Fastq
 
 include("examine_read.jl")
 

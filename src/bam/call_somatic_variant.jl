@@ -1,6 +1,6 @@
 function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
-    index_genome_files(fa, chs)
+    Fastq.support.index_genome_files(fa, chs)
 
     @assert make_directory(pao, "call somatic variant")
 
@@ -53,7 +53,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     vosr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$STRELKA/bin/configureStrelkaSomaticWorkflow.py"
+    sc = "$(Fastq.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -79,21 +79,21 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     ie = joinpath(past, pav, "somatic.indels.vcf.gz")
 
-    ier = reheader_vcf(sa, ie, n_jo)
+    ier = Fastq.vcf.reheader_vcf(sa, ie, n_jo)
 
     sv = joinpath(past, pav, "somatic.snvs.vcf.gz")
 
-    svr = reheader_vcf(sa, sv, n_jo)
+    svr = Fastq.vcf.reheader_vcf(sa, sv, n_jo)
 
     svm = joinpath(pao, "manta", pav, "somaticSV.vcf.gz")
 
-    svmr = reheader_vcf(sa, svm, n_jo)
+    svmr = Fastq.vcf.reheader_vcf(sa, svm, n_jo)
 
     vc_ = [ier, svr, svmr]
 
     paco = joinpath(pao, "concat.vcf.gz")
 
-    combine_vcf(vc_, chn, paco, n_jo)
+    Fastq.vcf.combine_vcf(vc_, chn, paco, n_jo)
 
     run(`tabix $paco`)
 
