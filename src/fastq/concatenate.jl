@@ -38,7 +38,7 @@ function concatenate(fq_, na = "R1")
 
     else
 
-        @assert make_directory(co, "concatenate")
+        Fastq.support.error_if_directory(co)
 
         println("\nConcatenating ...\n")
 

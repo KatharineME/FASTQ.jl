@@ -2,7 +2,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     pa = joinpath(ou, "psuedoalign")
 
-    @assert make_directory(pa, "psuedoalign")
+    Fastq.support.error_if_directory(pa)
 
     id = "$tr.kallisto_index"
 

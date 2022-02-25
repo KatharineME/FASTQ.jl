@@ -1,6 +1,8 @@
-function make_directory(pa, pr)
+function error_if_directory(pa)
 
-    pa = get_full_path(pa)
+    pa = Fastq.support.get_full_path(pa)
+
+    pr = replace(basename(pa), "_", " ")
 
     if !ispath(pa)
 

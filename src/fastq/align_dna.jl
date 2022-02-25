@@ -1,6 +1,6 @@
 function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
-    @assert make_directory(al, "align dna")
+    Fastq.support.error_if_directory(al)
 
     gei = string(ge, ".mmi")
 

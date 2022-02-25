@@ -1,6 +1,6 @@
 function trim(r1, r2, pa, n_jo)
 
-    @assert make_directory(pa, "trim")
+    Fastq.support.error_if_directory(pa)
 
     ht = joinpath(pa, "fastp.html")
 

@@ -4,7 +4,7 @@ function process_soma_dna(se)
 
     pa = joinpath(ou, "process_somatic_dna")
 
-    @assert make_directory(pa, "process somatic dna")
+    Fastq.support.error_if_directory(pa)
 
     for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 

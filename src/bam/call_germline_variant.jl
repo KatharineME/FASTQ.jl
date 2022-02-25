@@ -2,7 +2,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     Fastq.support.index_genome_files(fa, chs)
 
-    @assert make_directory(pao, "call germline variant")
+    Fastq.support.error_if_directory(pao)
 
 
     # Run docker container
