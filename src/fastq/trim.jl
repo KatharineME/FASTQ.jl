@@ -16,6 +16,4 @@ function trim(r1, r2, pa, n_jo)
 
     println("\nTrimming finished\n")
 
-    return
-
 end

@@ -31,6 +31,4 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
     println("\nDNA Alignment finished\n")
 
-    return
-
 end

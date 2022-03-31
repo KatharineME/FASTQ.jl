@@ -6,6 +6,4 @@ function remove_docker_container(id)
 
     println("\nDocker container was removed\n")
 
-    return
-
 end

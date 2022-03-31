@@ -1,14 +1,12 @@
 function error_if_directory(pa)
 
-    pa = Fastq.support.get_full_path(pa)
+    paf = Fastq.support.get_full_path(pa)
 
-    pr = replace(basename(pa), "_", " ")
+    pr = replace(basename(paf), "_", " ")
 
-    if !ispath(pa)
+    if !ispath(paf)
 
-        mkpath(pa)
-
-        return true
+        mkpath(paf)
 
     else
 

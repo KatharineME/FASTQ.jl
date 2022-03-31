@@ -1,6 +1,14 @@
 function examine_read(se)
 
-    n_jo, _, _, _, _, _, _, _, ou, r1, r2, sor1, sor2, _, _, _, _, _ = read_setting(se)
+    fe_va = read_setting(se)
+
+    r1 = fe_va["r1"]
+
+    r2 = fe_va["r2"]
+
+    sor1 = fe_va["sor1"]
+
+    sor2 = fe_va["sor2"]
 
     Fastq.fastq.find(dirname(r1))
 
@@ -18,8 +26,6 @@ function examine_read(se)
 
     end
 
-    Fastq.fastq.check_read(re_, joinpath(ou, "check_raw"), n_jo)
-
-    return
+    Fastq.fastq.check_read(re_, joinpath(fe_va["ou"], "check_raw"), fe_va["n_jo"])
 
 end

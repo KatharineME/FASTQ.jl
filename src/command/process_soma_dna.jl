@@ -1,10 +1,24 @@
 function process_soma_dna(se)
 
-    n_jo, me, mo, ta, _, _, sa, to, ou, r1, r2, sor1, sor2, ge, _, chs, chn, sn = read_setting(se)
+    fe_va = read_setting(se)
 
-    pa = joinpath(ou, "process_somatic_dna")
+    pa = joinpath(fe_va["ou"], "process_somatic_dna")
 
     Fastq.support.error_if_directory(pa)
+
+    r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["r1"],
+    fe_va["r2"],
+    fe_va["sor1"],
+    fe_va["sor2"],
+    fe_va["n_jo"],
+    fe_va["me"],
+    fe_va["sa"],
+    fe_va["ge"],
+    fe_va["chs"],
+    fe_va["chn"],
+    fe_va["sn"],
+    fe_va["mo"],
+    fe_va["ta"]
 
     for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 
@@ -17,8 +31,6 @@ function process_soma_dna(se)
     end
 
     trge = joinpath(pa, "trim", "germline")
-
-    println("im here")
 
     gr1 = joinpath(trge, Fastq.TRIMMED_R1)
 
@@ -58,8 +70,6 @@ function process_soma_dna(se)
 
     basom = joinpath(als, "$sa.markdup.bam")
 
-    Fastq.bam.call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, to, sn)
-
-    return
+    Fastq.bam.call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, fe_va["to"], sn)
 
 end

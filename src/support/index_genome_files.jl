@@ -12,6 +12,4 @@ function index_genome_files(ge, chs)
 
     end
 
-    return
-
 end

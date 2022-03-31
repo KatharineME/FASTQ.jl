@@ -101,6 +101,4 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     run_snpeff(pao, me, sn, paco, n_jo)
 
-    return
-
 end

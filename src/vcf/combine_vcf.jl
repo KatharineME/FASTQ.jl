@@ -9,6 +9,4 @@ function combine_vcf(vc_, chn, paco, n_jo)
         ),
     )
 
-    return
-
 end

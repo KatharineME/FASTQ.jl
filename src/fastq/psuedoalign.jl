@@ -34,6 +34,4 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     end
 
-    return
-
 end

@@ -10,6 +10,4 @@ function check_read(re_, di, n_jo)
 
     run(`multiqc --outdir $di $di`)
 
-    return
-
 end

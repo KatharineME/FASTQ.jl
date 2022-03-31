@@ -33,17 +33,3 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
     println("\ncDNA Alignment finished\n")
 
 end
-
-#function log(io, st)
-#
-#    me = "($time) $st" 
-#
-#    write(io, st)
-#
-#    println("="^99)
-#
-#    println(st)
-#
-#    println("="^99)
-#
-#end

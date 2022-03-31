@@ -32,6 +32,4 @@ function test_strelka_and_manta(pa)
 
     Fastq.bam.remove_docker_container(id)
 
-    return
-
 end

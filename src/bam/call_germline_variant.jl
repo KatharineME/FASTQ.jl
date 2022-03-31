@@ -87,6 +87,4 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     run_snpeff(pao, me, sn, paco, n_jo)
 
-    return
-
 end

@@ -54,6 +54,4 @@ function concatenate(fq_, na = "R1")
 
     end
 
-    return
-
 end

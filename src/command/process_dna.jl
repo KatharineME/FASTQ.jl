@@ -1,10 +1,22 @@
 function process_dna(se)
 
-    n_jo, me, mo, ta, _, _, sa, to, ou, r1, r2, _, _, ge, _, chs, chn, sn = read_setting(se)
+    fe_va = read_setting(se)
 
-    pa = joinpath(ou, "process_dna")
+    pa = joinpath(fe_va["ou"], "process_dna")
 
     Fastq.support.error_if_directory(pa)
+
+    r1, r2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["r1"],
+    fe_va["r2"],
+    fe_va["n_jo"],
+    fe_va["me"],
+    fe_va["sa"],
+    fe_va["ge"],
+    fe_va["chs"],
+    fe_va["chn"],
+    fe_va["sn"],
+    fe_va["mo"],
+    fe_va["ta"]
 
     for pa in [r1, r2, ge, chs, chn, sn]
 
@@ -44,8 +56,6 @@ function process_dna(se)
 
     pav = joinpath(pa, "call_germline_variant")
 
-    Fastq.bam.call_germline_variant(mo, ta, bam, ge, chs, chn, pav, n_jo, me, to, sn)
-
-    return
+    Fastq.bam.call_germline_variant(mo, ta, bam, ge, chs, chn, pav, n_jo, me, fe_va["to"], sn)
 
 end

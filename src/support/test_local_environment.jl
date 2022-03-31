@@ -20,6 +20,4 @@ function test_local_environment()
 
     end
 
-    return
-
 end
