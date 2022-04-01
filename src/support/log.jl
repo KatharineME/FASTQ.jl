@@ -1,17 +1,17 @@
+using Dates
+
 function log()
 
-    #function log(io, st)
-    #
-    #    me = "($time) $st" 
-    #
-    #    write(io, st)
-    #
-    #    println("="^99)
-    #
-    #    println(st)
-    #
-    #    println("="^99)
-    #
-    #end
+    println()
+
+    println("="^99)
+
+    println("Started $(StackTraces.stacktrace()[2].func)\n")
+
+    println(now())
+
+    println("="^99)
+
+    println()
 
 end

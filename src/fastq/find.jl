@@ -1,5 +1,7 @@
 function find(di)
 
+    Fastq.support.log()
+
     re_ = []
 
     na_n = Dict(".fq" => 0, ".fastq" => 0, "fq.gz" => 0, "fastq.gz" => 0)
@@ -32,7 +34,7 @@ function find(di)
 
     end
 
-    println("File types found in $di:\n")
+    println("\nFile types found in $di:\n")
 
     for na in na_n
 

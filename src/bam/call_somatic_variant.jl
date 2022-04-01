@@ -1,5 +1,7 @@
 function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
+    Fastq.support.log()
+
     Fastq.support.index_genome_files(fa, chs)
 
     Fastq.support.error_if_directory(pao)

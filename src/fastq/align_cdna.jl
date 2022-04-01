@@ -1,5 +1,7 @@
 function align_cdna(al, sa, r1, r2, ge, n_jo)
 
+    Fastq.support.log()
+
     Fastq.support.error_if_directory(al)
 
     id = joinpath(dirname(ge), "star_indexes")
@@ -8,7 +10,7 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
         mkdir(id)
 
-        println("\nMaking STAR indices, this may take a while...\n")
+        println("\nMaking STAR indices, this may take a while\n")
 
         run(
             `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $id --genomeFastaFiles $ge`,
@@ -29,7 +31,5 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
     run(`samtools index -@ $n_jo $ba`)
 
     run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
-
-    println("\ncDNA Alignment finished\n")
 
 end

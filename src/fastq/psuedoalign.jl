@@ -1,5 +1,7 @@
 function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
+    Fastq.support.log()
+
     pa = joinpath(ou, "psuedoalign")
 
     Fastq.support.error_if_directory(pa)
@@ -8,7 +10,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     if !ispath(id)
 
-        println("\nCreating kallisto index...")
+        println("\nCreating kallisto index")
 
         run(`kallisto index --index $id $tr`)
 

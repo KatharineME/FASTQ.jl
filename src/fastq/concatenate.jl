@@ -1,5 +1,7 @@
 function concatenate(fq_, na = "R1")
 
+    Fastq.support.log()
+
     fo_ = []
 
     re_ = []
@@ -7,8 +9,6 @@ function concatenate(fq_, na = "R1")
     for fq in fq_
 
         if occursin(na, fq)
-
-            push!(fo_, fq)
 
         elseif occursin(replace(na, "1" => "2"), fq)
 
@@ -33,14 +33,14 @@ function concatenate(fq_, na = "R1")
     if n_fo <= 1 && n_re <= 1
 
         println(
-            "\nNothing to concatenate. Number of forward reads and reverse reads are both <= 1.\n",
+            "\nNothing to concatenate, number of forward reads and reverse reads are both <= 1\n",
         )
 
     else
 
         Fastq.support.error_if_directory(co)
 
-        println("\nConcatenating ...\n")
+        println("\nConcatenating\n")
 
         gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 

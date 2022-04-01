@@ -26,8 +26,11 @@ Compile fastp from source
 
 ```bash
 git clone https://github.com/OpenGene/fastp.git
+
 cd fastp
+
 make
+
 sudo make install
 # Follow brew install or upgrade instructions if errors arise.
 ```
@@ -45,9 +48,13 @@ Compile star from source
 
 ```bash
 # Download STAR 2.7.9.a from https://github.com/alexdobin/STAR/releases
+
 brew install gcc
+
 cd STAR-2.7.9a/source
+
 make STARforMacStatic CXX=/usr/local/Cellar/gcc/11.2.0_3/bin/g++-11
+
 # STAR executable will be in STAR-2.7.9a/bin/MacOSX_x86_64
 ```
 
@@ -225,7 +232,7 @@ Concatenate two vcfs with the same sample set.
 
 #### `rename-chrs PATH`
 
-will rename the chromosmes in a vcf according to the text file passed.
+Will rename the chromosmes in a vcf according to the text file passed.
 
 ---
 

@@ -1,5 +1,7 @@
 function trim(r1, r2, pa, n_jo)
 
+    Fastq.support.log()
+
     Fastq.support.error_if_directory(pa)
 
     ht = joinpath(pa, "fastp.html")
@@ -13,7 +15,5 @@ function trim(r1, r2, pa, n_jo)
     run(
         `fastp --detect_adapter_for_pe --thread $n_jo --json $js --html $ht --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
     )
-
-    println("\nTrimming finished\n")
 
 end

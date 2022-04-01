@@ -6,19 +6,19 @@ function process_soma_dna(se)
 
     Fastq.support.error_if_directory(pa)
 
-    r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["r1"],
-    fe_va["r2"],
-    fe_va["sor1"],
-    fe_va["sor2"],
-    fe_va["n_jo"],
-    fe_va["me"],
-    fe_va["sa"],
-    fe_va["ge"],
-    fe_va["chs"],
-    fe_va["chn"],
-    fe_va["sn"],
-    fe_va["mo"],
-    fe_va["ta"]
+    r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["read1"],
+    fe_va["read2"],
+    fe_va["somatic_read1"],
+    fe_va["somatic_read2"],
+    fe_va["number_of_jobs"],
+    fe_va["memory"],
+    fe_va["sample"],
+    fe_va["reference_genome"],
+    fe_va["chromosome_position"],
+    fe_va["chromosome_name"],
+    fe_va["snpeff"],
+    fe_va["molecule"],
+    fe_va["exome"]
 
     for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 
@@ -70,6 +70,18 @@ function process_soma_dna(se)
 
     basom = joinpath(als, "$sa.markdup.bam")
 
-    Fastq.bam.call_somatic_variant(ta, bagem, basom, ge, chs, chn, pav, n_jo, me, fe_va["to"], sn)
+    Fastq.bam.call_somatic_variant(
+        ta,
+        bagem,
+        basom,
+        ge,
+        chs,
+        chn,
+        pav,
+        n_jo,
+        me,
+        fe_va["tool_directory"],
+        sn,
+    )
 
 end

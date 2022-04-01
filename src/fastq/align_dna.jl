@@ -1,5 +1,7 @@
 function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
+    Fastq.support.log()
+
     Fastq.support.error_if_directory(al)
 
     gei = string(ge, ".mmi")
@@ -28,7 +30,5 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
     run(`samtools index -@ $n_jo $ma`)
 
     run(pipeline(`samtools stats --threads $n_jo $ma`, "$ma.stat"))
-
-    println("\nDNA Alignment finished\n")
 
 end

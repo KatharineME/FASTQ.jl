@@ -2,15 +2,15 @@ function error_if_directory(pa)
 
     paf = Fastq.support.get_full_path(pa)
 
-    pr = replace(basename(paf), "_", " ")
+    na = replace(basename(paf), "_", " ")
 
-    if !ispath(paf)
+    if ispath(paf)
 
-        mkpath(paf)
+        error("\nSkipping $na because directory already exists:\n $pa\n")
 
     else
 
-        error("\nSkipping $pr because directory already exists:\n $pa\n")
+        mkpath(paf)
 
     end
 
