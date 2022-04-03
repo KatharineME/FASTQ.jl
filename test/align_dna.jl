@@ -1,9 +1,20 @@
 include("_.jl")
 
-n_jo, me, mo, _, _, _, sa, _, ou, r1, r2, _, _, ge, _, _, _, _ = Fastq.read_setting(se)
+fe_va = Fastq.command.read_setting(se)
 
-al = joinpath(ou, "align_$mo")
+sa = fe_va["sample"]
+
+al = joinpath(fe_va["output_directory"], "align_$(fe_va["molecule"])")
 
 ba = joinpath(al, "$sa.bam")
 
-Fastq.align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
+Fastq.fastq.align_dna(
+    al,
+    sa,
+    ba,
+    fe_va["read1"],
+    fe_va["read2"],
+    fe_va["reference_genome"],
+    fe_va["number_of_jobs"],
+    fe_va["memory"],
+)

@@ -1,5 +1,10 @@
 include("_.jl")
 
-n_jo, _, _, _, _, _, _, _, ou, ger1, ger2, _, _, _, _, _, _, _ = Fastq.read_setting(se)
+fe_va = Fastq.command.read_setting(se)
 
-Fastq.trim(ger1, ger2, joinpath(ou, "trim"), n_jo)
+Fastq.fastq.trim(
+    fe_va["read1"],
+    fe_va["read2"],
+    joinpath(fe_va["output_directory"], "trim"),
+    fe_va["number_of_jobs"],
+)

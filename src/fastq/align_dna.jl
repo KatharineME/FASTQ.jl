@@ -4,7 +4,7 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
     Fastq.support.error_if_directory(al)
 
-    gei = string(ge, ".mmi")
+    gei = "$ge.mmi"
 
     if !ispath(gei)
 

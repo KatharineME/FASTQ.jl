@@ -1,3 +1,3 @@
 include("_.jl")
 
-Fastq.test_local_environment()
+Fastq.support.test_local_environment()

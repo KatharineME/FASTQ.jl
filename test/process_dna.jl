@@ -1,3 +1,3 @@
 include("_.jl")
 
-Fastq.process_dna(se)
+Fastq.command.process_dna(se)

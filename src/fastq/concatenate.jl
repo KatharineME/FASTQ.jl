@@ -28,7 +28,7 @@ function concatenate(fq_, na = "R1")
 
     sa = last(splitdir(dirname(fq_[1])))
 
-    co = joinpath(dirname(dirname(fq_[1])), string(sa, "_concat"))
+    co = joinpath(dirname(dirname(fq_[1])), "$(sa)_concat")
 
     if n_fo <= 1 && n_re <= 1
 
@@ -46,7 +46,7 @@ function concatenate(fq_, na = "R1")
 
         for gr in keys(gr_su)
 
-            run(pipeline(`cat $gr`, stdout = joinpath(co, string(sa, gr_su[gr]))))
+            run(pipeline(`cat $gr`, stdout = joinpath(co, "$(sa)$(gr_su[gr])")))
 
         end
 

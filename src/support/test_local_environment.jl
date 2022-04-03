@@ -1,6 +1,6 @@
 function test_local_environment()
 
-    println("Checking for programs...\n")
+    println("Checking for programs\n")
 
     for pr in [
         "fastp",

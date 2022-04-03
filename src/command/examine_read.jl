@@ -12,8 +12,6 @@ function examine_read(se)
 
     Fastq.fastq.find(dirname(r1))
 
-    println()
-
     if isempty(sor1) || sor1 === nothing
 
         re_ = [r1, r2]

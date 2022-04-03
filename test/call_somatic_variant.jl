@@ -1,11 +1,25 @@
 include("_.jl")
 
-n_jo, me, _, ta, _, _, sa, to, ou, _, _, _, _, ge, _, chs, chn, sn = Fastq.read_setting(se)
+fe_va = Fastq.command.read_setting(se)
 
-ger = joinpath(ou, "align_dna/$sa.markdup.bam")
+ou, sa = fe_va["output_directory"], fe_va["sample"]
 
-som = joinpath(ou, "align_cdna/$(sa).Aligned.sortedByCoord.out.bam")
+geba = joinpath(ou, "align_dna/$sa.markdup.bam")
+
+soba = joinpath(ou, "align_cdna/$sa.Aligned.sortedByCoord.out.bam")
 
 pao = joinpath(ou, "call_somatic_variant")
 
-Fastq.call_somatic_variant(ta, ger, som, ge, chs, chn, pao, n_jo, me, to, sn)
+Fastq.bam.call_somatic_variant(
+    fe_va["exome"],
+    geba,
+    soba,
+    fe_va["reference_genome"],
+    fe_va["chromosome_position"],
+    fe_va["chromosome_name"],
+    pao,
+    fe_va["number_of_jobs"],
+    fe_va["memory"],
+    fe_va["tool_directory"],
+    fe_va["snpeff"],
+)

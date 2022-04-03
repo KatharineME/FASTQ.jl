@@ -1,3 +1,3 @@
 include("_.jl")
 
-Fastq.process_soma_dna(se)
+Fastq.command.process_soma_dna(se)

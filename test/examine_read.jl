@@ -1,3 +1,3 @@
 include("_.jl")
 
-Fastq.examine_read(se)
+Fastq.command.examine_read(se)

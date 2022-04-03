@@ -1,5 +1,6 @@
 module support
 
+using Dates
 using ..Fastq
 
 include("error_if_directory.jl")
