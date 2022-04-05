@@ -26,7 +26,7 @@ function examine_read(se)
 
     Fastq.fastq.check_read(
         re_,
-        joinpath(fe_va["output_directory"], "check_raw"),
+        joinpath(fe_va["output_directory"], "examine_read"),
         fe_va["number_of_jobs"],
     )
 

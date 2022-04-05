@@ -2,7 +2,7 @@ function process_dna(se)
 
     fe_va = read_setting(se)
 
-    pa = joinpath(fe_va["ou"], "process_dna")
+    pa = joinpath(fe_va["output_directory"], "process_dna")
 
     Fastq.support.error_if_directory(pa)
 

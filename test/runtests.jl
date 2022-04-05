@@ -28,4 +28,4 @@ for (id, jl) in enumerate(jl_)
 
 end
 
-println("Done.")
+println("Tests passed.")

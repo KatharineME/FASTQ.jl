@@ -2,7 +2,7 @@ function process_soma_dna(se)
 
     fe_va = read_setting(se)
 
-    pa = joinpath(fe_va["ou"], "process_somatic_dna")
+    pa = joinpath(fe_va["output_directory"], "process_somatic_dna")
 
     Fastq.support.error_if_directory(pa)
 
@@ -58,7 +58,7 @@ function process_soma_dna(se)
 
     baso = joinpath(als, "$sa.bam")
 
-    for g in [[alg, bage, gr2, gr2], [als, baso, sr1, sr2]]
+    for g in [[alg, bage, gr1, gr2], [als, baso, sr1, sr2]]
 
         Fastq.fastq.align_dna(g[1], sa, g[2], g[3], g[4], ge, n_jo, me)
 

@@ -1,3 +1,3 @@
 using Fastq
 
-se = "./setting.json"
+se = "/Users/kate/craft/tool/Fastq.jl/test/setting.json"
