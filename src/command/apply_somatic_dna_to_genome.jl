@@ -1,4 +1,4 @@
-function process_soma_dna(se)
+function apply_somatic_dna_to_genome(se)
 
     fe_va = read_setting(se)
 

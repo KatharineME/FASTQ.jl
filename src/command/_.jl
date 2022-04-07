@@ -3,11 +3,15 @@ module command
 using JSON
 using ..Fastq
 
+include("apply_cdna_to_genome.jl")
+
+include("apply_cdna_to_transcriptome.jl")
+
+include("apply_germline_dna_to_genome.jl")
+
+include("apply_somatic_dna_to_genome.jl")
+
 include("examine_read.jl")
-
-include("process_dna.jl")
-
-include("process_soma_dna.jl")
 
 include("read_setting.jl")
 
