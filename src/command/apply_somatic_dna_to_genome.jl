@@ -2,7 +2,7 @@ function apply_somatic_dna_to_genome(se)
 
     fe_va = read_setting(se)
 
-    pa = joinpath(fe_va["output_directory"], "process_somatic_dna")
+    pa = joinpath(fe_va["output_directory"], "apply_somatic_dna_to_genome")
 
     Fastq.support.error_if_directory(pa)
 
@@ -66,9 +66,9 @@ function apply_somatic_dna_to_genome(se)
 
     pav = joinpath(pa, "call_somatic_variant")
 
-    bagem = joinpath(alg, "$sa.markdup.bam")
+    bagem = joinpath(alg, "$sa.bam")
 
-    basom = joinpath(als, "$sa.markdup.bam")
+    basom = joinpath(als, "$sa.bam")
 
     Fastq.bam.call_somatic_variant(
         ta,

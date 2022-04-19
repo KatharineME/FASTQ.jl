@@ -4,7 +4,7 @@ fe_va = Fastq.command.read_setting(se)
 
 ou, sa = fe_va["output_directory"], fe_va["sample"]
 
-ba = joinpath(ou, "align_dna/$sa.markdup.bam")
+ba = joinpath(ou, "align_dna/$sa.bam")
 
 pao = joinpath(ou, "call_germline_variant")
 

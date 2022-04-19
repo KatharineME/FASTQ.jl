@@ -20,8 +20,6 @@ function apply_cdna_to_genome(se)
         al = "genome",
     )
 
-    # for each sample bam file call
-
     pav = joinpath(pou, "call_germline_variant")
 
     for (ro, di_, fi_) in walkdir(pac)
@@ -34,12 +32,6 @@ function apply_cdna_to_genome(se)
                 sa = basename(splitdir(ba)[1])
 
                 pas = joinpath(pav, sa)
-
-                println(ba)
-
-                println(sa)
-
-                println(pas)
 
                 Fastq.bam.call_germline_variant(
                     fe_va["molecule"],

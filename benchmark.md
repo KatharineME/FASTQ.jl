@@ -1,5 +1,7 @@
+The Precision FDA Truth Challenge took place in 2016 and rated sequence analysis pipelines by comparing how well they recovered truth data indels and snps. The contestants were given the raw data and truth data for HG001. They were also given the raw data for HG002 and were assessed by comparing their resulting VCFs to the HG002 truth VCF.
+
 ## Truth data
 
-HG002
+
 
 ## References

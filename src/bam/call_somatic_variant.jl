@@ -42,8 +42,6 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     sc = "$(Fastq.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
 
-    println("above docker call")
-
     re = readlines(
         pipeline(
             `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$vost && ./home/$vosr $ru"`,

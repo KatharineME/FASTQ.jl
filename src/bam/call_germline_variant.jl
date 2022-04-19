@@ -9,21 +9,8 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     # Run docker container
 
-    println(ge)
-
-    println(pao)
-
     id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao, nothing)
 
-    println("voo: $voo")
-
-    println("vof: $vof")
-
-    println("voc: $voc")
-
-    println("vogefi: $vogefi")
-
-    println("vot: $vot")
 
     # Set config parameters
 

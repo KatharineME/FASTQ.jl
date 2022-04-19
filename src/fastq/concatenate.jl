@@ -10,6 +10,8 @@ function concatenate(fq_, na = "R1")
 
         if occursin(na, fq)
 
+            push!(fo_, fq)
+
         elseif occursin(replace(na, "1" => "2"), fq)
 
             push!(re_, fq)
@@ -28,7 +30,7 @@ function concatenate(fq_, na = "R1")
 
     sa = last(splitdir(dirname(fq_[1])))
 
-    co = joinpath(dirname(dirname(fq_[1])), "$(sa)_concat")
+    co = joinpath(dirname(dirname(fq_[1])), "$(sa)_concatenated")
 
     if n_fo <= 1 && n_re <= 1
 
