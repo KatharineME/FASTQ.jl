@@ -46,7 +46,7 @@ Number of threads.
 
 #### `-K NUM`
 
-Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM pased here helps with load balancing in the multi-threading mode.
+Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM passed here helps with load balancing in the multi-threading mode.
 
 #### `-R`
 
@@ -70,7 +70,7 @@ A synonym for stdin and stdout in samtools.
 
 ### samtools sort
 
-Orders aligned reads by chromosome and coordinate. sort is highly parallel so adding threads is beneficial.
+Orders aligned reads by chromosome and coordinate. `sort` is highly parallel so adding threads is beneficial.
 
 #### `-u`
 
@@ -82,15 +82,15 @@ Fastest level of BAM compressed output.
 
 #### `-T PATH`
 
-Specificy a temporary storage directory like `/tmp/example_prefix/`.
+Specify a temporary storage directory like `/tmp/example_prefix/`.
 
 ### samtools markdup
 
-Marks duplicate alignments in a coordinate sorted file using flags added by `fixmate -m`. Duplicates are defined as aligned reads whose 5 prime coordinates and orientation (forward or reverse) match. For paried-end reads, both primary (not secondary alignments) read alignments must have matching 5 prime coordinates and share orientation. When a duplicate is detected the highest quality duplicate is kept and the others have the duplicate flag set.
+Marks duplicate alignments in a coordinate sorted file using flags added by `fixmate -m`. Duplicates are defined as aligned reads whose 5 prime coordinates and orientation (forward or reverse) match. For paired-end reads, both primary (not secondary alignments) read alignments must have matching 5 prime coordinates and share orientation. When a duplicate is detected the highest quality duplicate is kept and the others have the duplicate flag set.
 
 ![duplicate](media/duplicate.png)
 
-The issue of when and whether to remove duplicates is debated. Duplicates as defined above may result from duplicate fragments made during PCR, which skew the results and should be removed. But duplicates may also be from two different fragments aligning to exact same corrdinates, in which case their sequences may differ and they should be kept. Differentiating between these two types of duplicates is the problem.
+The issue of when and whether to remove duplicates is debated. Duplicates as defined above may result from duplicate fragments made during PCR, which skew the results and should be removed. But duplicates may also be from two different fragments aligning to exact same coordinates, in which case their sequences may differ and they should be kept. Differentiating between these two types of duplicates is the problem.
 
 Duplicates may be removed before alignment or after. The risk with removing duplicates before alignment is that you are actually removing real signal instead of duplicate fragments. The risk with removing duplicates after alignment is that you may remove fragments with unique sequences that happen to share coordinates with another alignment.
 
@@ -112,7 +112,7 @@ Provides summary statistics on BAM files and outputs them in text file. Many of 
 
 ![flags](media/flag.png)
 
-In the SAM or BAM file, the second colum is FLAG. Each alignment has a flag value which is a unique combination of the flags in the table above. The number 77 for example is flags 1+4+8+64. `samtools stats` deduces the independent flags and creates file wide statistics on them.
+In the SAM or BAM file, the second column is FLAG. Each alignment has a flag value which is a unique combination of the flags in the table above. The number 77 for example is flags 1+4+8+64. `samtools stats` deduces the independent flags and creates file wide statistics on them.
 
 When the mapping of a read is ambiguous, it may have multiple mappings. One mapping is considered primary, and all the others have the **secondary** flag set.
 
@@ -162,5 +162,5 @@ Concatenate two vcfs with the same sample set.
 
 #### `rename-chrs PATH`
 
-Will rename the chromosmes in a vcf according to the text file passed.
+Will rename the chromosomes in a vcf according to the text file passed.
 
