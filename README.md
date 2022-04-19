@@ -4,6 +4,8 @@ Sequence analysis pipeline for raw cdna and dna reads :sparkle:
 
 ## Use
 
+Copy `Fastq.jl/setting.json` to your project directory and edit it accordingly.
+
 ```bash
 cd Fastq.jl
 
@@ -12,16 +14,16 @@ julia --project
 julia> using Fastq
 
 # Germline dna alignment and variant calling
-julia> Fastq.command.apply_germline_dna_to_genome("path/to/setting.json")
+julia> Fastq.command.apply_germline_dna_to_genome("my/project/setting.json")
 
 # Somatic dna alignment and variant calling
-julia> Fastq.command.apply_somatic_dna_to_genome("path/to/setting.json")
+julia> Fastq.command.apply_somatic_dna_to_genome("my/project/setting.json")
 
 # cDNA alignment to genome and variant calling
-julia> Fastq.command.apply_cdna_to_genome("path/to/setting.json")
+julia> Fastq.command.apply_cdna_to_genome("my/project/setting.json")
 
 # cDNA psuedoalignment and gene_x_sample creation
-julia> Fastq.command.apply_cdna_to_transcriptome("path/to/setting.json")
+julia> Fastq.command.apply_cdna_to_transcriptome("my/project/setting.json")
 ```
 
 ## Get started on MacOS
@@ -103,7 +105,7 @@ julia --project --eval "using Pkg; Pkg.instantiate()"
 
 ### Run tests
 
-Update `Fastq.jl/test/setting.json` before running tests.
+Update `Fastq.jl/test/setting.json`.
 
 ```bash
 julia --project --eval "using Pkg; Pkg.test()"
