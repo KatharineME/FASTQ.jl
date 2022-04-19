@@ -43,3 +43,5 @@ tool/*
 !tool/minimap2-2.24.zip
 
 test/data/output/*
+
+test/data/mouse_cdna_full/*
