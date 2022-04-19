@@ -1,6 +1,18 @@
 # Fastq.jl
 
-Turns raw sequencing reads into intpretable files: VCF for variants or a gene by sample matrix for gene expression analysis.
+Sequence analysis pipeline for raw cdna and dna reads :sparkle:
+
+## Use
+
+```bash
+cd Fastq.jl
+
+julia --project
+
+julia> using Fastq
+
+julia> Fastq.command.apply_germline_dna_to_genome("path/to/setting.json")
+```
 
 ## Get started on MacOS
 
@@ -80,6 +92,8 @@ julia --project --eval "using Pkg; Pkg.instantiate()"
 ```
 
 ### Run tests
+
+Update `Fastq.jl/test/setting.json` before running tests.
 
 ```bash
 julia --project --eval "using Pkg; Pkg.test()"
