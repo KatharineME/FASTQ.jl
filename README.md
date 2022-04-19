@@ -15,6 +15,9 @@ julia --project
 
 julia> using Fastq
 
+# Concatenate fastq files
+julia> Fastq.command.concatenate_read("my/project/setting.json")
+
 # Germline dna alignment and variant calling
 julia> Fastq.command.apply_germline_dna_to_genome("my/project/setting.json")
 
