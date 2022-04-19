@@ -11,7 +11,17 @@ julia --project
 
 julia> using Fastq
 
+# Germline dna alignment and variant calling
 julia> Fastq.command.apply_germline_dna_to_genome("path/to/setting.json")
+
+# Somatic dna alignment and variant calling
+julia> Fastq.command.apply_somatic_dna_to_genome("path/to/setting.json")
+
+# cDNA alignment to genome and variant calling
+julia> Fastq.command.apply_cdna_to_genome("path/to/setting.json")
+
+# cDNA psuedoalignment and gene_x_sample creation
+julia> Fastq.command.apply_cdna_to_transcriptome("path/to/setting.json")
 ```
 
 ## Get started on MacOS
