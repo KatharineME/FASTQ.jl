@@ -28,9 +28,9 @@ julia> Fastq.command.apply_cdna_to_genome("my/project/setting.json")
 julia> Fastq.command.apply_cdna_to_transcriptome("my/project/setting.json")
 ```
 
-## Get started on MacOS
+## Prepare environment
 
-### Prepare environment
+__Currently only works on MacOS.__
 
 #### 1. Run
 
@@ -93,7 +93,7 @@ Download manta-1.6.0.centos6_x86_64.tar.bz2 from [manta releases](https://github
 
 Put manta and strelka in the same directory and unzip each. This directory is the "tool_directory" in `setting.json`.
 
-### Get Fastq.jl
+## Get Fastq.jl
 
 ```bash
 git clone https://github.com/KatharineME/Fastq.jl
@@ -104,7 +104,7 @@ julia --project --eval "using Pkg; Pkg.instantiate()"
 
 ```
 
-### Run tests
+## Run tests
 
 Update `Fastq.jl/test/setting.json`.
 
