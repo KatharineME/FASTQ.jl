@@ -8,6 +8,8 @@ const TRIMMED_R1 = "trimmed.R1.fastq.gz"
 
 const TRIMMED_R2 = "trimmed.R2.fastq.gz"
 
+include("abundance/_.jl")
+
 include("bam/_.jl")
 
 include("command/_.jl")

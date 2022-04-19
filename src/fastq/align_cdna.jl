@@ -18,8 +18,6 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
     end
 
-    #log("Running STAR")
-
     pr = joinpath(al, "$(sa).")
 
     run(

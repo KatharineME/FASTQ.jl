@@ -14,21 +14,22 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
     tm = joinpath(al, "samtools_sort")
 
+    du = joinpath(al, "$sa.unmarked_duplicates.bam")
+
     run(
         pipeline(
             `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" $gei $r1 $r2`,
             `samtools fixmate --threads $n_jo -u -m - -`,
-            `samtools sort --threads $n_jo -T $tm -u -`,
-            "$ba",
+            `samtools sort --threads $n_jo -T $tm -o $du`,
         ),
     )
 
-    ma = joinpath(al, "$sa.markdup.bam")
+    run(`samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $du $ba`)
 
-    run(`samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $ba $ma`)
+    run(`samtools index -@ $n_jo $ba`)
 
-    run(`samtools index -@ $n_jo $ma`)
+    run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
 
-    run(pipeline(`samtools stats --threads $n_jo $ma`, "$ma.stat"))
+    rm(du)
 
 end

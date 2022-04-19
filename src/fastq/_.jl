@@ -4,6 +4,8 @@ using ..Fastq
 
 include("align_cdna.jl")
 
+include("align_cdna_samples.jl")
+
 include("align_dna.jl")
 
 include("check_read.jl")

@@ -4,7 +4,7 @@ fe_va = Fastq.command.read_setting(se)
 
 ou, sa = fe_va["output_directory"], fe_va["sample"]
 
-geba = joinpath(ou, "align_dna/$sa.markdup.bam")
+geba = joinpath(ou, "align_dna/$sa.bam")
 
 soba = joinpath(ou, "align_cdna/$sa.Aligned.sortedByCoord.out.bam")
 

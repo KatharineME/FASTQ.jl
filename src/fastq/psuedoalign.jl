@@ -2,10 +2,6 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     Fastq.support.log()
 
-    pa = joinpath(ou, "psuedoalign")
-
-    Fastq.support.error_if_directory(pa)
-
     id = "$tr.kallisto_index"
 
     if !ispath(id)
@@ -20,7 +16,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     fu = ["kallisto", "quant"]
 
-    ru = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$pa"]
+    ru = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$ou"]
 
     if r2 !== nothing
 

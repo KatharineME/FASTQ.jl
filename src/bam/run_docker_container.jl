@@ -4,7 +4,17 @@ function run_docker_container(to, fa, chs, ge, pao, so)
 
     page = dirname(Fastq.support.get_full_path(ge))
 
-    voge = basename(page)
+    println("page: $page")
+
+    sp = split(page, "/")
+
+    le = length(sp)
+
+    voge = joinpath(sp[le - 1], last(sp))
+
+    #voge = basename(page)
+
+    println("voge: $voge")
 
     vogefi = joinpath(voge, basename(ge))
 
