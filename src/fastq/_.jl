@@ -12,6 +12,8 @@ include("check_read.jl")
 
 include("concatenate.jl")
 
+include("examine_read.jl")
+
 include("find.jl")
 
 include("psuedoalign.jl")

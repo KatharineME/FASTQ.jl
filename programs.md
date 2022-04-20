@@ -150,6 +150,8 @@ Runs locally as opposed to running on a cluster.
 
 #### `--indelCandidates PATH`
 
+## Annotate Variants
+
 ### SnpEff
 
 Annotates variant with impact (high, moderate, low, or modifier), functional consequence (early stop codon, missense mutation, synonymous mutation, etc.), potential clinical significance, and more.
@@ -164,3 +166,16 @@ Concatenate two vcfs with the same sample set.
 
 Will rename the chromosomes in a vcf according to the text file passed.
 
+### SnpSift
+
+From the same author as SnpEff, SnpSift is a tool that annotates VCFs with specific information from other databases.
+
+#### `annotate`
+
+Will annotate VCF with rsids from another VCF.
+
+#### `-id`
+
+Only ID column of VCF will be annotated, not INFO or other columns.
+
+####

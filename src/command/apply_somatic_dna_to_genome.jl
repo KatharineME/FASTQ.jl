@@ -2,11 +2,8 @@ function apply_somatic_dna_to_genome(se)
 
     fe_va = read_setting(se)
 
-    pa = joinpath(fe_va["output_directory"], "apply_somatic_dna_to_genome")
-
-    Fastq.support.error_if_directory(pa)
-
-    r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["read1"],
+    pou, r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["output_directory"],
+    fe_va["read1"],
     fe_va["read2"],
     fe_va["somatic_read1"],
     fe_va["somatic_read2"],
@@ -19,6 +16,12 @@ function apply_somatic_dna_to_genome(se)
     fe_va["snpeff"],
     fe_va["molecule"],
     fe_va["exome"]
+
+    pa = joinpath(pou, "apply_somatic_dna_to_genome")
+
+    Fastq.support.error_if_directory(pa)
+
+    Fastq.fastq.examine_read(r1, r2, pou, n_jo, sor1, sor2)
 
     for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 

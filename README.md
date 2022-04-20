@@ -24,7 +24,7 @@ julia> Fastq.command.apply_germline_dna_to_genome("my/project/setting.json")
 # Somatic dna alignment and variant calling
 julia> Fastq.command.apply_somatic_dna_to_genome("my/project/setting.json")
 
-# cDNA alignment to genome and variant calling
+# cDNA alignment and variant calling
 julia> Fastq.command.apply_cdna_to_genome("my/project/setting.json")
 
 # cDNA psuedoalignment and gene_x_sample creation

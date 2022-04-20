@@ -2,11 +2,8 @@ function apply_germline_dna_to_genome(se)
 
     fe_va = read_setting(se)
 
-    pa = joinpath(fe_va["output_directory"], "apply_germline_dna_to_genome")
-
-    Fastq.support.error_if_directory(pa)
-
-    r1, r2, n_jo, me, sa, ge, chs, chn, sn = fe_va["read1"],
+    pou, r1, r2, n_jo, me, sa, ge, chs, chn, sn = fe_va["output_directory"],
+    fe_va["read1"],
     fe_va["read2"],
     fe_va["number_of_jobs"],
     fe_va["memory"],
@@ -15,6 +12,12 @@ function apply_germline_dna_to_genome(se)
     fe_va["chromosome_position"],
     fe_va["chromosome_name"],
     fe_va["snpeff"]
+
+    pa = joinpath(pou, "apply_germline_dna_to_genome")
+
+    Fastq.support.error_if_directory(pa)
+
+    Fastq.fastq.examine_read(r1, r2, pa, n_jo)
 
     for pa in [r1, r2, ge, chs, chn, sn]
 

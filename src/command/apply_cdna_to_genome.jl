@@ -12,6 +12,10 @@ function apply_cdna_to_genome(se)
 
     Fastq.support.error_if_directory(pac)
 
+    re_ = Fastq.fastq.find(fe_va["cdna_read_directory"])
+
+    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), fe_va["number_of_jobs"])
+
     Fastq.fastq.align_cdna_samples(
         pac,
         fe_va["cdna_read_directory"],
