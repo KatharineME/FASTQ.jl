@@ -45,6 +45,8 @@ function apply_cdna_to_genome(se)
                     fe_va["memory"],
                     fe_va["tool_directory"],
                     fe_va["snpeff"],
+                    fe_va["annotate_with_rsid"],
+                    fe_va["variant_database"],
                 )
 
             end
