@@ -86,6 +86,6 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn)
 
     # snpeff
 
-    Fastq.vcf.run_snpeff(pao, me, sn, paco, n_jo)
+    Fastq.vcf.annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
 end

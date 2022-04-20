@@ -1,4 +1,4 @@
-function run_snpeff(pao, me, sn, paco, n_jo)
+function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     pasn = joinpath(pao, "snpeff")
 
