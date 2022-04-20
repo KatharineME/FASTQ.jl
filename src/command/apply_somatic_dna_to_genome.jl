@@ -21,7 +21,7 @@ function apply_somatic_dna_to_genome(se)
 
     Fastq.support.error_if_directory(pa)
 
-    Fastq.fastq.examine_read(r1, r2, pou, n_jo, sor1, sor2)
+    Fastq.fastq.examine_read(r1, r2, pa, n_jo, sor1, sor2)
 
     for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
 
