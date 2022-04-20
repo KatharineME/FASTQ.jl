@@ -12,8 +12,6 @@ include("remove_docker_container.jl")
 
 include("run_docker_container.jl")
 
-include("run_snpeff.jl")
-
 include("set_strelka_manta_run.jl")
 
 end
