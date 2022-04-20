@@ -1,10 +1,12 @@
 function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
+    Fastq.support.log()
+
     pasn = joinpath(pao, "snpeff")
 
-    vc = joinpath(pasn, "snpeff.vcf.gz")
+    Fastq.support.error_if_directory(pasn)
 
-    mkpath(pasn)
+    vc = joinpath(pasn, "snpeff.vcf.gz")
 
     run(
         pipeline(
@@ -16,16 +18,18 @@ function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     run(`tabix $vc`)
 
-    ps = joinpath(pao, "pass.vcf.gz")
+    papa = joinpath(pao, "pass.vcf.gz")
 
     run(
         pipeline(
             `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $vc`,
             `bgzip --threads $n_jo --stdout`,
-            ps,
+            papa,
         ),
     )
 
-    run(`tabix $ps`)
+    run(`tabix $papa`)
+
+    return papa
 
 end

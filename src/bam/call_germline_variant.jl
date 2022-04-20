@@ -1,4 +1,4 @@
-function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
+function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
 
     Fastq.support.log()
 
@@ -87,6 +87,14 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn)
 
     # snpeff
 
-    Fastq.vcf.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+    papa = Fastq.vcf.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+
+    # snpsift 
+
+    if rs
+
+        Fastq.vcf.annotate_with_snpsift(pao, sn, va, papa, n_jo)
+
+    end
 
 end

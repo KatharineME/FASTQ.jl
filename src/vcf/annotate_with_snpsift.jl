@@ -1,14 +1,19 @@
-function annotate_with_snpsift(pa, sn)
+function annotate_with_snpsift(pa, sn, va, papa, n_jo)
+
+    Fastq.support.log()
 
     pass = joinpath(pa, "snpsift")
 
+    Fastq.support.error_if_directory(pass)
+
     vc = joinpath(pass, "snpsift.vcf.gz")
 
-    mkpath(pass)
+    ss = joinpath(dirname(sn), "SnpSift.jar")
 
     run(
         pipeline(
-            `java -jar ~/craft/guardiome/tool/snpEff/SnpSift.jar annotate -tabix -id -v ~/craft/guardiome/tool/ensembl/homo_sapiens-chr1_y.vcf.gz pass.vcf.gz > pass.rsids.vcf`,
+            `java -jar $ss annotate -tabix -id -v $va $papa`,
+            `bgzip --threads $n_jo --stdout`,
             vc,
         ),
     )

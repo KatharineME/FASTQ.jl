@@ -2,7 +2,7 @@
 
 # Fastq.jl
 
-Sequence analysis pipeline for raw cdna and dna reads :sparkles:
+Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 ## Use
 

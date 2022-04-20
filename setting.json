@@ -7,6 +7,7 @@
   "fragment_length": 51,
   "fragment_length_standard_deviation": 0.05,
   "sample": "test",
+  "annotate_with_rsid": true,
   "tool_directory": "/Users/kate/craft/tool/Fastq.jl/tool",
   "output_directory": "/Users/kate/craft/tool/Fastq.jl/test/data/output",
   "read_name_scheme": "R1",
@@ -21,5 +22,6 @@
   "mouse_transcript_to_mouse_gene": "/Users/kate/craft/data/mouse_transcript_mouse_gene.tsv",
   "chromosome_position": "/Users/kate/craft/data/grch/chromosome/chromosome.bed.gz",
   "chromosome_name": "/Users/kate/craft/data/grch/chromosome/chrn_n.tsv",
+  "variant_database": "/Users/kate/craft/guardiome/tool/ensembl/homo_sapiens-chr1_y.vcf.gz",
   "snpeff": "/Users/kate/craft/tool/Fastq.jl/tool/snpEff/snpEff.jar"
 }
