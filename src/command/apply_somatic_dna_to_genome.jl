@@ -82,6 +82,8 @@ function apply_somatic_dna_to_genome(se)
         me,
         fe_va["tool_directory"],
         sn,
+        fe_va["annotate_with_rsid"],
+        fe_va["variant_database"],
     )
 
 end
