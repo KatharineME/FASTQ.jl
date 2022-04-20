@@ -10,6 +10,10 @@ function apply_cdna_to_transcriptome(se)
 
     Fastq.support.error_if_directory(pap)
 
+    re_ = Fastq.fastq.find(fe_va["cdna_read_directory"])
+
+    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), fe_va["number_of_jobs"])
+
     Fastq.fastq.align_cdna_samples(
         pap,
         fe_va["cdna_read_directory"],

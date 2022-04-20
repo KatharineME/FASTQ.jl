@@ -59,22 +59,26 @@ function make_gene_by_sample(pap, pou, or, ma)
 
         df = map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
 
+        co = :gene
+
     else
 
         df = nu_tr_sa
+
+        co = :id
 
     end
 
 
     # Call One Piece.gene.rename to convert to human gene
 
-    na_, ma_ = OnePiece.gene.rename(df[!, :gene])
+    na_, ma_ = OnePiece.gene.rename(df[!, co])
 
     insertcols!(df, 1, :human_gene => na_, :membership => ma_)
 
     df = df[in.(df.membership, Ref([0, 1])), :]
 
-    select!(df, Not([:membership, :gene]))
+    select!(df, Not([:membership, co]))
 
     nu_ge_sa =
         combine(groupby(df, :human_gene), names(df, Not(:human_gene)) .=> sum, renamecols = false)
