@@ -4,12 +4,12 @@
 
 Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
-[Use](#use)
-- [Prepare environment](#prepare-environment)
-- [Get Fastq.jl](#get-fastqjl)
-- [Run tests](#run-tests)
-- [Set settings.json](setting.md)
-- [Programs called](programs.md)
+#### [Use](#use)
+#### [Prepare environment](#prepare-environment)
+#### [Get Fastq.jl](#get-fastqjl)
+#### [Run tests](#run-tests)
+#### [Set settings.json](setting.md)
+#### [Programs called](programs.md)
 
 ## Use
 
