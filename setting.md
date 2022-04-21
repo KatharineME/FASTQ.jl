@@ -17,19 +17,19 @@ Gigabytes of memory
 The most common cDNA fragment length in your data, used by `apply_cdna_to_genome`
 
 `fragment_length_standard_deviation` _Int_<br>
-For cDNA alignment, the estimated standard deviation of fragment lengths
+The estimated standard deviation of fragment lengths, used by `apply_cdna_to_genome`
 
 `sample` _String_<br>
-Sample name used for file naming and name of sample column in VCF
+Sample name used for output file names and name of sample column in VCF
 
 `annotate_with_rsid` _Bool_<br>
 "true" or "false"
 
 `tool_directory` _String_<br>
-Path to directory storing strelka and manta
+Path to directory storing strelka and manta used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome`
 
 `output_directory` _String_<br>
-Path to where you want output files
+Path to where you want results outputted
 
 `read_name_scheme` _String_<br>
 Naming scheme your reads use, "R1" or "read1" for example
@@ -50,7 +50,7 @@ Path to somatic DNA reverse read file used by `apply_somatic_dna_to_genome`
 Path to directory with DNA read files used by `concatenate_fastq` to combine fastqs of the same read direction
 
 `cdna_read_directory` _String_<br>
-Path to directory with cDNA read files used by `apply_cdna_to_genome` and `apply_cdna_to_transcriptome` which both use the read name and directory structure to keep different cDNA samples separate. 
+Path to directory with cDNA read files used by `apply_cdna_to_genome` and `apply_cdna_to_transcriptome` which both respect read file name and directory structure to keep different cDNA samples separate
 
 `reference_genome` _String_<br>
 Path to human reference genome fna.gz or fa.gz file used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome`
