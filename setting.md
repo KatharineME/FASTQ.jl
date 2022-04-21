@@ -1,7 +1,8 @@
-`number_of_jobs`
+`number_of_jobs`<br>
 Int, number of jobs
 
-`memory`
+#### `memory`
+
 Int, Gigabytes of memory
 
 `organism`
