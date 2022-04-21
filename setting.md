@@ -1,5 +1,5 @@
-`number_of_jobs`<br>
-_Int_ number of jobs
+`number_of_jobs` _Int_<br>
+Number of jobs
 
 `memory`<br>
 
