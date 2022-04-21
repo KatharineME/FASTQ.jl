@@ -1,6 +1,9 @@
 `number_of_jobs`    _Int_<br>
 Number of jobs
 
+`number_of_jobs`<br>
+(Int) Number of jobs
+
 `memory`<br>
 
 ```julia
