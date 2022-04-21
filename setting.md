@@ -1,3 +1,5 @@
+# Settings in setting.json
+
 `number_of_jobs` _Int_<br>
 Number of jobs
 

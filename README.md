@@ -4,7 +4,7 @@
 
 Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
-- [Use](#use)
+[Use](#use)
 - [Prepare environment](#prepare-environment)
 - [Get Fastq.jl](#get-fastqjl)
 - [Run tests](#run-tests)
