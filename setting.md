@@ -1,6 +1,12 @@
-"number_of_jobs": Int, number of jobs
-"memory": Int, Gigabytes of memory
-"organism": String, human or mouse
+`number_of_jobs`
+Int, number of jobs
+
+`memory`
+Int, Gigabytes of memory
+
+`organism`
+String, human or mouse
+
 "molecule": String, dna or cdna
 "exome": Bool, true or false
 "fragment_length": Int, For cdna alignment to genome, the most common fragment length
