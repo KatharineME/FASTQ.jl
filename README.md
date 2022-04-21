@@ -18,10 +18,10 @@ julia> using Fastq
 # Concatenate fastq files
 julia> Fastq.command.concatenate_read("my/project/setting.json")
 
-# Germline dna alignment and variant calling
+# Germline DNA alignment and variant calling
 julia> Fastq.command.apply_germline_dna_to_genome("my/project/setting.json")
 
-# Somatic dna alignment and variant calling
+# Somatic DNA alignment and variant calling
 julia> Fastq.command.apply_somatic_dna_to_genome("my/project/setting.json")
 
 # cDNA alignment and variant calling
