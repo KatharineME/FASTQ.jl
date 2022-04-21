@@ -5,25 +5,25 @@ Number of jobs
 Gigabytes of memory
 
 `organism` _String_<br>
-human or mouse
+"human" or "mouse" used by `apply_cdna_to_transcriptome` when creating gene_x_sample matrix
 
 `molecule` _String_<br>
-dna or cdna
+"dna" or "cdna"
 
 `exome` _Bool_<br>
-true or false
+"true" or "false"
 
 `fragment_length` _Int_<br>
 The most common cDNA fragment length in your data, used by `apply_cdna_to_genome`
 
 `fragment_length_standard_deviation` _Int_<br>
-For cdna alignment, the estimated standard deviation of fragment lengths
+For cDNA alignment, the estimated standard deviation of fragment lengths
 
 `sample` _String_<br>
 Sample name used for file naming and name of sample column in VCF
 
 `annotate_with_rsid` _Bool_<br>
-true or false
+"true" or "false"
 
 `tool_directory` _String_<br>
 Path to directory storing strelka and manta
@@ -32,32 +32,43 @@ Path to directory storing strelka and manta
 Path to where you want output files
 
 `read_name_scheme` _String_<br>
-Naming scheme your reads use, R1 or read1 for example
+Naming scheme your reads use, "R1" or "read1" for example
 
 `read1` _String_<br>
-Path to DNA forward read used by `apply_germline_dna_to_genome` and `apply_somatic_dna_to_genome`
+Path to DNA forward read file used by `apply_germline_dna_to_genome` and `apply_somatic_dna_to_genome`
 
+`read2` _String_<br> 
+Path to DNA reverse read file used by `apply_germline_dna_to_genome` and `apply_somatic_dna_to_genome`
 
-`read2": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_40k.R2.fastq.gz",
+`somatic_read1` _String_<br>
+Path to somatic DNA forward read file used by `apply_somatic_dna_to_genome`
 
-`somatic_read1": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R1.fastq.gz",
+`somatic_read2` _String_<br>
+Path to somatic DNA reverse read file used by `apply_somatic_dna_to_genome`
 
-`somatic_read2": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/test_dna_4k.R2.fastq.gz",
+`dna_read_directory` _String_<br>
+Path to directory with DNA read files used by `concatenate_fastq` to combine fastqs of the same read direction
 
-`dna_read_directory": "/Users/kate/craft/tool/Fastq.jl/test/data/dna/",
+`cdna_read_directory` _String_<br>
+Path to directory with cDNA read files used by `apply_cdna_to_genome` and `apply_cdna_to_transcriptome` which both use the read name and directory structure to keep different cDNA samples separate. 
 
-`cdna_read_directory": "/Users/kate/craft/tool/Fastq.jl/test/data/cdna/",
+`reference_genome` _String_<br>
+Path to human reference genome fna.gz or fa.gz file used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome`
 
-`reference_genome": "/Users/kate/craft/data/grch/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz",
+`reference_transcriptome` _String_<br>
+Path to human reference transcriptome fna.gz or fa.gz file used by `apply_cdna_to_transcriptome`
 
-`reference_transcriptome": "/Users/kate/craft/data/mouse_reference_transcriptome/Mus_musculus.GRCm38.cdna.all.fa.gz",
+`mouse_transcript_to_mouse_gene` _String_<br>
+Path to tsv with mouse transcript name column and mouse gene name column used by `apply_cdna_to_transcriptome` when `organism` is set to "mouse"
 
-`mouse_transcript_to_mouse_gene": "/Users/kate/craft/data/mouse_transcript_mouse_gene.tsv",
+`chromosome_position` _String_<br>
+Path to tsv with 3 columns: chromosome name, start position of chromosome (0), and end position of chromosome. Used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome`
 
-`chromosome_position": "/Users/kate/craft/data/grch/chromosome/chromosome.bed.gz",
+`chromosome_name` _String_<br>
+Path to tsv with column of chromosome names ("chr1", "chr2") and column of their integer names (1, 2)
 
-`chromosome_name": "/Users/kate/craft/data/grch/chromosome/chrn_n.tsv",
+`variant_database` _String_<br>
+Path to variant database VCF file (dbsnp or ensembl variant database for example) used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome` when `annotate_with_rsid` is set to "true"
 
-`variant_database": "/Users/kate/craft/guardiome/tool/ensembl/homo_sapiens-chr1_y.vcf.gz",
-
-`snpeff": "/Users/kate/craft/tool/Fastq.jl/tool/snpEff/snpEff.jar"
+`snpeff` _String_<br>
+Path to snpEff.jar file used by `apply_germline_dna_to_genome`, `apply_somatic_dna_to_genome`, and `apply_cdna_to_genome`
