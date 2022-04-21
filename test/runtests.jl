@@ -22,9 +22,14 @@ for (id, jl) in enumerate(jl_)
 
     end
 
-    println("($id) Running $jl")
+    println("\n", "#"^99)
+
+    println("\n($id) Testing $jl")
+
+    println("\n", "#"^99)
 
     run(`julia --project $jl`)
+
 
 end
 
