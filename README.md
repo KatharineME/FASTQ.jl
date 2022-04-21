@@ -11,7 +11,6 @@ Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 - [Set settings.json](setting.md)
 - [Programs called](programs.md)
 
-
 ## Use
 
 Copy `Fastq.jl/setting.json` to your project directory and edit it accordingly.
