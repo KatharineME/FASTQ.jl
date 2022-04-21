@@ -33,12 +33,13 @@ julia> Fastq.command.apply_cdna_to_transcriptome("my/project/setting.json")
 
 ## Prepare environment
 
-_Currently only works on MacOS._
+_Currently works only on MacOS._
 
 #### 1. Run
 
-```
+```bash
 brew install fastqc kallisto samtools bcftools
+
 pip install multiqc
 ```
 
@@ -48,7 +49,7 @@ Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `us
 
 #### 3. Unzip programs in `Fastq.jl/tool/` and link their exectuables to `usr/local/bin/`
 
-IF programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
+If programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
 
 Compile fastp from source
 
