@@ -1,11 +1,16 @@
 `number_of_jobs`<br>
-Int, number of jobs
+_Int_ number of jobs
 
-#### `memory`
+`memory`<br>
+
+```julia
+Int
+```
 
 Int, Gigabytes of memory
 
-#####`organism`
+`organism`<br>
+_Int_
 String, human or mouse
 
 "molecule": String, dna or cdna
