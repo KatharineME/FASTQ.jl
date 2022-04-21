@@ -11,7 +11,7 @@ include("apply_germline_dna_to_genome.jl")
 
 include("apply_somatic_dna_to_genome.jl")
 
-include("concatenate_read.jl")
+include("concatenate_fastq.jl")
 
 include("read_setting.jl")
 

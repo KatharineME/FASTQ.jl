@@ -1,8 +1,8 @@
-function concatenate_read(se)
+function concatenate_fastq(se)
 
     fe_va = Fastq.command.read_setting(se)
 
-    pa = joinpath(fe_va["output_directory"], "concatenate_read")
+    pa = joinpath(fe_va["output_directory"], "concatenate_fastq")
 
     Fastq.support.error_if_directory(pa)
 
