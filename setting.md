@@ -39,7 +39,7 @@ Naming scheme your reads use, "R1" or "read1" for example
 `read1` _String_<br>
 Path to DNA forward read file used by `apply_germline_dna_to_genome` and `apply_somatic_dna_to_genome`
 
-`read2` _String_<br> 
+`read2` _String_<br>
 Path to DNA reverse read file used by `apply_germline_dna_to_genome` and `apply_somatic_dna_to_genome`
 
 `somatic_read1` _String_<br>
