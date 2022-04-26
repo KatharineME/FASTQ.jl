@@ -6,8 +6,8 @@ The [2020 PrecisionFDA Truth Challenge V2](https://precision.fda.gov/challenges/
 
 ## PrecisionFDA Truth Challenge Overview
 
-- 2016 sequence analysis challenge where entires were competing on SNP and Indel recall, performance, and precision
-- There were 35 entries to the challenge
+- Sequence analysis pipeline challenge where entires were competing on SNP and Indel recall, performance, and precision
+- There were 35 entries
 - Each challenge entry consisted of two VCFs: one for HG001 and one for HG002
 - However only HG002 was used to evaluate the entries and choose the winners
 - Genome in a Bottle (GiaB) consortium provided the truth data
@@ -24,7 +24,7 @@ Data sources for the Fastq.jl benchmark
 
 The folders under “HG002_HiSeq300x_fastq” each contain 20-30X sequencing (a single flow cell) and contain folders with fast files from each library, which can be combined for most purposes. Samples A-L are the six vials of starting material. Each sample has two technical replicates, hence Sample A1 and Sample A2.
 
-[HG002 Truth VCF](https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/)
+[HG002 Truth VCF and BED](https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/)
 
 ## Software
 
