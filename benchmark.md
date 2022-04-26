@@ -2,7 +2,7 @@
 
 Fastq.jl has been benchmarked in the same fashion as entries into the [2016 PrecisionFDA Truth Challenge](https://precision.fda.gov/challenges/truth/results) and is therefore comparable to those entries.
 
-The 2020 PrecisionFDA Truth Challenge V2 was focused on difficult-to-map regions of GRCH38 including segmental duplications and MHC regions. In the future Fastq.jl will be benchmarked according to this challenge as well.
+The [2020 PrecisionFDA Truth Challenge V2](https://precision.fda.gov/challenges/10) was focused on difficult-to-map regions of GRCH38 including segmental duplications and MHC regions. In the future Fastq.jl will be benchmarked according to this challenge as well.
 
 ## PrecisionFDA Truth Challenge Overview
 
@@ -18,11 +18,13 @@ The 2020 PrecisionFDA Truth Challenge V2 was focused on difficult-to-map regions
 
 ## Data
 
-HG002 raw data came from: https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/HG002_HiSeq300x_fastq/ referenced from https://github.com/genome-in-a-bottle/giab_data_indexes
+Data sources for the Fastq.jl benchmark
+
+[HG002 raw data](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/HG002_HiSeq300x_fastq/) referenced from [here](https://github.com/genome-in-a-bottle/giab_data_indexes)
 
 The folders under “HG002_HiSeq300x_fastq” each contain 20-30X sequencing (a single flow cell) and contain folders with fast files from each library, which can be combined for most purposes. Samples A-L are the six vials of starting material. Each sample has two technical replicates, hence Sample A1 and Sample A2.
 
-HG002 Truth VCF data came from: https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/
+[HG002 Truth VCF](https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/)
 
 ## Software
 
