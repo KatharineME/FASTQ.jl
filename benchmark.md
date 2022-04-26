@@ -1,23 +1,26 @@
-Benchmark
+# Benchmark
 
-GiaB consortium provides truth data
-Global Alliance for Genomics and Health (GA4GH) provided software and best practices for comparisons
+Fastq.jl has been benchmarked in the same fashion as entries into the PrecisionFDA Truth Challenge and is therefore comparable to those entries.
 
-Each entry consisted of two VCFs: one for HG001 and one for HG002. However HG002 was used to evaluate.
-Challenge provided raw reads for HG001 and HG002
+## PrecisionFDA Truth Challenge
 
-Version 3.2.2 of HG002 truth data was used for evaluation. There were some problems with earlier versions. The sex chromosomes do not have truth data yet, only chromosomes 1-22.
-
-They removed offending entry VCF lines, such as lines with nan in the REF column or non-diploid genotypes (0/1/2)
+- 2016 sequence analysis challenge where entires were competing on SNP and Indel recall, performance, and precision.
+- There were 35 entries to the challenge
+- Each challenge entry consisted of two VCFs: one for HG001 and one for HG002
+- However only HG002 was used to evaluate the entries and choose the winners
+- Genome in a Bottle (GiaB) consortium provided the truth data
+- Global Alliance for Genomics and Health (GA4GH) provided software and best practices for comparisons
+- Version 3.2.2 of HG002 truth data was used for evaluation
+- The sex chromosomes did not have truth data, only chromosomes 1-22
+- When evaluating entry VCFs they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
 
 ## Software
 
-Specific version of RTG’s vcfeval for VCF comparison (generates an intermediate VCF which is further quantified by hap.py)
-Specific version of Illumina’s hap.py for quantification
+GA4GH was responsible for defining best practices and software specifications for the PrecisionFDA Truth Challenge. GA4GH created a prototype benchmarking workflow that consisted of specific implementations of RTG's vcfeval tool and Illumina's hap.py tool.
 
-- hap.py’s quantity tool counts and strategies variants
-- specifically the HAP-207 version, with the engine set to a GA4GH-specific version of vcfeval
-  Together they form the prototype GA4GH benchmarking workflow: https://github.com/ga4gh/benchmarking-tools/tree/master/doc/ref-impl
+RTG’s vcfeval was used for VCF comparison. vcfeval generates an intermediate VCF which is further quantified by hap.py (the HAP-207 version, with the engine set to a GA4GH-specific version of vcfeval). hap.py’s quantity tool counts and stratifies variants by type.
+
+This benchmark workflow is documented [here](https://github.com/ga4gh/benchmarking-tools/tree/master/doc/ref-impl).
 
 ![pipeline](media/benchmark_pipeline.png)
 ￼
