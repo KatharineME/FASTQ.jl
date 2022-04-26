@@ -1,10 +1,12 @@
 # Benchmark
 
-Fastq.jl has been benchmarked in the same fashion as entries into the PrecisionFDA Truth Challenge and is therefore comparable to those entries.
+Fastq.jl has been benchmarked in the same fashion as entries into the [2016 PrecisionFDA Truth Challenge](https://precision.fda.gov/challenges/truth/results) and is therefore comparable to those entries.
 
-## PrecisionFDA Truth Challenge
+The 2020 PrecisionFDA Truth Challenge V2 was focused on difficult-to-map regions of GRCH38 including segmental duplications and MHC regions. In the future Fastq.jl will be benchmarked according to this challenge as well.
 
-- 2016 sequence analysis challenge where entires were competing on SNP and Indel recall, performance, and precision.
+## PrecisionFDA Truth Challenge Overview
+
+- 2016 sequence analysis challenge where entires were competing on SNP and Indel recall, performance, and precision
 - There were 35 entries to the challenge
 - Each challenge entry consisted of two VCFs: one for HG001 and one for HG002
 - However only HG002 was used to evaluate the entries and choose the winners
@@ -13,6 +15,14 @@ Fastq.jl has been benchmarked in the same fashion as entries into the PrecisionF
 - Version 3.2.2 of HG002 truth data was used for evaluation
 - The sex chromosomes did not have truth data, only chromosomes 1-22
 - When evaluating entry VCFs they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
+
+## Data
+
+HG002 raw data came from: https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/HG002_HiSeq300x_fastq/ referenced from https://github.com/genome-in-a-bottle/giab_data_indexes
+
+The folders under “HG002_HiSeq300x_fastq” each contain 20-30X sequencing (a single flow cell) and contain folders with fast files from each library, which can be combined for most purposes. Samples A-L are the six vials of starting material. Each sample has two technical replicates, hence Sample A1 and Sample A2.
+
+HG002 Truth VCF data came from: https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/
 
 ## Software
 
@@ -61,11 +71,3 @@ Highest Indel precision
 - False Positive / FP: present only in the query
 - False Negative / FN: present only in the truth
 - Not-assessed / N: call was not assigned a match status
-
-## Data
-
-HG002 raw data came from: https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/HG002_HiSeq300x_fastq/ referenced from https://github.com/genome-in-a-bottle/giab_data_indexes
-
-The folders under “HG002_HiSeq300x_fastq” each contain 20-30X sequencing (a single flow cell) and contain folders with fast files from each library, which can be combined for most purposes. Samples A-L are the six vials of starting material. Each sample has two technical replicates, hence Sample A1 and Sample A2.
-
-HG002 Truth VCF data came from: https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/
