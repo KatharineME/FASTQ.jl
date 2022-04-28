@@ -61,43 +61,7 @@ Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `us
 
 #### 3. Unzip programs in `Fastq.jl/tool/` and link their exectuables to `usr/local/bin/`
 
-If programs in `tool/` fail, do this to install fastp, minimap2, and STAR.
-
-Compile fastp from source
-
-```bash
-git clone https://github.com/OpenGene/fastp.git
-
-cd fastp
-
-make
-
-sudo make install
-# Follow brew install or upgrade instructions if errors arise.
-```
-
-Compile minimap2 from source
-
-```bash
-# Download source code for minimap2-2.24 from https://github.com/lh3/minimap2/releases
-cd minimap2-2.24
-
-make
-```
-
-Compile star from source
-
-```bash
-# Download STAR 2.7.9.a from https://github.com/alexdobin/STAR/releases
-
-brew install gcc
-
-cd STAR-2.7.9a/source
-
-make STARforMacStatic CXX=/usr/local/Cellar/gcc/11.2.0_3/bin/g++-11
-
-# STAR executable will be in STAR-2.7.9a/bin/MacOSX_x86_64
-```
+If programs in `tool/` fail then [compile programs](compile_programs.md)
 
 #### 4. Get Docker, manta, and strelka
 

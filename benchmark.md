@@ -55,8 +55,15 @@ Vcfeval
 
 Hap.py -https://github.com/Illumina/hap.py
 
-- This is command to use with the exception that rtg wasn’t installed via hap.py:
-  `hap.py truth.vcf.gz query.vcf.gz -f conf.bed.gz -o ./test -V --engine-vcfeval-path /path/to/rtg --engine-vcfeval-template /path/to/hg38.sdf` - `-f` is for passing a bed file of confident call regions, hap.py will be able to say that variant calls different from these are false positives - `-o` specifies an output file prefix - `-V` writes an annotated VCF - `--engine-vcfeval-path` specifies path to rtg installation - `--engine-vcfeval-template` specifies path to SDF used for vcfeval run
+This is command to use with the exception that rtg wasn’t installed via hap.py:
+
+`hap.py truth.vcf.gz query.vcf.gz -f conf.bed.gz -o ./test -V --engine-vcfeval-path /path/to/rtg --engine-vcfeval-template /path/to/hg38.sdf`
+
+- `-f` is for passing a bed file of confident call regions, hap.py will be able to say that variant calls different from these are false positives
+- `-o` specifies an output file prefix
+- `-V` writes an annotated VCF
+- `--engine-vcfeval-path` specifies path to rtg installation
+- `--engine-vcfeval-template` specifies path to SDF used for vcfeval run
 
 ## Metrics
 
