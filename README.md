@@ -94,7 +94,7 @@ julia --project --eval "using Pkg; Pkg.test()"
 
 ---
 
-## :wave: :cowboy_hat_face: Howdy
+## :cowboy_hat_face: Howdy
 
 To report a bug, request a feature, or leave a comment, just [submit an issue](https://github.com/GIT_USER_NAME/TEMPLATE.jl/issues/new/choose).
 
