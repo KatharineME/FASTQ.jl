@@ -12,9 +12,11 @@ The [2020 PrecisionFDA Truth Challenge V2](https://precision.fda.gov/challenges/
 - However only HG002 was used to evaluate the entries and choose the winners
 - Genome in a Bottle (GiaB) consortium provided the truth data
 - Global Alliance for Genomics and Health (GA4GH) provided software and best practices for comparisons
+- [G4AGH's 2019 paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6699627/#SD1) represents the latest standards for benchmarking
 - Version 3.2.2 of HG002 truth data was used for evaluation
 - The sex chromosomes did not have truth data, only chromosomes 1-22
 - When evaluating entry VCFs they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
+- Participants were asked to use their pipelines with 50x Illumina WGS to predict variants from at the time yet unknown reference sample HG0002/NA24385
 
 ## Data
 
@@ -55,6 +57,8 @@ Vcfeval
 
 Hap.py -https://github.com/Illumina/hap.py
 
+-hap.py includes a comparison tool to perform haplotype-based comparison of complex variants in addition to sophisticated functionality to stratify variant calls by type or region
+
 This is command to use with the exception that rtg wasn’t installed via hap.py:
 
 `hap.py truth.vcf.gz query.vcf.gz -f conf.bed.gz -o ./test -V --engine-vcfeval-path /path/to/rtg --engine-vcfeval-template /path/to/hg38.sdf`
@@ -75,6 +79,18 @@ Highest Indel recall
 Highest Indel precision
 
 ![metrics](media/precisionfda_metrics.png)
+
+from the benchmarking paper 2019
+
+- the ability to detect variants that are known to be present or “absence of false negatives”, which we call “recall” in this work
+
+- specificity (the ability to correctly identify the absence of variants or “absence of false positives”, which we replace with “precision” in this work
+
+- precision is often a more useful metric than specificity due to the very large proportion of true negative positions in the genome
+- Our tools calculate TP, FP, and FN requiring the genotype to match, but output additional statistics related to how many of the FPs and FNs are allele matches (FP.GT) or local matches (FP.AL)
+- Note that we have chosen not to include true negatives (or consequently specificity) in our standardized definitions. This is due to the challenge in defining the number of true negatives, particularly for indels or around complex variants.
+
+![ga4gh_metric](media/ga4gh_tp_fp_fn.png)
 
 - True Positive / TP: present in both truth and query
 - False Positive / FP: present only in the query
