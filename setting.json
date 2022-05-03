@@ -22,6 +22,7 @@
   "mouse_transcript_to_mouse_gene": "/Users/kate/craft/data/mouse_transcript_mouse_gene.tsv",
   "chromosome_position": "/Users/kate/craft/data/grch/chromosome/chromosome.bed.gz",
   "chromosome_name": "/Users/kate/craft/data/grch/chromosome/chrn_n.tsv",
+  "name_chromosome": "/Users/kate/craft/data/grch/chromosome/n_chrn.tsv",
   "variant_database": "/Users/kate/craft/guardiome/tool/ensembl/homo_sapiens-chr1_y.vcf.gz",
   "snpeff": "/Users/kate/craft/workflow/Fastq.jl/tool/snpEff/snpEff.jar",
   "truth_vcf": "/Users/kate/craft/data/benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz",
