@@ -23,5 +23,9 @@
   "chromosome_position": "/Users/kate/craft/data/grch/chromosome/chromosome.bed.gz",
   "chromosome_name": "/Users/kate/craft/data/grch/chromosome/chrn_n.tsv",
   "variant_database": "/Users/kate/craft/guardiome/tool/ensembl/homo_sapiens-chr1_y.vcf.gz",
-  "snpeff": "/Users/kate/craft/workflow/Fastq.jl/tool/snpEff/snpEff.jar"
+  "snpeff": "/Users/kate/craft/workflow/Fastq.jl/tool/snpEff/snpEff.jar",
+  "truth_vcf": "/Users/kate/craft/data/benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz",
+  "query_vcf": "/Users/kate/craft/data/benchmark/apply_germline_dna_to_genome/call_germline_variant/pass.vcf.gz",
+  "confident_regions_bed": "/Users/kate/craft/data/benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed.gz",
+  "rtg_tools": "/Users/kate/craft/workflow/Fastq.jl/tool/rtg-tools-3.11"
 }

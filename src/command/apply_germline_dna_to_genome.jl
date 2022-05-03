@@ -15,9 +15,9 @@ function apply_germline_dna_to_genome(se)
 
     pa = joinpath(pou, "apply_germline_dna_to_genome")
 
-    #Fastq.support.error_if_directory(pa)
+    Fastq.support.error_if_directory(pa)
 
-    #Fastq.fastq.examine_read(r1, r2, pa, n_jo)
+    Fastq.fastq.examine_read(r1, r2, pa, n_jo)
 
     for pa in [r1, r2, ge, chs, chn, sn]
 
