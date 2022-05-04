@@ -15,12 +15,10 @@ The [2020 PrecisionFDA Truth Challenge V2](https://precision.fda.gov/challenges/
 - [G4AGH's 2019 paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6699627/#SD1) represents the latest standards for benchmarking
 - Version 3.2.2 of HG002 truth data was used for evaluation
 - The sex chromosomes did not have truth data, only chromosomes 1-22
-- When evaluating entry VCFs they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
+- When evaluating entries they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
 - Participants were asked to use their pipelines with 50x Illumina WGS to predict variants from at the time yet unknown reference sample HG0002/NA24385
 
-## Data
-
-Data sources for the Fastq.jl benchmark
+## Data Sources
 
 [HG002 raw data](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/HG002_HiSeq300x_fastq/) referenced from [here](https://github.com/genome-in-a-bottle/giab_data_indexes)
 
@@ -30,63 +28,50 @@ The folders under “HG002_HiSeq300x_fastq” each contain 20-30X sequencing (a 
 
 ## Software
 
-GA4GH was responsible for defining best practices and software specifications for the PrecisionFDA Truth Challenge. GA4GH created a prototype benchmarking workflow that consisted of specific implementations of RTG's vcfeval tool and Illumina's hap.py tool.
-
-RTG’s vcfeval was used for VCF comparison. vcfeval generates an intermediate VCF which is further quantified by hap.py (the HAP-207 version, with the engine set to a GA4GH-specific version of vcfeval). hap.py’s quantity tool counts and stratifies variants by type.
-
-This benchmark workflow is documented [here](https://github.com/ga4gh/benchmarking-tools/tree/master/doc/ref-impl).
+In the PrecisionFDA Truth Challenge, GA4GH was responsible for defining best practices and software specifications. GA4GH created a prototype [benchmark workflow](https://github.com/ga4gh/benchmarking-tools/tree/master/doc/ref-impl) that consisted of specific implementations of RTG's vcfeval and Illumina's hap.py. RTG’s vcfeval was used for VCF comparison. vcfeval generated an intermediate VCF which was further quantified by hap.py.
 
 ![pipeline](media/benchmark_pipeline.png)
-￼
 
-- The intermediate.vcf created by vcfeval must have two columns names: TRUTH and QUERY with these FORMAT annotations: `##FORMAT=<ID=BK,Number=1,Type=String,Description="Sub-type for decision (match/mismatch type)">`
-- The stratification bed files tell hap.py which variant is what type. hapy.py uses that information to give performance metrics in each variant type category
-  - The new stratification bed files according to ga4gh: https://github.com/genome-in-a-bottle/genome-stratifications
-- How you would call hap.py to evaluate a query.vcf
+However the hap.py function that accepted an intermediate VCF from vcfeval is no longer available. Fortunately hap.py allows for the VCF comparison engine to be set to a desired version of vcfeval. This is the method we used to benchmark Fastq.jl. We run hap.py using vcfeval's VCF comparision engine and get back precision and recall metrics stratified by variant type.
 
-wget ftp://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/analysis/NIST_v4.1_SmallVariantDraftBenchmark_12182019/GRCh37/HG002_GRCh37_1_22_v4.1_draft_benchmark.vcf.gz
-wget ftp://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/analysis/NIST_v4.1_SmallVariantDraftBenchmark_12182019/GRCh37/HG002_GRCh37_1_22_v4.1_draft_benchmark.vcf.gz.tbi
-wget ftp://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/analysis/NIST_v4.1_SmallVariantDraftBenchmark_12182019/GRCh37/HG002_GRCh37_1_22_v4.1_draft_benchmark.bed
+### vcfeval
 
-hap.py HG002_GRCh37_1_22_v4.1_draft_benchmark.vcf.gz query.vcf.gz -f HG002_GRCh37_1_22_v4.1_draft_benchmark.bed -o benchmarking-output
+- https://github.com/RealTimeGenomics/rtg-tools
+- Before running vcfeval (or hap.py using vcfeval as engine) need to convert reference faster to sdf format like this:
+  `rtg format -o hg19.sdf hg19.fa`. That command creates a folder hg38.sdf which must be passed to hap.py `--engine-vcfeval-template hg38.sdf`
 
-Vcfeval
+### hap.py
 
-- Before running need to convert reference faster to sdf format like this:
-  `rtg format -o hg19.sdf hg19.fa` - that command creates a folder hg38.sdf which must be passed to hap.py `--engine-vcfeval-template hg38.sdf`
+- https://github.com/Illumina/hap.py
+- hap.py includes a comparison tool to perform haplotype-based comparison of complex variants in addition to sophisticated functionality to stratify variant calls by type or region
+- Stratification bed files tell hap.py which variant is what type. hapy.py uses that information to give performance metrics in each variant type category
+- The new stratification bed files according to ga4gh: https://github.com/genome-in-a-bottle/genome-stratifications
 
-Hap.py -https://github.com/Illumina/hap.py
-
--hap.py includes a comparison tool to perform haplotype-based comparison of complex variants in addition to sophisticated functionality to stratify variant calls by type or region
-
-This is command to use with the exception that rtg wasn’t installed via hap.py:
-
-`hap.py truth.vcf.gz query.vcf.gz -f conf.bed.gz -o ./test -V --engine-vcfeval-path /path/to/rtg --engine-vcfeval-template /path/to/hg38.sdf`
-
-- `-f` is for passing a bed file of confident call regions, hap.py will be able to say that variant calls different from these are false positives
-- `-o` specifies an output file prefix
+- `-f BED` is for passing a bed file of confident call regions, hap.py will be able to say that variant calls different from these are false positives
+- `--stratification TSV` for passing a TSV where first column in region name and second column is stratification bed file path
+- `-o PREFIX` specifies an output file prefix
 - `-V` writes an annotated VCF
-- `--engine-vcfeval-path` specifies path to rtg installation
-- `--engine-vcfeval-template` specifies path to SDF used for vcfeval run
+- `--engine-vcfeval-path PATH` specifies path to rtg installation
+- `--engine-vcfeval-template PATH` specifies path to SDF used for vcfeval run
 
 ## Metrics
 
-Highest SNP performance - highest SNP F-score
-Highest SNP recall
-Highest SNP precision
-Highest Indel performance - highest Indel F-score
-Highest Indel recall
-Highest Indel precision
+PrecisionFDA Truth Challenge Metics
+
+- Highest SNP performance - highest SNP F-score
+- Highest SNP recall
+- Highest SNP precision
+- Highest Indel performance - highest Indel F-score
+- Highest Indel recall
+- Highest Indel precision
 
 ![metrics](media/precisionfda_metrics.png)
 
-from the benchmarking paper 2019
+Notes from the 2019 benchmarking paper
 
-- the ability to detect variants that are known to be present or “absence of false negatives”, which we call “recall” in this work
-
-- specificity (the ability to correctly identify the absence of variants or “absence of false positives”, which we replace with “precision” in this work
-
-- precision is often a more useful metric than specificity due to the very large proportion of true negative positions in the genome
+- The ability to detect variants that are known to be present or “absence of false negatives”, which we call “recall” in this work
+- Specificity (the ability to correctly identify the absence of variants or “absence of false positives”, which we replace with “precision” in this work
+- Precision is often a more useful metric than specificity due to the very large proportion of true negative positions in the genome
 - Our tools calculate TP, FP, and FN requiring the genotype to match, but output additional statistics related to how many of the FPs and FNs are allele matches (FP.GT) or local matches (FP.AL)
 - Note that we have chosen not to include true negatives (or consequently specificity) in our standardized definitions. This is due to the challenge in defining the number of true negatives, particularly for indels or around complex variants.
 
