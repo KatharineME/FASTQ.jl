@@ -43,7 +43,7 @@ However the hap.py function that accepted an intermediate VCF from vcfeval is no
 ### hap.py
 
 - https://github.com/Illumina/hap.py
-- hap.py includes a comparison tool to perform haplotype-based comparison of complex variants in addition to sophisticated functionality to stratify variant calls by type or region
+- Includes a comparison tool to perform haplotype-based comparison of complex variants in addition to sophisticated functionality to stratify variant calls by type or region
 - Stratification bed files tell hap.py which variant is what type. hapy.py uses that information to give performance metrics in each variant type category
 - The new stratification bed files according to ga4gh: https://github.com/genome-in-a-bottle/genome-stratifications
 
