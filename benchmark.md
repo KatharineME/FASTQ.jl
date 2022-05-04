@@ -9,12 +9,11 @@ The [2020 PrecisionFDA Truth Challenge V2](https://precision.fda.gov/challenges/
 - Sequence analysis pipeline challenge where entires were competing on SNP and Indel recall, performance, and precision
 - There were 35 entries
 - Each challenge entry consisted of two VCFs: one for HG001 and one for HG002
-- However only HG002 was used to evaluate the entries and choose the winners
+- However only HG002 (version 3.2.2) was used to evaluate the entries and choose the winners
+- The sex chromosomes did not have truth data, only chromosomes 1-22
 - Genome in a Bottle (GiaB) consortium provided the truth data
 - Global Alliance for Genomics and Health (GA4GH) provided software and best practices for comparisons
 - [G4AGH's 2019 paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6699627/#SD1) represents the latest standards for benchmarking
-- Version 3.2.2 of HG002 truth data was used for evaluation
-- The sex chromosomes did not have truth data, only chromosomes 1-22
 - When evaluating entries they removed offending VCF lines, such as lines with "nan" in the REF column or non-diploid genotypes (0/1/2)
 - Participants were asked to use their pipelines with 50x Illumina WGS to predict variants from at the time yet unknown reference sample HG0002/NA24385
 
@@ -69,11 +68,11 @@ PrecisionFDA Truth Challenge Metics
 
 Notes from the 2019 benchmarking paper
 
-- The ability to detect variants that are known to be present or “absence of false negatives”, which we call “recall” in this work
-- Specificity (the ability to correctly identify the absence of variants or “absence of false positives”, which we replace with “precision” in this work
-- Precision is often a more useful metric than specificity due to the very large proportion of true negative positions in the genome
-- Our tools calculate TP, FP, and FN requiring the genotype to match, but output additional statistics related to how many of the FPs and FNs are allele matches (FP.GT) or local matches (FP.AL)
-- Note that we have chosen not to include true negatives (or consequently specificity) in our standardized definitions. This is due to the challenge in defining the number of true negatives, particularly for indels or around complex variants.
+- "The ability to detect variants that are known to be present or “absence of false negatives”, which we call “recall” in this work"
+- "Specificity (the ability to correctly identify the absence of variants or “absence of false positives”, which we replace with “precision” in this work
+- "Precision is often a more useful metric than specificity due to the very large proportion of true negative positions in the genome
+- "Our tools calculate TP, FP, and FN requiring the genotype to match, but output additional statistics related to how many of the FPs and FNs are allele matches (FP.GT) or local matches (FP.AL)
+- "Note that we have chosen not to include true negatives (or consequently specificity) in our standardized definitions. This is due to the challenge in defining the number of true negatives, particularly for indels or around complex variants.
 
 ![ga4gh_metric](media/ga4gh_tp_fp_fn.png)
 

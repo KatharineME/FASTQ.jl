@@ -8,6 +8,7 @@ cd fastp
 make
 
 sudo make install
+
 # Follow brew install or upgrade instructions if errors arise.
 ```
 
@@ -15,6 +16,7 @@ sudo make install
 
 ```bash
 # Download source code for minimap2-2.24 from https://github.com/lh3/minimap2/releases
+
 cd minimap2-2.24
 
 make
