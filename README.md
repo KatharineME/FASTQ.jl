@@ -14,7 +14,7 @@ Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 #### [Set settings.json](setting.md)
 
-#### [Programs called](programs.md)
+#### [Programs called](program.md)
 
 ## Use
 
@@ -61,7 +61,7 @@ Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `us
 
 #### 3. Unzip programs in `Fastq.jl/tool/` and link their exectuables to `usr/local/bin/`
 
-If programs in `tool/` fail then [compile programs](compile_programs.md)
+If programs in `tool/` fail then [compile programs](compile_program.md)
 
 #### 4. Get Docker, manta, and strelka
 

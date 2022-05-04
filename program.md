@@ -13,62 +13,29 @@ Trims and preprocesses read files.
 ### minimap2
 
 - `-x` A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
-
 - `-a` Generates CIGAR and output alignments in SAM format.
-
 - `--sr` Enable short read mode.
-
-#### `--splice`
-
-Enable splice alignment mode.
-
-#### `-uf`
-
-Use transcript strand to find canonical splice sites.
-
-#### `-t NUM`
-
-Number of threads.
-
-#### `-K NUM`
-
-Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM passed here helps with load balancing in the multi-threading mode.
-
-#### `-R`
-
-SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
+- `--splice` Enable splice alignment mode.
+- `-uf` Use transcript strand to find canonical splice sites.
+- `-t NUM` Number of threads.
+- `-K NUM` Number of bases loaded into memory to process in a mini-batch [500M]. A large NUM passed here helps with load balancing in the multi-threading mode.
+- `-R` SAM read group line in a format like @RG\\tID:foo\\tSM:bar [].
 
 ### samtools fixmate
 
 Corrects flaws in read-pairing that the aligner may have introduced. It ensures the SAM FLAG, RNEXT, PNEXT, and TLEN fields are correct and consistent.
 
-#### `-u`
-
-Uncompressed output.
-
-#### `-m`
-
-Add mate score tag.
-
-#### `-`
-
-A synonym for stdin and stdout in samtools.
+- `-u` Uncompressed output.
+- `-m` Add mate score tag.
+- `-` A synonym for stdin and stdout in samtools.
 
 ### samtools sort
 
 Orders aligned reads by chromosome and coordinate. `sort` is highly parallel so adding threads is beneficial.
 
-#### `-u`
-
-Uncompressed output.
-
-#### `-l 1`
-
-Fastest level of BAM compressed output.
-
-#### `-T PATH`
-
-Specify a temporary storage directory like `/tmp/example_prefix/`.
+- `-u` Uncompressed output.
+- `-l 1` Fastest level of BAM compressed output.
+- `-T PATH` Specify a temporary storage directory like `/tmp/example_prefix/`.
 
 ### samtools markdup
 
@@ -80,13 +47,8 @@ The issue of when and whether to remove duplicates is debated. Duplicates as def
 
 Duplicates may be removed before alignment or after. The risk with removing duplicates before alignment is that you are actually removing real signal instead of duplicate fragments. The risk with removing duplicates after alignment is that you may remove fragments with unique sequences that happen to share coordinates with another alignment.
 
-#### `-r`
-
-Remove reads marked with duplicate flag.
-
-#### `--reference PATH`
-
-Path to reference genome used for alignment.
+- `-r` Remove reads marked with duplicate flag.
+- `--reference PATH` Path to reference genome used for alignment.
 
 ### samtools index
 
@@ -108,33 +70,16 @@ When the mapping of a read is chimeric, meaning non-linear, one piece is conside
 
 ### Strelka
 
-#### `--rna` (configure option)
-
-Applies specific settings for the rna-seq variant calling use case. This option is still in development.
-
-#### `--exome` (configure option)
-
-Applies settings for the whole exome seqquencing use case which include disabling high depth filters.
-
-#### `--callRegions PATH` (configure option)
-
-Pass in a bed file with regions to check for variants in. Bed file must be gzipped and tabixed.
-
-#### `--indelCandidates PATH` (configure option)
-
-Pass pre-predicted indels. If running the somatic workflow, its best practice to pass manta's output `candidateSmallIndels.vcf.gz` here. If running the germline workflow, this is not recommended.
-
-#### `--quiet` (run option)
-
-Sends error log to `${STRELKA_ANALYSIS_PATH}/workspace/pyflow.data/logs/pyflow_log.txt` instead of stdout.
-
-#### `--mode local`
-
-Runs locally as opposed to running on a cluster.
+- `--rna` (configure option) Applies specific settings for the rna-seq variant calling use case. This option is still in development.
+- `--exome` (configure option) Applies settings for the whole exome seqquencing use case which include disabling high depth filters.
+- `--callRegions PATH` (configure option) Pass in a bed file with regions to check for variants in. Bed file must be gzipped and tabixed.
+- `--indelCandidates PATH` (configure option) Pass pre-predicted indels. If running the somatic workflow, its best practice to pass manta's output `candidateSmallIndels.vcf.gz` here. If running the germline workflow, this is not recommended.
+- `--quiet` (run option) Sends error log to `${STRELKA_ANALYSIS_PATH}/workspace/pyflow.data/logs/pyflow_log.txt` instead of stdout.
+- `--mode local` Runs locally as opposed to running on a cluster.
 
 ### Manta
 
-#### `--indelCandidates PATH`
+- `--indelCandidates PATH`
 
 ## Annotate Variants
 
@@ -148,20 +93,12 @@ Concatenate two vcfs with the same sample set.
 
 ### bcftools annotate
 
-#### `rename-chrs PATH`
-
-Will rename the chromosomes in a vcf according to the text file passed.
+- `rename-chrs PATH` Will rename the chromosomes in a vcf according to the text file passed.
 
 ### SnpSift
 
 From the same author as SnpEff, SnpSift is a tool that annotates VCFs with specific information from other databases.
 
-#### `annotate`
+- `annotate` Will annotate VCF with rsids from another VCF.
 
-Will annotate VCF with rsids from another VCF.
-
-#### `-id`
-
-Only ID column of VCF will be annotated, not INFO or other columns.
-
-####
+- `-id` Only ID column of VCF will be annotated, not INFO or other columns.
