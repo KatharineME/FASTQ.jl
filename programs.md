@@ -4,33 +4,19 @@
 
 Trims and preprocesses read files.
 
-- `detect_adapter_for_pe`
-
-Detect the adapter sequence. This is done by default with single-end sequencing, but for paired end, you must pass this option.
-
-- `json`
-
-Specify path for json report
-
-#### `html`
-
-Specify path for html report
+- `detect_adapter_for_pe` Detect the adapter sequence. This is done by default with single-end sequencing, but for paired end, you must pass this option.
+- `json` Specify path for json report
+- `html` Specify path for html report
 
 ## Align
 
 ### minimap2
 
-#### `-x `
+- `-x` A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
 
-A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
+- `-a` Generates CIGAR and output alignments in SAM format.
 
-#### `-a`
-
-Generates CIGAR and output alignments in SAM format.
-
-#### `--sr`
-
-Enable short read mode.
+- `--sr` Enable short read mode.
 
 #### `--splice`
 
