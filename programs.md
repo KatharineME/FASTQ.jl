@@ -4,11 +4,11 @@
 
 Trims and preprocesses read files.
 
-#### `detect_adapter_for_pe`
+- `detect_adapter_for_pe`
 
 Detect the adapter sequence. This is done by default with single-end sequencing, but for paired end, you must pass this option.
 
-#### `json`
+- `json`
 
 Specify path for json report
 
