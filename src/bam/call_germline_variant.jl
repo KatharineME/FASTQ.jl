@@ -9,7 +9,8 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     # Run docker container
 
-    id, voo, vof, voc, vogefi, vot = run_docker_container(to, fa, chs, ge, pao, nothing)
+    id, voo, vof, voc, vogefi, vot =
+        run_strelka_manta_docker_container(to, fa, chs, ge, pao, nothing)
 
 
     # Set config parameters
@@ -58,7 +59,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     # Remove docker container
 
-    remove_docker_container(id)
+    Fastq.support.remove_docker_container(id)
 
 
     ## Combine vcfs

@@ -1,4 +1,4 @@
-function run_docker_container(to, fa, chs, ge, pao, so)
+function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     vot = basename(to)
 

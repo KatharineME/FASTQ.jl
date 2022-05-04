@@ -11,6 +11,8 @@ include("index_genome_files.jl")
 
 include("log.jl")
 
+include("remove_docker_container.jl")
+
 include("test_local_environment.jl")
 
 include("test_strelka_and_manta.jl")

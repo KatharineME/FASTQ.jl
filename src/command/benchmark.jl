@@ -13,12 +13,12 @@ function benchmark(se)
 
     pa = joinpath(ou, "benchmark")
 
-    #Fastq.support.error_if_directory(pa)
+    Fastq.support.error_if_directory(pa)
 
 
     # Make vcfeval SDF
 
-    red = strip(re, ".gz")
+    red = split(re, ".gz")[1]
 
     if !isfile(re)
 
@@ -45,11 +45,14 @@ function benchmark(se)
 
     end
 
-    ## run vcfeval
+
+    # run vcfeval
 
     ouv = joinpath(pa, "vcfeval")
 
-    run(`$rt vcfeval 
+    rte = joinpath(rt, "rtg")
+
+    run(`$rte vcfeval 
         --baseline=$vt 
         --bed-regions=$bd 
         --calls=$vqn 
@@ -58,7 +61,7 @@ function benchmark(se)
         --threads=$n_jo`)
 
 
-    ## run hap.py in hap.py docker container
+    # run hap.py in hap.py docker container
 
     ouh = joinpath(pa, "happy/")
 
@@ -66,37 +69,47 @@ function benchmark(se)
 
     ho = "/home/"
 
-    pvt = joinpath(splitpath(vt)[end - 1], splitpath(vt)[end])
-
-    vvt = joinpath(ho, pvt)
-
-    pvqn = joinpath(splitpath(vqn)[end -1], splitpath(vqn)[end])
-
-    vvqn = joinpath(ho, pvqn)
-
-    vbd = joinpath(ho, basename(bd))
-
-    pre = joinpath(splitpath(red)[end - 1], splitpath(red)[end])
-
-    vre = joinpath(ho, pre)
-
     vouh = joinpath(ho, splitpath(ouh)[end])
-
-    vrt = joinpath(ho, basename(rt))
-
-    vsd = joinpath(ho, basename(sd))
-
-    println(vvt)
-
-    println(vvqn)
-
-    println(vbd)
-
-    println(vre)
 
     println(vouh)
 
+    pvt = dirname(Fastq.support.get_full_path(vt))
+
+    vvt = joinpath(ho, basename(pvt))
+
+    println(pvt)
+
+    println(vvt)
+
+    pvqn = dirname(Fastq.support.get_full_path(vqn))
+
+    vvqn = joinpath(ho, basename(pvqn))
+
+    println(pvqn)
+
+    println(vvqn)
+
+    pbd = dirname(Fastq.support.get_full_path(bd))
+
+    vbd = joinpath(ho, "confident_regions_bed/")
+
+    println(pbd)
+
+    println(vbd)
+
+    pre = dirname(Fastq.support.get_full_path(red))
+
+    vre = joinpath(ho, basename(pre))
+
+    println(pre)
+
+    println(vre)
+
+    vrt = joinpath(ho, basename(rt))
+
     println(vrt)
+
+    vsd = joinpath(ho, basename(sd))
 
     println(vsd)
 
@@ -107,7 +120,7 @@ function benchmark(se)
             --user root
             -v $pvt:$vvt 
             -v $pvqn:$vvqn 
-            -v $bd:$vbd 
+            -v $pbd:$vbd 
             -v $pre:$vre 
             -v $ouh:$vouh 
             -v $rt:$vrt 
@@ -119,8 +132,11 @@ function benchmark(se)
 
     readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $vvt $vvqn -f $vbd -r $vre -o $(joinpath(vouh, "hap.py")) --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
+            `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $(joinpath(vvt, basename(vt))) $(joinpath(vvqn, basename(vqn))) -f $(joinpath(vbd, basename(bd))) -r $(joinpath(vre, basename(red))) -o $(joinpath(vouh, "hap.py")) --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
         ),
     )
+
+
+    Fastq.support.remove_docker_container(id)
 
 end

@@ -8,9 +8,7 @@ include("call_somatic_variant.jl")
 
 include("configure_and_run_manta.jl")
 
-include("remove_docker_container.jl")
-
-include("run_docker_container.jl")
+include("run_strelka_manta_docker_container.jl")
 
 include("set_strelka_manta_run.jl")
 
