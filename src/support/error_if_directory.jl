@@ -10,6 +10,8 @@ function error_if_directory(pa)
 
     else
 
+        println(paf)
+
         mkpath(paf)
 
     end

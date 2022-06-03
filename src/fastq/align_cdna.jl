@@ -9,11 +9,24 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
     if !ispath(id)
 
         mkdir(id)
+        
+	println("\nMaking STAR indices, this may take a while\n")
 
-        println("\nMaking STAR indices, this may take a while\n")
+        ged = splitext(ge)[1]
+
+        if !isfile(ged)
+
+		run(
+		    pipeline(
+			     `bgzip --decompress --stdout $ge`,
+			     `$ged`
+			     ),
+		    )
+
+	end
 
         run(
-            `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $id --genomeFastaFiles $ge`,
+            `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $id --genomeFastaFiles $ged`,
         )
 
     end
