@@ -1,7 +1,5 @@
 ![dna](media/dna.png)
 
-# Fastq.jl
-
 Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 #### [Use](#use)

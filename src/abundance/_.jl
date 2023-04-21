@@ -1,9 +1,9 @@
 module abundance
 
-using ..Fastq
 using CSV
 using DataFrames
-using OnePiece
+using BioLab
+using ..Fastq
 
 include("make_gene_by_sample.jl")
 
