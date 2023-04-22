@@ -4,15 +4,15 @@ Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 #### [Use](#use)
 
-#### [Prepare environment](#prepare-environment)
+#### [Prepare Environment](#prepare-environment)
 
 #### [Get Fastq.jl](#get-fastqjl)
 
-#### [Run tests](#run-tests)
+#### [Run Tests](#run-tests)
 
 #### [Set settings.json](setting.md)
 
-#### [Programs called](program.md)
+#### [Programs Called](program.md)
 
 ## Use
 
@@ -41,7 +41,7 @@ julia> Fastq.command.apply_cdna_to_genome("my/project/setting.json")
 julia> Fastq.command.apply_cdna_to_transcriptome("my/project/setting.json")
 ```
 
-## Prepare environment
+## Prepare Environment
 
 _Currently works only on MacOS._
 
@@ -51,7 +51,7 @@ _Currently works only on MacOS._
 brew install fastqc kallisto samtools bcftools
 
 pip install multiqc
-```
+tb```
 
 #### 2. Download SnpEff
 
@@ -61,7 +61,7 @@ Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `us
 
 If programs in `tool/` fail then [compile programs](compile_program.md)
 
-#### 4. Get Docker, manta, and strelka
+#### 4. Get Docker, Manta, and Strelka
 
 [Get docker](https://docs.docker.com/get-docker/).
 
@@ -82,7 +82,7 @@ julia --project --eval "using Pkg; Pkg.instantiate()"
 
 ```
 
-## Run tests
+## Test
 
 Update `Fastq.jl/test/setting.json`.
 
