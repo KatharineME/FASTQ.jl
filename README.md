@@ -59,7 +59,7 @@ Download from [here](http://pcingola.github.io/SnpEff/download/) and link to `us
 
 #### 3. Unzip programs in `Fastq.jl/tool/` and link their exectuables to `usr/local/bin/`
 
-If programs in `tool/` fail then [compile programs](compile_program.md)
+If programs in `tool/` fail then [compile programs](compile_program.md).
 
 #### 4. Get Docker, Manta, and Strelka
 
