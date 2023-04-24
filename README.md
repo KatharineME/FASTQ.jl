@@ -71,6 +71,10 @@ Download manta-1.6.0.centos6_x86_64.tar.bz2 from [manta releases](https://github
 
 Put manta and strelka in the same directory and unzip each. This directory is the "tool_directory" in `setting.json`.
 
+#### 5. Set ulimit
+
+Add `ulimit -n 10000` to `.zshrc` or `.zprofile`.
+
 ## Get Fastq.jl
 
 ```bash

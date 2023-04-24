@@ -72,7 +72,7 @@ function make_gene_by_sample(pap, pou, or, ma)
 
     # Convert to human gene
 
-    na_, ma_ = Biolab.Gene.rename(df[!, co])
+    na_, ma_ = BioLab.Gene.rename(df[!, co])
 
     insertcols!(df, 1, :human_gene => na_, :membership => ma_)
 

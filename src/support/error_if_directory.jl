@@ -10,7 +10,7 @@ function error_if_directory(pa)
 
     else
 
-        println(paf)
+        println("Making $paf")
 
         mkpath(paf)
 

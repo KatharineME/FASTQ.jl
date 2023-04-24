@@ -15,9 +15,9 @@ function apply_germline_dna_to_genome(se)
 
     pa = joinpath(pou, "apply_germline_dna_to_genome")
 
-    # Fastq.support.error_if_directory(pa)
+    Fastq.support.error_if_directory(pa)
 
-    # Fastq.fastq.examine_read(r1, r2, pa, n_jo)
+    Fastq.fastq.examine_read(r1, r2, pa, n_jo)
 
     for pa in [r1, r2, ge, chs, chn, sn]
 
@@ -31,13 +31,13 @@ function apply_germline_dna_to_genome(se)
 
     tr = joinpath(pa, "trim/")
 
-    # Fastq.fastq.trim(r1, r2, tr, n_jo)
+    Fastq.fastq.trim(r1, r2, tr, n_jo)
 
     r1t = joinpath(tr, Fastq.TRIMMED_R1)
 
     r2t = joinpath(tr, Fastq.TRIMMED_R2)
 
-    # Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
+    Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
 
     al = joinpath(pa, "align_dna")
 

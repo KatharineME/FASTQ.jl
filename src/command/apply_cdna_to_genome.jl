@@ -2,9 +2,15 @@ function apply_cdna_to_genome(se)
 
     fe_va = read_setting(se)
 
+    println("this is fe_va: $fe_va")
+
     ou = fe_va["output_directory"]
 
+    println("this is ou: $ou")
+
     pou = joinpath(ou, "apply_cdna_to_genome")
+
+    println("this is pou: $pou")
 
     Fastq.support.error_if_directory(pou)
 
