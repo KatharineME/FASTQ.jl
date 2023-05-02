@@ -12,7 +12,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
     id, voo, vof, voc, vogefi, vot =
         run_strelka_manta_docker_container(to, fa, chs, ge, pao, nothing)
 
-    
+
     # Set config parameters
 
     co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"

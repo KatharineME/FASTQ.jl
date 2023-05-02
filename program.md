@@ -12,7 +12,7 @@ Trims and preprocesses read files.
 
 ### minimap2
 
-- `-x` A recommended meta flag that specifies alginment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
+- `-x` A recommended meta flag that specifies alignment chain bandwidth, elongation, discard, how many secondary alignment should be output, and more.
 - `-a` Generates CIGAR and output alignments in SAM format.
 - `--sr` Enable short read mode.
 - `--splice` Enable splice alignment mode.
