@@ -6,10 +6,10 @@ function index_genome_files(ge, chs)
 
     end
 
-    if !ispath("$chs.tbi")
+    # if !ispath("$chs.tbi")
 
-        run(`tabix --force $chs`)
+    #    run(`tabix --force $chs`)
 
-    end
+    # end
 
 end
