@@ -26,10 +26,10 @@ function make_gene_by_sample(pas, fi, ma)
     # ma = CSV.read(joinpath(pas, pa, "matrix.mtx"), DataFrame; delim='\t')
 
     # ce = CSV.read(joinpath(pas, pa, "barcodes.tsv"), DataFrame; delim='\t')
-    
+
     # ge = CSV.read(joinpath(pas, pa, "features.tsv"), DataFrame; delim='\t')
-    
-    ma = DataFrame(feature=[1, 5, 3], cell=[1, 1, 2], count=[1, 15, 7])
+
+    ma = DataFrame(feature = [1, 5, 3], cell = [1, 1, 2], count = [1, 15, 7])
 
     ge_ = ["A", "B", "C", "D", "E"]
 
@@ -37,14 +37,11 @@ function make_gene_by_sample(pas, fi, ma)
 
     df = DataFrame()
 
-    df.gene = 
-
-
-    ma
+    df.gene = ma
     # Build gene by cell
-    
+
     # Plot expression per gene conveniently 
-    
+
     # Plot mitochondrial expression conveniently
-    
+
 end
