@@ -1,16 +1,20 @@
-function apply_cdna_to_genome(se)
+function apply_cdna_to_genome(
+    output_directory,
+    cdna_read_directory,
+    number_of_jobs,
+    reference_genome,
+    molecule,
+    exome,
+    chromosome_position,
+    chromosome_name,
+    memory,
+    tool_directory,
+    snpeff,
+    annotate_with_rsid,
+    variant_database,
+)
 
-    fe_va = read_setting(se)
-
-    println("this is fe_va: $fe_va")
-
-    ou = fe_va["output_directory"]
-
-    println("this is ou: $ou")
-
-    pou = joinpath(ou, "apply_cdna_to_genome")
-
-    println("this is pou: $pou")
+    pou = joinpath(output_directory, "apply_cdna_to_genome")
 
     Fastq.support.error_if_directory(pou)
 
@@ -18,15 +22,15 @@ function apply_cdna_to_genome(se)
 
     Fastq.support.error_if_directory(pac)
 
-    re_ = Fastq.fastq.find(fe_va["cdna_read_directory"])
+    re_ = Fastq.fastq.find(cdna_read_directory)
 
-    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), fe_va["number_of_jobs"])
+    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
 
     Fastq.fastq.align_cdna_samples(
         pac,
-        fe_va["cdna_read_directory"],
-        fe_va["reference_genome"],
-        fe_va["number_of_jobs"],
+        cdna_read_directory,
+        reference_genome,
+        number_of_jobs,
         al = "genome",
     )
 
@@ -44,19 +48,19 @@ function apply_cdna_to_genome(se)
                 pas = joinpath(pav, sa)
 
                 Fastq.bam.call_germline_variant(
-                    fe_va["molecule"],
-                    fe_va["exome"],
+                    molecule,
+                    exome,
                     ba,
-                    fe_va["reference_genome"],
-                    fe_va["chromosome_position"],
-                    fe_va["chromosome_name"],
+                    reference_genome,
+                    chromosome_position,
+                    chromosome_name,
                     pas,
-                    fe_va["number_of_jobs"],
-                    fe_va["memory"],
-                    fe_va["tool_directory"],
-                    fe_va["snpeff"],
-                    fe_va["annotate_with_rsid"],
-                    fe_va["variant_database"],
+                    number_of_jobs,
+                    memory,
+                    tool_directory,
+                    snpeff,
+                    annotate_with_rsid,
+                    variant_database,
                 )
 
             end

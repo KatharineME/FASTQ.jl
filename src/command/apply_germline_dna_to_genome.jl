@@ -1,93 +1,69 @@
-function apply_germline_dna_to_genome(se)
+function apply_germline_dna_to_genome(
+    output_directory,
+    read1,
+    read2,
+    number_of_jobs,
+    memory,
+    sample,
+    reference_genome,
+    chromosome_position,
+    chromosome_name,
+    snpeff,
+    molecule,
+    exome,
+    tool_directory,
+    annotate_with_rsid,
+    variant_database,
+)
 
-    fe_va = read_setting(se)
-
-    pou, r1, r2, n_jo, me, sa, ge, chs, chn, sn = fe_va["output_directory"],
-    fe_va["read1"],
-    fe_va["read2"],
-    fe_va["number_of_jobs"],
-    fe_va["memory"],
-    fe_va["sample"],
-    fe_va["reference_genome"],
-    fe_va["chromosome_position"],
-    fe_va["chromosome_name"],
-    fe_va["snpeff"]
-
-    pa = joinpath(pou, "apply_germline_dna_to_genome")
+    pa = joinpath(output_directory, "apply_germline_dna_to_genome")
 
     Fastq.support.error_if_directory(pa)
 
-    # Fastq.fastq.examine_read(r1, r2, pa, n_jo)
+    Fastq.fastq.examine_read(read1, read2, pa, number_of_jobs)
 
-    # for pa in [r1, r2, ge, chs, chn, sn]
+    for pa in [read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff]
 
-     #   if !isfile(pa)
+        if !isfile(pa)
 
-     #       error("$pa does not exist.")
-
-     #   end
-
-    # end
-
-    # tr = joinpath(pa, "trim/")
-
-    # Fastq.fastq.trim(r1, r2, tr, n_jo)
-
-    # r1t = joinpath(tr, Fastq.TRIMMED_R1)
-
-    # r2t = joinpath(tr, Fastq.TRIMMED_R2)
-
-    # Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), n_jo)
-
-    # al = joinpath(pa, "align_dna")
-
-
-    # ba = joinpath(al, "$sa.bam")
-
-    # Fastq.fastq.align_dna(al, sa, ba, r1t, r2t, ge, n_jo, me)
-    
-    pav = joinpath(pa, "call_germline_variant")
-    
-    ip = "/Users/kate/Downloads/hn_ida_leisa/input/"
-
-    for (ro, di_, fi_) in walkdir(ip)
-
-        println("ro: $ro")
-
-        for fi in fi_
-
-            if endswith(fi, ".bam")
-                
-                ba = joinpath(ro, fi)
-
-                sa = basename(dirname(ba))
-
-                pav = joinpath(pa, sa)
-
-                println("this is pav: $pav")
-
-                println(ba)
-
-                Fastq.bam.call_germline_variant(
-                    fe_va["molecule"],
-                    fe_va["exome"],
-                    ba,
-                    ge,
-                    chs,
-                    chn,
-                    pav,
-                    n_jo,
-                    me,
-                    fe_va["tool_directory"],
-                    sn,
-                    fe_va["annotate_with_rsid"],
-                    fe_va["variant_database"],
-                )
-
-            end
+            error("$pa does not exist.")
 
         end
 
     end
+
+    tr = joinpath(pa, "trim/")
+
+    Fastq.fastq.trim(read1, read2, tr, number_of_jobs)
+
+    r1t = joinpath(tr, Fastq.TRIMMED_R1)
+
+    r2t = joinpath(tr, Fastq.TRIMMED_R2)
+
+    Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), number_of_jobs)
+
+    al = joinpath(pa, "align_dna")
+
+    ba = joinpath(al, "$sample.bam")
+
+    Fastq.fastq.align_dna(al, sample, ba, r1t, r2t, reference_genome, number_of_jobs, memory)
+
+    pav = joinpath(pa, "call_germline_variant")
+
+    Fastq.bam.call_germline_variant(
+        molecule,
+        exome,
+        ba,
+        reference_genome,
+        chromosome_position,
+        chromosome_name,
+        pav,
+        number_of_jobs,
+        memory,
+        tool_directory,
+        snpeff,
+        annotate_with_rsid,
+        variant_database,
+    )
 
 end

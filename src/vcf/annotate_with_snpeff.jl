@@ -8,14 +8,14 @@ function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     vc = joinpath(pasn, "snpeff.vcf.gz")
 
-    #run(
-    #    pipeline(
-    #        `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $(joinpath(pasn, "stats.csv")) -htmlStats $(joinpath(pasn, "stats.html")) $paco`,
-    #        `bgzip --threads $n_jo --stdout`,
-    #        vc,
-    #    ),
-    #)
-    
+    run(
+        pipeline(
+            `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $(joinpath(pasn, "stats.csv")) -htmlStats $(joinpath(pasn, "stats.html")) $paco`,
+            `bgzip --threads $n_jo --stdout`,
+            vc,
+        ),
+    )
+
     run(
         pipeline(
             `java -Xmx$(me)g -jar $sn GRCh37.75 -noLog -verbose -csvStats $(joinpath(pasn, "stats.csv")) -htmlStats $(joinpath(pasn, "stats.html")) $paco`,

@@ -1,29 +1,39 @@
-function apply_somatic_dna_to_genome(se)
+function apply_somatic_dna_to_genome(
+    output_directory,
+    read1,
+    read2,
+    somatic_read1,
+    somatic_read2,
+    number_of_jobs,
+    memory,
+    sample,
+    reference_genome,
+    chromosome_position,
+    chromosome_name,
+    snpeff,
+    molecule,
+    exome,
+    tool_directory,
+    annotate_with_rsid,
+    variant_database,
+)
 
-    fe_va = read_setting(se)
-
-    pou, r1, r2, sor1, sor2, n_jo, me, sa, ge, chs, chn, sn, mo, ta = fe_va["output_directory"],
-    fe_va["read1"],
-    fe_va["read2"],
-    fe_va["somatic_read1"],
-    fe_va["somatic_read2"],
-    fe_va["number_of_jobs"],
-    fe_va["memory"],
-    fe_va["sample"],
-    fe_va["reference_genome"],
-    fe_va["chromosome_position"],
-    fe_va["chromosome_name"],
-    fe_va["snpeff"],
-    fe_va["molecule"],
-    fe_va["exome"]
-
-    pa = joinpath(pou, "apply_somatic_dna_to_genome")
+    pa = joinpath(output_directory, "apply_somatic_dna_to_genome")
 
     Fastq.support.error_if_directory(pa)
 
-    Fastq.fastq.examine_read(r1, r2, pa, n_jo, sor1, sor2)
+    Fastq.fastq.examine_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
 
-    for fi in [r1, r2, sor1, sor2, ge, chs, chn, sn]
+    for fi in [
+        read1,
+        read2,
+        somatic_read1,
+        somatic_read2,
+        reference_genome,
+        chromosome_position,
+        chromosome_name,
+        snpeff,
+    ]
 
         if !isfile(fi)
 
@@ -45,48 +55,57 @@ function apply_somatic_dna_to_genome(se)
 
     sr2 = joinpath(trso, Fastq.TRIMMED_R2)
 
-    for g in [[r1, r2, trge], [sor1, sor2, trso]]
+    for g in [[read1, read2, trge], [somatic_read1, somatic_read2, trso]]
 
-        Fastq.fastq.trim(g[1], g[2], g[3], n_jo)
+        Fastq.fastq.trim(g[1], g[2], g[3], number_of_jobs)
 
     end
 
-    Fastq.fastq.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), n_jo)
+    Fastq.fastq.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), number_of_jobs)
 
-    alg = joinpath(pa, "align_$(mo)_germline")
+    alg = joinpath(pa, "align_$(molecule)_germline")
 
-    als = joinpath(pa, "align_$(mo)_somatic")
+    als = joinpath(pa, "align_$(molecule)_somatic")
 
-    bage = joinpath(alg, "$sa.bam")
+    bage = joinpath(alg, "$sample.bam")
 
-    baso = joinpath(als, "$sa.bam")
+    baso = joinpath(als, "$sample.bam")
 
     for g in [[alg, bage, gr1, gr2], [als, baso, sr1, sr2]]
 
-        Fastq.fastq.align_dna(g[1], sa, g[2], g[3], g[4], ge, n_jo, me)
+        Fastq.fastq.align_dna(
+            g[1],
+            sample,
+            g[2],
+            g[3],
+            g[4],
+            reference_genome,
+            number_of_jobs,
+            memory,
+        )
 
     end
 
     pav = joinpath(pa, "call_somatic_variant")
 
-    bagem = joinpath(alg, "$sa.bam")
+    bagem = joinpath(alg, "$sample.bam")
 
-    basom = joinpath(als, "$sa.bam")
+    basom = joinpath(als, "$sample.bam")
 
     Fastq.bam.call_somatic_variant(
-        ta,
+        exome,
         bagem,
         basom,
-        ge,
-        chs,
-        chn,
+        reference_genome,
+        chromosome_position,
+        chromosome_name,
         pav,
-        n_jo,
-        me,
-        fe_va["tool_directory"],
-        sn,
-        fe_va["annotate_with_rsid"],
-        fe_va["variant_database"],
+        number_of_jobs,
+        memory,
+        tool_directory,
+        snpeff,
+        annotate_with_rsid,
+        variant_database,
     )
 
 end

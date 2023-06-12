@@ -1,9 +1,7 @@
-function concatenate_fastq(se)
+function concatenate_fastq(dna_read_directory, read_name_scheme)
 
-    fe_va = Fastq.command.read_setting(se)
+    re_ = Fastq.fastq.find(dna_read_directory)
 
-    re_ = Fastq.fastq.find(fe_va["dna_read_directory"])
-
-    Fastq.fastq.concatenate(re_, fe_va["read_name_scheme"])
+    Fastq.fastq.concatenate(re_, read_name_scheme)
 
 end

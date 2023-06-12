@@ -38,6 +38,8 @@ docs/site/
 
 tool/*
 
+data/*
+
 !tool/fastp.zip
 !tool/STAR-2.7.9a.zip
 !tool/minimap2-2.24.zip

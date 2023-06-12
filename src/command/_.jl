@@ -1,6 +1,7 @@
 module command
 
 using JSON
+
 using ..Fastq
 
 include("apply_cdna_to_genome.jl")
