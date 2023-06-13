@@ -2,11 +2,11 @@ module Support
 
 using Dates
 
-using Fastq
+using FASTQ
 
 function error_if_directory(pa)
 
-    paf = Fastq.support.get_full_path(pa)
+    paf = FASTQ.Support.get_full_path(pa)
 
     na = replace(basename(paf), "_" => " ")
 
@@ -94,7 +94,7 @@ end
 
 function test_strelka_and_manta(pa)
 
-    for pr in (Fastq.MANTA, Fastq.STRELKA)
+    for pr in (FASTQ.MANTA, FASTQ.STRELKA)
 
         if !(pr in readdir(pa))
 
@@ -113,9 +113,9 @@ function test_strelka_and_manta(pa)
     )
 
     for sc in [
-        joinpath(Fastq.MANTA, "bin", "runMantaWorkflowDemo.py"),
-        joinpath(Fastq.STRELKA, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
-        joinpath(Fastq.STRELKA, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
+        joinpath(FASTQ.MANTA, "bin", "runMantaWorkflowDemo.py"),
+        joinpath(FASTQ.STRELKA, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
+        joinpath(FASTQ.STRELKA, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     ]
 
         re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
@@ -124,7 +124,7 @@ function test_strelka_and_manta(pa)
 
     end
 
-    Fastq.bam.remove_docker_container(id)
+    FASTQ.BAM.remove_docker_container(id)
 
 end
 

@@ -1,10 +1,10 @@
 module Raw
 
-using Fastq
+using FASTQ
 
 function find(di)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     re_ = []
 
@@ -60,9 +60,9 @@ end
 
 function check_read(re_, di, n_jo)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.error_if_directory(di)
+    FASTQ.Support.error_if_directory(di)
 
     run(`fastqc --threads $(minimum((length(re_), n_jo))) --outdir $di $re_`)
 
@@ -82,13 +82,13 @@ function examine_read(r1, r2, pa, n_jo, sor1 = nothing, sor2 = nothing)
 
     end
 
-    Fastq.fastq.check_read(re_, joinpath(pa, "check_raw"), n_jo)
+    FASTQ.Raw.check_read(re_, joinpath(pa, "check_raw"), n_jo)
 
 end
 
 function concatenate(fq_, na = "R1")
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     fo_ = []
 
@@ -128,7 +128,7 @@ function concatenate(fq_, na = "R1")
 
     else
 
-        Fastq.support.error_if_directory(co)
+        FASTQ.Support.error_if_directory(co)
 
         println("\nConcatenating\n")
 
@@ -148,17 +148,17 @@ end
 
 function trim(r1, r2, pa, n_jo)
 
-    Fastq.support.log()
+    Fastq.Support.log()
 
-    Fastq.support.error_if_directory(pa)
+    Fastq.Support.error_if_directory(pa)
 
     ht = joinpath(pa, "fastp.html")
 
     js = joinpath(pa, "fastp.json")
 
-    ou1 = joinpath(pa, Fastq.TRIMMED_R1)
+    ou1 = joinpath(pa, FASTQ.TRIMMED_R1)
 
-    ou2 = joinpath(pa, Fastq.TRIMMED_R2)
+    ou2 = joinpath(pa, FASTQ.TRIMMED_R2)
 
     run(
         `fastp --detect_adapter_for_pe --thread $n_jo --json $js --html $ht --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
@@ -168,7 +168,7 @@ end
 
 function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     id = "$tr.kallisto_index"
 
@@ -204,9 +204,9 @@ end
 
 function align_cdna(al, sa, r1, r2, ge, n_jo)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(al)
 
     id = joinpath(dirname(ge), "star_indexes")
 
@@ -246,9 +246,9 @@ end
 
 function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    fq_ = Fastq.fastq.find(cd)
+    fq_ = FASTQ.Raw.find(cd)
 
     na_ = ["R1", "read1", "_1.fq"]
 
@@ -279,11 +279,11 @@ function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd 
 
                 if al == "transcriptome"
 
-                    Fastq.fastq.psuedoalign(re, n_jo, pas, fq1, fq2, fr, sd)
+                    FASTQ.Raw.psuedoalign(re, n_jo, pas, fq1, fq2, fr, sd)
 
                 elseif al == "genome"
 
-                    Fastq.fastq.align_cdna(pas, sa, fq1, fq2, re, n_jo)
+                    FASTQ.Raw.align_cdna(pas, sa, fq1, fq2, re, n_jo)
 
                 end
 
@@ -298,9 +298,9 @@ end
 
 function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(al)
 
     gei = "$ge.mmi"
 
@@ -334,9 +334,9 @@ end
 
 function align_cdna(al, sa, r1, r2, ge, n_jo)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(al)
 
     # Change to star index made with gtf gene annotation file
     id = joinpath(dirname(ge), "star_indexes")
@@ -375,10 +375,5 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
     run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
 
 end
-
-
-
-
-
 
 end

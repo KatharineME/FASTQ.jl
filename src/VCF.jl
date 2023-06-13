@@ -1,14 +1,14 @@
 module VCF
 
-using Fastq
+using FASTQ
 
 function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     pasn = joinpath(pao, "snpeff")
 
-    Fastq.support.error_if_directory(pasn)
+    FASTQ.Support.error_if_directory(pasn)
 
     vc = joinpath(pasn, "snpeff.vcf.gz")
 
@@ -48,11 +48,11 @@ end
 
 function annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     pass = joinpath(pa, "snpsift")
 
-    Fastq.support.error_if_directory(pass)
+    FASTQ.Support.error_if_directory(pass)
 
     vc = joinpath(pass, "snpsift.vcf.gz")
 

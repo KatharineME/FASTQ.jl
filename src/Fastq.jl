@@ -10,16 +10,16 @@ const TRIMMED_R1 = "trimmed.R1.fastq.gz"
 
 const TRIMMED_R2 = "trimmed.R2.fastq.gz"
 
-include("abundance/_.jl")
+include("Abundance.jl")
 
-include("bam/_.jl")
+include("BAM.jl")
 
-include("command/_.jl")
+include("Command.jl")
 
-include("fastq/_.jl")
+include("Raw.jl")
 
-include("support/_.jl")
+include("Support.jl")
 
-include("vcf/_.jl")
+include("VCF.jl")
 
 end
