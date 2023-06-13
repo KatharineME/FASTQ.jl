@@ -6,9 +6,9 @@ using FASTQ
 
 function concatenate_fastq(dna_read_directory, read_name_scheme)
 
-    re_ = Fastq.fastq.find(dna_read_directory)
+    re_ = FASTQ.Raw.find(dna_read_directory)
 
-    Fastq.fastq.concatenate(re_, read_name_scheme)
+    FASTQ.Raw.concatenate(re_, read_name_scheme)
 
 end
 
@@ -30,17 +30,17 @@ function apply_cdna_to_genome(
 
     pou = joinpath(output_directory, "apply_cdna_to_genome")
 
-    Fastq.support.error_if_directory(pou)
+    FASTQ.Support.error_if_directory(pou)
 
     pac = joinpath(pou, "align_cdna/")
 
-    Fastq.support.error_if_directory(pac)
+    FASTQ.Support.error_if_directory(pac)
 
-    re_ = Fastq.fastq.find(cdna_read_directory)
+    re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
+    FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
 
-    Fastq.fastq.align_cdna_samples(
+    FASTQ.Raw.align_cdna_samples(
         pac,
         cdna_read_directory,
         reference_genome,
@@ -61,7 +61,7 @@ function apply_cdna_to_genome(
 
                 pas = joinpath(pav, sa)
 
-                Fastq.bam.call_germline_variant(
+                FASTQ.BAM.call_germline_variant(
                     molecule,
                     exome,
                     ba,
@@ -99,17 +99,17 @@ function apply_cdna_to_transcriptome(
 
     pou = joinpath(output_directory, "apply_cdna_to_transcriptome")
 
-    Fastq.support.error_if_directory(pou)
+    FASTQ.Support.error_if_directory(pou)
 
     pap = joinpath(pou, "psuedoalign/")
 
-    Fastq.support.error_if_directory(pap)
+    FASTQ.Support.error_if_directory(pap)
 
-    re_ = Fastq.fastq.find(cdna_read_directory)
+    re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    Fastq.fastq.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
+    FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
 
-    Fastq.fastq.align_cdna_samples(
+    FASTQ.Raw.align_cdna_samples(
         pap,
         cdna_read_directory,
         reference_transcriptome,
@@ -119,7 +119,7 @@ function apply_cdna_to_transcriptome(
         sd = fragment_length_standard_deviation,
     )
 
-    Fastq.abundance.make_gene_by_sample(pap, pou, organism, mouse_transcript_to_mouse_gene)
+    FASTQ.Abundance.make_gene_by_sample(pap, pou, organism, mouse_transcript_to_mouse_gene)
 
 end
 
@@ -143,9 +143,9 @@ function apply_germline_dna_to_genome(
 
     pa = joinpath(output_directory, "apply_germline_dna_to_genome")
 
-    Fastq.support.error_if_directory(pa)
+    FASTQ.Support.error_if_directory(pa)
 
-    Fastq.fastq.examine_read(read1, read2, pa, number_of_jobs)
+    FASTQ.Raw.examine_read(read1, read2, pa, number_of_jobs)
 
     for pa in [read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff]
 
@@ -159,23 +159,23 @@ function apply_germline_dna_to_genome(
 
     tr = joinpath(pa, "trim/")
 
-    Fastq.fastq.trim(read1, read2, tr, number_of_jobs)
+    FASTQ.Raw.trim(read1, read2, tr, number_of_jobs)
 
-    r1t = joinpath(tr, Fastq.TRIMMED_R1)
+    r1t = joinpath(tr, FASTQ.TRIMMED_R1)
 
-    r2t = joinpath(tr, Fastq.TRIMMED_R2)
+    r2t = joinpath(tr, FASTQ.TRIMMED_R2)
 
-    Fastq.fastq.check_read([r1t, r2t], joinpath(pa, "check_trim"), number_of_jobs)
+    FASTQ.Raw.check_read([r1t, r2t], joinpath(pa, "check_trim"), number_of_jobs)
 
     al = joinpath(pa, "align_dna")
 
     ba = joinpath(al, "$sample.bam")
 
-    Fastq.fastq.align_dna(al, sample, ba, r1t, r2t, reference_genome, number_of_jobs, memory)
+    FASTQ.Raw.align_dna(al, sample, ba, r1t, r2t, reference_genome, number_of_jobs, memory)
 
     pav = joinpath(pa, "call_germline_variant")
 
-    Fastq.bam.call_germline_variant(
+    FASTQ.BAM.call_germline_variant(
         molecule,
         exome,
         ba,
@@ -215,9 +215,9 @@ function apply_somatic_dna_to_genome(
 
     pa = joinpath(output_directory, "apply_somatic_dna_to_genome")
 
-    Fastq.support.error_if_directory(pa)
+    FASTQ.Support.error_if_directory(pa)
 
-    Fastq.fastq.examine_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
+    FASTQ.Raw.examine_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
 
     for fi in [
         read1,
@@ -240,23 +240,23 @@ function apply_somatic_dna_to_genome(
 
     trge = joinpath(pa, "trim", "germline")
 
-    gr1 = joinpath(trge, Fastq.TRIMMED_R1)
+    gr1 = joinpath(trge, FASTQ.TRIMMED_R1)
 
-    gr2 = joinpath(trge, Fastq.TRIMMED_R2)
+    gr2 = joinpath(trge, FASTQ.TRIMMED_R2)
 
     trso = joinpath(pa, "trim", "somatic")
 
-    sr1 = joinpath(trso, Fastq.TRIMMED_R1)
+    sr1 = joinpath(trso, FASTQ.TRIMMED_R1)
 
-    sr2 = joinpath(trso, Fastq.TRIMMED_R2)
+    sr2 = joinpath(trso, FASTQ.TRIMMED_R2)
 
     for g in [[read1, read2, trge], [somatic_read1, somatic_read2, trso]]
 
-        Fastq.fastq.trim(g[1], g[2], g[3], number_of_jobs)
+        FASTQ.Raw.trim(g[1], g[2], g[3], number_of_jobs)
 
     end
 
-    Fastq.fastq.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), number_of_jobs)
+    FASTQ.Raw.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), number_of_jobs)
 
     alg = joinpath(pa, "align_$(molecule)_germline")
 
@@ -268,7 +268,7 @@ function apply_somatic_dna_to_genome(
 
     for g in [[alg, bage, gr1, gr2], [als, baso, sr1, sr2]]
 
-        Fastq.fastq.align_dna(
+        FASTQ.Raw.align_dna(
             g[1],
             sample,
             g[2],
@@ -287,7 +287,7 @@ function apply_somatic_dna_to_genome(
 
     basom = joinpath(als, "$sample.bam")
 
-    Fastq.bam.call_somatic_variant(
+    FASTQ.BAM.call_somatic_variant(
         exome,
         bagem,
         basom,
@@ -316,11 +316,11 @@ function benchmark(
     confident_regions_bed,
 )
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
     pa = joinpath(output_directory, "benchmark")
 
-    Fastq.support.error_if_directory(pa)
+    FASTQ.Support.error_if_directory(pa)
 
 
     # Make vcfeval sdf
@@ -388,19 +388,19 @@ function benchmark(
 
     vouh = joinpath(ho, splitpath(ouh)[end])
 
-    pvt = dirname(Fastq.support.get_full_path(truth_vcf))
+    pvt = dirname(FASTQ.Support.get_full_path(truth_vcf))
 
     vvt = joinpath(ho, basename(pvt))
 
-    pvqn = dirname(Fastq.support.get_full_path(vqn))
+    pvqn = dirname(FASTQ.Support.get_full_path(vqn))
 
     vvqn = joinpath(ho, basename(pvqn))
 
-    pbd = dirname(Fastq.support.get_full_path(confident_regions_bed))
+    pbd = dirname(FASTQ.Support.get_full_path(confident_regions_bed))
 
     vbd = joinpath(ho, "confident_regions_bed/")
 
-    pre = dirname(Fastq.support.get_full_path(red))
+    pre = dirname(FASTQ.Support.get_full_path(red))
 
     vre = joinpath(ho, basename(pre))
 
@@ -429,7 +429,7 @@ function benchmark(
         ),
     )
 
-    Fastq.support.remove_docker_container(id)
+    FASTQ.Support.remove_docker_container(id)
 
 end
 

@@ -6,13 +6,11 @@ using DataFrames
 
 using BioLab
 
-using Fastq
-
-###############################################
+using FASTQ
 
 function map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
 
-    Fastq.support.log()
+    FASTQ.support.log()
 
     mt_mg = CSV.read(ma, DataFrame)
 
@@ -31,7 +29,6 @@ function map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
 
 end
 
-###############################################
 
 pas = "/Users/kate/Downloads/ferreira_treg/output/7166-MR-100/"
 
@@ -73,6 +70,7 @@ function make_gene_by_sample(pas, fi, ma)
     df = DataFrame()
 
     df.gene = ma
+
     # Build gene by cell
 
     # Plot expression per gene conveniently 
@@ -82,11 +80,9 @@ function make_gene_by_sample(pas, fi, ma)
 end
 
 
-###############################################
-
 function make_gene_by_sample(pap, pou, or, ma)
 
-    Fastq.support.log()
+    FASTQ.support.log()
 
     # Make transcript by sample from adbundance.tsvs
 
@@ -172,8 +168,5 @@ function make_gene_by_sample(pap, pou, or, ma)
     CSV.write(joinpath(pou, "gene_x_sample.tsv"), nu_ge_sa)
 
 end
-
-###############################################
-
 
 end

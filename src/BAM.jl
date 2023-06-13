@@ -1,6 +1,6 @@
 module BAM
 
-using Fastq
+using FASTQ
 
 function configure_and_run_manta(voo, id, vot, co, ru)
 
@@ -8,7 +8,7 @@ function configure_and_run_manta(voo, id, vot, co, ru)
 
     vomr = joinpath(vom, "runWorkflow.py")
 
-    sc = "$(Fastq.MANTA)/bin/configManta.py"
+    sc = "$(FASTQ.MANTA)/bin/configManta.py"
 
     re = readlines(
         pipeline(
@@ -41,7 +41,7 @@ function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     vot = basename(to)
 
-    page = dirname(Fastq.support.get_full_path(ge))
+    page = dirname(FASTQ.Support.get_full_path(ge))
 
     sp = split(page, "/")
 
@@ -51,7 +51,7 @@ function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     vogefi = joinpath(voge, basename(ge))
 
-    pag = dirname(Fastq.support.get_full_path(fa))
+    pag = dirname(FASTQ.Support.get_full_path(fa))
 
     vog = basename(pag)
 
@@ -59,7 +59,7 @@ function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     voc = joinpath(vog, "chromosome", basename(chs))
 
-    pao = Fastq.support.get_full_path(pao)
+    pao = FASTQ.Support.get_full_path(pao)
 
     voo = basename(pao)
 
@@ -80,7 +80,7 @@ function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     if so !== nothing
 
-        paso = dirname(Fastq.support.get_full_path(so))
+        paso = dirname(FASTQ.Support.get_full_path(so))
 
         voso = basename(paso)
 
@@ -104,11 +104,11 @@ end
 
 function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
 
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.index_genome_files(fa, chs)
+    FASTQ.Support.index_genome_files(fa, chs)
 
-    Fastq.support.error_if_directory(pao)
+    FASTQ.Support.error_if_directory(pao)
 
 
     # Run docker container
@@ -150,7 +150,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     vosr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$(Fastq.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
+    sc = "$(FASTQ.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -163,7 +163,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     # Remove docker container
 
-    Fastq.support.remove_docker_container(id)
+    FASTQ.Support.remove_docker_container(id)
 
 
     ## Combine vcfs
@@ -185,20 +185,20 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     paco = joinpath(pao, "concat.vcf.gz")
 
-    Fastq.vcf.combine_vcf(vc_, chn, paco, n_jo)
+    FASTQ.VCF.combine_vcf(vc_, chn, paco, n_jo)
 
     run(`tabix $paco`)
 
 
     # snpeff
 
-    papa = Fastq.vcf.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+    papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     # snpsift 
 
     if rs
 
-        Fastq.vcf.annotate_with_snpsift(pao, sn, va, papa, n_jo)
+        FASTQ.VCF.annotate_with_snpsift(pao, sn, va, papa, n_jo)
 
     end
 
@@ -207,11 +207,11 @@ end
 ####################################################################
 
 function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
-    Fastq.support.log()
+    FASTQ.Support.log()
 
-    Fastq.support.index_genome_files(fa, chs)
+    FASTQ.Support.index_genome_files(fa, chs)
 
-    Fastq.support.error_if_directory(pao)
+    FASTQ.Support.error_if_directory(pao)
 
 
     # Run docker container
@@ -248,7 +248,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     vosr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$(Fastq.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
+    sc = "$(FASTQ.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -261,7 +261,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     # Remove docker container
 
-    Fastq.support.remove_docker_container(id)
+    FASTQ.Support.remove_docker_container(id)
 
 
     # Combine vcfs
@@ -274,34 +274,34 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     ie = joinpath(past, pav, "somatic.indels.vcf.gz")
 
-    ier = Fastq.vcf.reheader_vcf(sa, ie, n_jo)
+    ier = FASTQ.VCF.reheader_vcf(sa, ie, n_jo)
 
     sv = joinpath(past, pav, "somatic.snvs.vcf.gz")
 
-    svr = Fastq.vcf.reheader_vcf(sa, sv, n_jo)
+    svr = FASTQ.VCF.reheader_vcf(sa, sv, n_jo)
 
     svm = joinpath(pao, "manta", pav, "somaticSV.vcf.gz")
 
-    svmr = Fastq.vcf.reheader_vcf(sa, svm, n_jo)
+    svmr = FASTQ.VCF.reheader_vcf(sa, svm, n_jo)
 
     vc_ = [ier, svr, svmr]
 
     paco = joinpath(pao, "concat.vcf.gz")
 
-    Fastq.vcf.combine_vcf(vc_, chn, paco, n_jo)
+    FASTQ.VCF.combine_vcf(vc_, chn, paco, n_jo)
 
     run(`tabix $paco`)
 
     # snpeff
 
-    papa = Fastq.vcf.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+    papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
 
     # snpsift
 
     if rs
 
-        Fastq.vcf.annotate_with_snpsift(pao, sn, va, papa, n_jo)
+        FASTQ.VCF.annotate_with_snpsift(pao, sn, va, papa, n_jo)
 
     end
 
