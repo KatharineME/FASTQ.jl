@@ -1,5 +1,3 @@
-![dna](media/dna.png)
-
 Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 #### [Use](#use)
