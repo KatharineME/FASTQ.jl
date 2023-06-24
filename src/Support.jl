@@ -2,6 +2,8 @@ module Support
 
 using Dates
 
+using BioLab
+
 using FASTQ
 
 function error_if_directory(pa)
@@ -52,7 +54,7 @@ function log()
 
     println("$(StackTraces.stacktrace()[2].func)\n")
 
-    println(now())
+    println(BioLab.Time.stamp())
 
     println("="^99, "\n")
 

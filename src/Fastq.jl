@@ -1,4 +1,4 @@
-module Fastq
+module FASTQ
 
 const ROOT = pkgdir(Fastq)
 

@@ -16,7 +16,7 @@ function find(di)
 
             if !occursin(".md5", fi)
 
-                for (na, n) in na_n
+                for (na, _) in na_n
 
                     if endswith(fi, na)
 
@@ -41,17 +41,13 @@ function find(di)
     println("\nFile types found in $di:\n")
 
     for na in na_n
-
         println(na)
-
     end
 
     println("\nSize of gzipped files:\n")
 
     for fi in re_
-
         println("File $fi is: $(Base.format_bytes(stat(fi).size))")
-
     end
 
     return re_
