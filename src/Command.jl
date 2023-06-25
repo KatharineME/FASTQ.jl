@@ -388,19 +388,19 @@ function benchmark(
 
     vouh = joinpath(ho, splitpath(ouh)[end])
 
-    pvt = dirname(FASTQ.Support.get_full_path(truth_vcf))
+    pvt = dirname(BioLab.Path.make_absolute(truth_vcf))
 
     vvt = joinpath(ho, basename(pvt))
 
-    pvqn = dirname(FASTQ.Support.get_full_path(vqn))
+    pvqn = dirname(BioLab.Path.make_absolute(vqn))
 
     vvqn = joinpath(ho, basename(pvqn))
 
-    pbd = dirname(FASTQ.Support.get_full_path(confident_regions_bed))
+    pbd = dirname(BioLab.Path.make_absolute(confident_regions_bed))
 
     vbd = joinpath(ho, "confident_regions_bed/")
 
-    pre = dirname(FASTQ.Support.get_full_path(red))
+    pre = dirname(BioLab.Path.make_absolute(red))
 
     vre = joinpath(ho, basename(pre))
 

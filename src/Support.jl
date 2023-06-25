@@ -8,13 +8,13 @@ using FASTQ
 
 function error_if_directory(pa)
 
-    paf = FASTQ.Support.get_full_path(pa)
-
-    na = replace(basename(paf), "_" => " ")
+    paf = BioLab.Path.make_absolute(pa)
 
     if ispath(paf)
 
-        error("\nSkipping $na because directory already exists:\n $pa\n")
+        error(
+            "\nSkipping $(replace(basename(paf), "_" => " ")) because directory already exists:\n $pa\n",
+        )
 
     else
 
@@ -23,12 +23,6 @@ function error_if_directory(pa)
         mkpath(paf)
 
     end
-
-end
-
-function get_full_path(pa)
-
-    return abspath(expanduser(pa))
 
 end
 
