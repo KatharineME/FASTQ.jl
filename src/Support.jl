@@ -118,7 +118,7 @@ function test_strelka_and_manta(pa)
 
     end
 
-    FASTQ.BAM.remove_docker_container(id)
+    remove_docker_container(id)
 
 end
 

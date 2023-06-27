@@ -41,13 +41,17 @@ function find(di)
     println("\nFile types found in $di:\n")
 
     for na in na_n
+
         println(na)
+
     end
 
     println("\nSize of gzipped files:\n")
 
     for fi in re_
+
         println("File $fi is: $(Base.format_bytes(stat(fi).size))")
+
     end
 
     re_
@@ -78,7 +82,7 @@ function check_read(r1, r2, pa, n_jo; sor1 = nothing, sor2 = nothing)
 
     end
 
-    FASTQ.Raw.check_read(re_, joinpath(pa, "check_raw"), n_jo)
+    check_read(re_, joinpath(pa, "check_raw"), n_jo)
 
 end
 
@@ -234,7 +238,7 @@ function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
     FASTQ.Support.log()
 
-    fq_ = FASTQ.Raw.find(cd)
+    fq_ = find(cd)
 
     na_ = ["R1", "read1", "_1.fq"]
 
@@ -260,11 +264,11 @@ function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
                 if al == "transcriptome"
 
-                    FASTQ.Raw.psuedoalign(re, n_jo, pas, fq1, fq2, fr, sd)
+                    psuedoalign(re, n_jo, pas, fq1, fq2, fr, sd)
 
                 elseif al == "genome"
 
-                    FASTQ.Raw.align_cdna(pas, re, n_jo, sa, fq1, fq2)
+                    align_cdna(pas, re, n_jo, sa, fq1, fq2)
 
                 end
 

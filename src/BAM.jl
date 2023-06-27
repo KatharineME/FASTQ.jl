@@ -2,34 +2,30 @@ module BAM
 
 using FASTQ
 
-function configure_and_run_manta(voo, id, vot, co, ru)
+function _configure_and_run_manta(voo, id, vot, co, ru)
 
     vom = joinpath(voo, "manta")
-
-    vomr = joinpath(vom, "runWorkflow.py")
 
     sc = "$(FASTQ.MANTA)/bin/configManta.py"
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$vom && ./home/$vomr $ru"`,
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$vom && ./home/$(joinpath(vom, "runWorkflow.py")) $ru"`,
         ),
     )
 
     println("$(join(re, " "))\n")
 
-    return vom
+    vom
 
 end
 
 
 ####################################################################
 
-function set_strelka_manta_run(n_jo, me)
+function _set_strelka_manta_run(n_jo, me)
 
-    ru = "--mode local --jobs $n_jo --memGb $me --quiet"
-
-    return ru
+    return "--mode local --jobs $n_jo --memGb $me --quiet"
 
 end
 
@@ -37,7 +33,7 @@ end
 ####################################################################
 
 
-function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
+function _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     vot = basename(to)
 
@@ -45,9 +41,7 @@ function run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
     sp = split(page, "/")
 
-    le = length(sp)
-
-    voge = joinpath(sp[le - 1], last(sp))
+    voge = joinpath(sp[length(sp) - 1], last(sp))
 
     vogefi = joinpath(voge, basename(ge))
 
@@ -114,7 +108,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
     # Run docker container
 
     id, voo, vof, voc, vogefi, vot =
-        run_strelka_manta_docker_container(to, fa, chs, ge, pao, nothing)
+        _run_strelka_manta_docker_container(to, fa, chs, ge, pao, nothing)
 
 
     # Set config parameters
@@ -136,12 +130,12 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     # Set runtime parameters
 
-    ru = set_strelka_manta_run(n_jo, me)
+    ru = _set_strelka_manta_run(n_jo, me)
 
 
     # Configure and run manta
 
-    configure_and_run_manta(voo, id, vot, co, ru)
+    _configure_and_run_manta(voo, id, vot, co, ru)
 
 
     # Configure and run strelka
@@ -207,6 +201,7 @@ end
 ####################################################################
 
 function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
+
     FASTQ.Support.log()
 
     FASTQ.Support.index_genome_files(fa, chs)
@@ -217,7 +212,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
     # Run docker container
 
     id, voo, vof, voc, vogefi, vosofi, vot =
-        run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
+        _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
 
     # Set config parameters
@@ -232,12 +227,12 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     # Set runtime parameters
 
-    ru = set_strelka_manta_run(n_jo, me)
+    ru = _set_strelka_manta_run(n_jo, me)
 
 
     # Configure and run manta
 
-    vom = configure_and_run_manta(voo, id, vot, co, ru)
+    vom = _configure_and_run_manta(voo, id, vot, co, ru)
 
 
     # Configure and run strelka

@@ -147,7 +147,7 @@ function call_variants_on_germline_dna(
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.examine_read(read1, read2, pa, number_of_jobs)
+    FASTQ.Raw.check_read(read1, read2, pa, number_of_jobs)
 
     for pa in [read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff]
 
@@ -219,7 +219,7 @@ function call_variants_on_somatic_dna(
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.examine_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
+    FASTQ.Raw.check_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
 
     for fi in [
         read1,
