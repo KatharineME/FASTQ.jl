@@ -2,6 +2,15 @@ module BAM
 
 using FASTQ
 
+function _prepare_for_variant_calling(fa, chs, pa)
+
+    FASTQ.Support.index_genome_files(fa, chs)
+
+    FASTQ.Support.error_if_directory(pa)
+
+end
+
+
 function _configure_and_run_manta(voo, id, vot, co, ru)
 
     vom = joinpath(voo, "manta")
@@ -91,9 +100,7 @@ function call_germline_variant(fa, chs, pao, to, ge, ta, mo, n_jo, me, chn, sn, 
 
     FASTQ.Support.log()
 
-    FASTQ.Support.index_genome_files(fa, chs)
-
-    FASTQ.Support.error_if_directory(pao)
+    _prepare_for_variant_calling(pao)
 
     id, voo, vof, voc, vogefi, vot = _run_strelka_manta_docker_container(to, fa, chs, ge, pao)
 
@@ -164,18 +171,10 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     FASTQ.Support.log()
 
-    FASTQ.Support.index_genome_files(fa, chs)
-
-    FASTQ.Support.error_if_directory(pao)
-
-
-    # Run docker container
+    _prepare_for_variant_calling(pao)
 
     id, voo, vof, voc, vogefi, vosofi, vot =
         _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so = so)
-
-
-    # Set config parameters
 
     co = "--referenceFasta /home/$vof --callRegions /home/$voc --normalBam /home/$vogefi --tumorBam /home/$vosofi"
 
@@ -185,17 +184,9 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     end
 
-    # Set runtime parameters
-
     ru = _set_strelka_manta_run(n_jo, me)
 
-
-    # Configure and run manta
-
     vom = _configure_and_run_manta(voo, id, vot, co, ru)
-
-
-    # Configure and run strelka
 
     pav = joinpath("results", "variants")
 
@@ -211,13 +202,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     println("$(join(re, " "))\n")
 
-
-    # Remove docker container
-
     FASTQ.Support.remove_docker_container(id)
-
-
-    # Combine vcfs
 
     past = joinpath(pao, "strelka")
 
@@ -225,19 +210,11 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
-    ie = joinpath(past, pav, "somatic.indels.vcf.gz")
-
-    ier = FASTQ.VCF.reheader_vcf(sa, ie, n_jo)
-
-    sv = joinpath(past, pav, "somatic.snvs.vcf.gz")
-
-    svr = FASTQ.VCF.reheader_vcf(sa, sv, n_jo)
-
-    svm = joinpath(pao, "manta", pav, "somaticSV.vcf.gz")
-
-    svmr = FASTQ.VCF.reheader_vcf(sa, svm, n_jo)
-
-    vc_ = [ier, svr, svmr]
+    vc_ = [
+        FASTQ.VCF.reheader_vcf(sa, joinpath(past, pav, "somatic.indels.vcf.gz"), n_jo),
+        FASTQ.VCF.reheader_vcf(sa, joinpath(past, pav, "somatic.snvs.vcf.gz"), n_jo),
+        FASTQ.VCF.reheader_vcf(sa, joinpath(pao, "manta", pav, "somaticSV.vcf.gz"), n_jo),
+    ]
 
     paco = joinpath(pao, "concat.vcf.gz")
 
@@ -245,12 +222,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     run(`tabix $paco`)
 
-    # snpeff
-
     papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
-
-
-    # snpsift
 
     if rs
 
