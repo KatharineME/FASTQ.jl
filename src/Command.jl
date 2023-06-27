@@ -12,7 +12,7 @@ function concatenate_fastq(dna_read_directory, read_name_scheme)
 
 end
 
-function apply_cdna_to_genome(
+function call_variants_on_bulk_cdna(
     output_directory,
     cdna_read_directory,
     number_of_jobs,
@@ -40,13 +40,7 @@ function apply_cdna_to_genome(
 
     FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
 
-    FASTQ.Raw.align_cdna_samples(
-        pac,
-        cdna_read_directory,
-        reference_genome,
-        number_of_jobs,
-        al = "genome",
-    )
+    FASTQ.Raw.align_cdna(pac, cdna_read_directory, reference_genome, number_of_jobs, al = "genome")
 
     pav = joinpath(pou, "call_germline_variant")
 
@@ -86,7 +80,7 @@ function apply_cdna_to_genome(
 end
 
 
-function apply_cdna_to_transcriptome(
+function measure_gene_expression_of_bulk_cdna(
     output_directory,
     cdna_read_directory,
     number_of_jobs,
@@ -109,7 +103,7 @@ function apply_cdna_to_transcriptome(
 
     FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
 
-    FASTQ.Raw.align_cdna_samples(
+    FASTQ.Raw.align_cdna(
         pap,
         cdna_read_directory,
         reference_transcriptome,
@@ -123,7 +117,15 @@ function apply_cdna_to_transcriptome(
 
 end
 
-function apply_germline_dna_to_genome(
+########################################################################################
+
+function measure_gene_expression_of_single_cell_cdna()
+
+end
+
+########################################################################################
+
+function call_variants_on_germline_dna(
     output_directory,
     read1,
     read2,
@@ -193,7 +195,7 @@ function apply_germline_dna_to_genome(
 
 end
 
-function apply_somatic_dna_to_genome(
+function call_variants_on_somatic_dna(
     output_directory,
     read1,
     read2,

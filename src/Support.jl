@@ -18,8 +18,6 @@ function error_if_directory(pa)
 
     else
 
-        println("Making $paf")
-
         mkpath(paf)
 
     end

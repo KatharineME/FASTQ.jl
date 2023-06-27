@@ -50,11 +50,11 @@ function find(di)
         println("File $fi is: $(Base.format_bytes(stat(fi).size))")
     end
 
-    return re_
+    re_
 
 end
 
-function check_read(re_, di, n_jo)
+function check_read(di, re_, n_jo)
 
     FASTQ.Support.log()
 
@@ -66,7 +66,7 @@ function check_read(re_, di, n_jo)
 
 end
 
-function examine_read(r1, r2, pa, n_jo, sor1 = nothing, sor2 = nothing)
+function check_read(r1, r2, pa, n_jo; sor1 = nothing, sor2 = nothing)
 
     if sor1 === nothing
 
@@ -82,7 +82,7 @@ function examine_read(r1, r2, pa, n_jo, sor1 = nothing, sor2 = nothing)
 
 end
 
-function concatenate(fq_, na = "R1")
+function concatenate(fq_; na = "R1")
 
     FASTQ.Support.log()
 
@@ -142,7 +142,7 @@ function concatenate(fq_, na = "R1")
 
 end
 
-function trim(r1, r2, pa, n_jo)
+function trim(pa, n_jo, r1, r2)
 
     Fastq.Support.log()
 
@@ -166,35 +166,29 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     if !ispath(id)
 
-        println("\nCreating kallisto index")
+        println("\nCreating kallisto index at $id. This will take a while.")
 
         run(`kallisto index --index $id $tr`)
 
-        println("\nMade kallisto index at $id\n")
-
     end
 
-    fu = ["kallisto", "quant"]
+    fu_ = ["kallisto", "quant"]
 
-    ru = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$ou"]
+    ru_ = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$ou"]
 
     if r2 !== nothing
 
-        println("Running paired end psuedoalignment")
-
-        run(`$fu $ru $r1 $r2`)
+        run(`$fu_ $ru_ $r1 $r2`)
 
     else
 
-        println("Running single end psuedoalignment")
-
-        run(`$fu --single --fragment-length $fr --sd $sd $ru $r1`)
+        run(`$fu_ --single --fragment-length $fr --sd $sd $ru_ $r1`)
 
     end
 
 end
 
-function align_cdna(al, sa, r1, r2, ge, n_jo)
+function align_cdna(al, ge, n_jo, sa, r1, r2)
 
     FASTQ.Support.log()
 
@@ -206,7 +200,7 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
         mkdir(id)
 
-        println("\nMaking STAR indices, this may take a while\n")
+        println("\nMaking STAR indices. This may take a while.\n")
 
         ged = splitext(ge)[1]
 
@@ -236,7 +230,7 @@ function align_cdna(al, sa, r1, r2, ge, n_jo)
 
 end
 
-function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
+function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
     FASTQ.Support.log()
 
@@ -244,18 +238,13 @@ function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd 
 
     na_ = ["R1", "read1", "_1.fq"]
 
-    naf = ""
-
     for fq1 in fq_
 
         for na in na_
+
             if occursin(na, fq1)
 
-                naf = na
-
-                nar = replace(naf, "1" => "2")
-
-                fq2 = replace(fq1, naf => nar)
+                fq2 = replace(fq1, na => replace(na, "1" => "2"))
 
                 if !isfile(fq2)
 
@@ -263,7 +252,7 @@ function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd 
 
                 end
 
-                sa = last(splitdir(splitext(split(fq1, naf)[1])[1]))
+                sa = last(splitdir(splitext(split(fq1, na)[1])[1]))
 
                 println("Working on sample: $sa\n")
 
@@ -275,7 +264,7 @@ function align_cdna_samples(ou, cd, re, n_jo; al = "transcriptome", fr = 51, sd 
 
                 elseif al == "genome"
 
-                    FASTQ.Raw.align_cdna(pas, sa, fq1, fq2, re, n_jo)
+                    FASTQ.Raw.align_cdna(pas, re, n_jo, sa, fq1, fq2)
 
                 end
 
@@ -324,7 +313,7 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
 end
 
-function align_cdna(al, sa, r1, r2, ge, n_jo)
+function align_single_cell_cdna(al, sa, r1, r2, ge, n_jo)
 
     FASTQ.Support.log()
 
