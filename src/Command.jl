@@ -56,16 +56,16 @@ function call_variants_on_bulk_cdna(
                 pas = joinpath(pav, sa)
 
                 FASTQ.BAM.call_germline_variant(
-                    molecule,
-                    exome,
-                    ba,
                     reference_genome,
                     chromosome_position,
-                    chromosome_name,
                     pas,
+                    tool_directory,
+                    ba,
+                    exome,
+                    molecule,
                     number_of_jobs,
                     memory,
-                    tool_directory,
+                    chromosome_name,
                     snpeff,
                     annotate_with_rsid,
                     variant_database,
@@ -178,16 +178,16 @@ function call_variants_on_germline_dna(
     pav = joinpath(pa, "call_germline_variant")
 
     FASTQ.BAM.call_germline_variant(
-        molecule,
-        exome,
-        ba,
         reference_genome,
         chromosome_position,
-        chromosome_name,
         pav,
+        tool_directory,
+        ba,
+        exome,
+        molecule,
         number_of_jobs,
         memory,
-        tool_directory,
+        chromosome_name,
         snpeff,
         annotate_with_rsid,
         variant_database,

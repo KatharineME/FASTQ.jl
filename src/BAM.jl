@@ -20,20 +20,13 @@ function _configure_and_run_manta(voo, id, vot, co, ru)
 
 end
 
-
-####################################################################
-
 function _set_strelka_manta_run(n_jo, me)
 
     return "--mode local --jobs $n_jo --memGb $me --quiet"
 
 end
 
-
-####################################################################
-
-
-function _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
+function _run_strelka_manta_docker_container(to, fa, chs, ge, pao; so = nothing)
 
     vot = basename(to)
 
@@ -94,9 +87,7 @@ function _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
 
 end
 
-####################################################################
-
-function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
+function call_germline_variant(fa, chs, pao, to, ge, ta, mo, n_jo, me, chn, sn, rs, va)
 
     FASTQ.Support.log()
 
@@ -104,14 +95,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     FASTQ.Support.error_if_directory(pao)
 
-
-    # Run docker container
-
-    id, voo, vof, voc, vogefi, vot =
-        _run_strelka_manta_docker_container(to, fa, chs, ge, pao, nothing)
-
-
-    # Set config parameters
+    id, voo, vof, voc, vogefi, vot = _run_strelka_manta_docker_container(to, fa, chs, ge, pao)
 
     co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"
 
@@ -127,40 +111,23 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     end
 
-
-    # Set runtime parameters
-
     ru = _set_strelka_manta_run(n_jo, me)
-
-
-    # Configure and run manta
 
     _configure_and_run_manta(voo, id, vot, co, ru)
 
-
-    # Configure and run strelka
-
     vost = joinpath(voo, "strelka")
-
-    vosr = joinpath(vost, "runWorkflow.py")
 
     sc = "$(FASTQ.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$vost && ./home/$vosr $ru"`,
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$vost && ./home/$(joinpath(vost, "runWorkflow.py")) $ru"`,
         ),
     )
 
     println("$(join(re, " "))\n")
 
-
-    # Remove docker container
-
     FASTQ.Support.remove_docker_container(id)
-
-
-    ## Combine vcfs
 
     pav = joinpath("results", "variants")
 
@@ -183,12 +150,7 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
 
     run(`tabix $paco`)
 
-
-    # snpeff
-
     papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
-
-    # snpsift 
 
     if rs
 
@@ -197,8 +159,6 @@ function call_germline_variant(mo, ta, ge, fa, chs, chn, pao, n_jo, me, to, sn, 
     end
 
 end
-
-####################################################################
 
 function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, rs, va)
 
@@ -212,7 +172,7 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
     # Run docker container
 
     id, voo, vof, voc, vogefi, vosofi, vot =
-        _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so)
+        _run_strelka_manta_docker_container(to, fa, chs, ge, pao, so = so)
 
 
     # Set config parameters
@@ -241,13 +201,11 @@ function call_somatic_variant(ta, ge, so, fa, chs, chn, pao, n_jo, me, to, sn, r
 
     vost = joinpath(voo, "strelka")
 
-    vosr = joinpath(vost, "runWorkflow.py")
-
     sc = "$(FASTQ.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$vost && ./home/$vosr $ru"`,
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$vost && ./home/$(joinpath(vost, "runWorkflow.py")) $ru"`,
         ),
     )
 
