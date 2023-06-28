@@ -2,19 +2,23 @@ module VCF
 
 using FASTQ
 
-function annotate_with_snpeff(pao, me, sn, paco, n_jo)
+function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
     FASTQ.Support.log()
 
-    pasn = joinpath(pao, "snpeff")
+    pas = joinpath(pa, "snpeff")
 
-    FASTQ.Support.error_if_directory(pasn)
+    FASTQ.Support.error_if_directory(pas)
 
-    vc = joinpath(pasn, "snpeff.vcf.gz")
+    stc = joinpath(pas, "stats.csv")
+
+    sth = joinpath(pas, "stats.html")
+
+    vc = joinpath(pas, "snpeff.vcf.gz")
 
     run(
         pipeline(
-            `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $(joinpath(pasn, "stats.csv")) -htmlStats $(joinpath(pasn, "stats.html")) $paco`,
+            `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $stc -htmlStats $sth $pac`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
@@ -22,35 +26,37 @@ function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     run(`tabix $vc`)
 
-    papa = joinpath(pao, "pass.vcf.gz")
+    pap = joinpath(pa, "pass.vcf.gz")
 
     run(
         pipeline(
             `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $vc`,
             `bgzip --threads $n_jo --stdout`,
-            papa,
+            pap,
         ),
     )
 
-    run(`tabix $papa`)
+    run(`tabix $pap`)
 
-    papa
+    pap
 
 end
 
-function annotate_with_snpsift(pa, sn, va, papa, n_jo)
+function annotate_with_snpsift(pa, sn, va, pap, n_jo)
 
     FASTQ.Support.log()
 
-    pass = joinpath(pa, "snpsift")
+    pas = joinpath(pa, "snpsift")
 
-    FASTQ.Support.error_if_directory(pass)
+    FASTQ.Support.error_if_directory(pas)
 
-    vc = joinpath(pass, "snpsift.vcf.gz")
+    vc = joinpath(pas, "snpsift.vcf.gz")
+
+    snd = joinpath(dirname(sn), "SnpSift.jar")
 
     run(
         pipeline(
-            `java -jar $(joinpath(dirname(sn), "SnpSift.jar")) annotate -tabix -id -v $va $papa`,
+            `java -jar $snd annotate -tabix -id -v $va $pap`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
@@ -60,14 +66,14 @@ function annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
 end
 
-function combine_vcf(n_jo, vc_, chn, paco)
+function combine_vcf(pa, n_jo, vc_, chn)
 
     run(
         pipeline(
             `bcftools concat --threads $n_jo --allow-overlaps $vc_`,
             `bcftools annotate --threads $n_jo --rename-chrs $chn`,
             `bgzip --threads $n_jo --stdout`,
-            paco,
+            pa,
         ),
     )
 
@@ -75,7 +81,9 @@ end
 
 function reheader_vcf(pa, n_jo, sa)
 
-    par = joinpath(dirname(pa), "$(split(basename(pa), "vcf.gz")[1]) reheader.vcf.gz")
+    na = split(basename(pa), "vcf.gz")[1]
+
+    par = joinpath(dirname(pa), "$na reheader.vcf.gz")
 
     run(pipeline(`bcftools reheader --threads $n_jo --samples $sa $pa`, "$par"))
 

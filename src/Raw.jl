@@ -153,8 +153,7 @@ function trim(pa, n_jo, r1, r2)
 
     Fastq.Support.error_if_directory(pa)
 
-    ht = joinpath(pa, "fastp.html"),
-    js = joinpath(pa, "fastp.json")
+    ht = joinpath(pa, "fastp.html"), js = joinpath(pa, "fastp.json")
 
     ou1 = joinpath(pa, FASTQ.TRIMMED_R1)
 

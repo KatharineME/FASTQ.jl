@@ -324,9 +324,6 @@ function benchmark(
 
     FASTQ.Support.error_if_directory(pa)
 
-
-    # Make vcfeval sdf
-
     red = split(reference_genome, ".gz")[1]
 
     if !isfile(reference_genome)
@@ -339,20 +336,17 @@ function benchmark(
 
     if !isdir(sd)
 
-        println("\nMaking vcfeval genome sdf\n")
+        @info "Making vcfeval genome sdf"
 
         run(`$rtg_tools format -o $sd $red`)
 
     end
 
-
-    # Rename chromosomes from numbers to strings
-
     vqn = replace(query_vcf, "pass" => "pass_rename_chromosomes")
 
     if !isfile(vqn)
 
-        println("\nRenaming query VCF chromosomes\n")
+        @warn "Renaming query VCF chromosomes"
 
         run(
             `bcftools annotate --threads=$number_of_jobs --rename-chrs=$name_chromosome --output=$vqn $query_vcf`,
@@ -360,10 +354,7 @@ function benchmark(
 
     end
 
-
-    # Run vcfeval
-
-    println("\nRunning vcfeval\n")
+    @info "Running vcfeval"
 
     ouv = joinpath(pa, "vcfeval")
 
@@ -377,10 +368,7 @@ function benchmark(
         --output=$ouv
         --threads=$number_of_jobs`)
 
-
-    # Run hap.py in container
-
-    println("\nRunning hap.py\n")
+    @info "Running hap.py"
 
     ouh = joinpath(pa, "happy/")
 
@@ -425,9 +413,20 @@ function benchmark(
             pkrusche/hap.py
             bash`))
 
+
+    vh = joinpath(vouh, "hap.py")
+
+    vr = joinpath(vre, basename(red))
+
+    vb = joinpath(vbd, basename(confident_regions_bed))
+
+    vtr = joinpath(vvt, basename(truth_vcf))
+
+    vqu = joinpath(vvqn, basename(vqn))
+
     readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $(joinpath(vvt, basename(truth_vcf))) $(joinpath(vvqn, basename(vqn))) -f $(joinpath(vbd, basename(confident_regions_bed))) -r $(joinpath(vre, basename(red))) -o $(joinpath(vouh, "hap.py")) --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
+            `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $vtr $vqu -f $vb -r $vr -o $vh --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
         ),
     )
 
