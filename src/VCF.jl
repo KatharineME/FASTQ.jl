@@ -20,14 +20,6 @@ function annotate_with_snpeff(pao, me, sn, paco, n_jo)
         ),
     )
 
-    run(
-        pipeline(
-            `java -Xmx$(me)g -jar $sn GRCh37.75 -noLog -verbose -csvStats $(joinpath(pasn, "stats.csv")) -htmlStats $(joinpath(pasn, "stats.html")) $paco`,
-            `bgzip --threads $n_jo --stdout`,
-            vc,
-        ),
-    )
-
     run(`tabix $vc`)
 
     papa = joinpath(pao, "pass.vcf.gz")
@@ -42,7 +34,7 @@ function annotate_with_snpeff(pao, me, sn, paco, n_jo)
 
     run(`tabix $papa`)
 
-    return papa
+    papa
 
 end
 
@@ -56,11 +48,9 @@ function annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
     vc = joinpath(pass, "snpsift.vcf.gz")
 
-    ss = joinpath(dirname(sn), "SnpSift.jar")
-
     run(
         pipeline(
-            `java -jar $ss annotate -tabix -id -v $va $papa`,
+            `java -jar $(joinpath(dirname(sn), "SnpSift.jar")) annotate -tabix -id -v $va $papa`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
@@ -70,7 +60,7 @@ function annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
 end
 
-function combine_vcf(vc_, chn, paco, n_jo)
+function combine_vcf(n_jo, vc_, chn, paco)
 
     run(
         pipeline(
@@ -83,17 +73,15 @@ function combine_vcf(vc_, chn, paco, n_jo)
 
 end
 
-function reheader_vcf(sa, pa, n_jo)
+function reheader_vcf(pa, n_jo, sa)
 
-    na = "$(split(basename(pa), "vcf.gz")[1]) reheader.vcf.gz"
-
-    par = joinpath(dirname(pa), na)
+    par = joinpath(dirname(pa), "$(split(basename(pa), "vcf.gz")[1]) reheader.vcf.gz")
 
     run(pipeline(`bcftools reheader --threads $n_jo --samples $sa $pa`, "$par"))
 
     run(`tabix --force $par`)
 
-    return par
+    par
 
 end
 

@@ -12,13 +12,11 @@ function error_if_directory(pa)
 
     if ispath(paf)
 
-        error(
-            "\nSkipping $(replace(basename(paf), "_" => " ")) because directory already exists:\n $pa\n",
-        )
+        error("Directory already exists: $pa")
 
     else
 
-        mkpath(paf)
+        mkdir(paf)
 
     end
 
@@ -42,13 +40,9 @@ end
 
 function log()
 
-    println("\n", "="^99)
+    @info "="^99 StackTraces.stacktrace()[2].func BioLab.Time.stamp()
 
-    println("$(StackTraces.stacktrace()[2].func)\n")
-
-    println(BioLab.Time.stamp())
-
-    println("="^99, "\n")
+    @info "="^99
 
 end
 
@@ -58,13 +52,13 @@ function remove_docker_container(id)
 
     run(`docker rm $id`)
 
-    println("\nDocker container was removed\n")
+    @info "Docker container was removed."
 
 end
 
 function test_local_environment()
 
-    println("Checking for programs\n")
+    @info "Checking for programs"
 
     for pr in [
         "fastp",
@@ -92,7 +86,7 @@ function test_strelka_and_manta(pa)
 
         if !(pr in readdir(pa))
 
-            error("you dont have the correct version ($pr)")
+            error("You dont have the correct version ($pr).")
 
         end
 
@@ -114,7 +108,7 @@ function test_strelka_and_manta(pa)
 
         re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
 
-        println("$(join(re, " "))\n")
+        @info join(re, " ")
 
     end
 

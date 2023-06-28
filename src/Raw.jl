@@ -38,19 +38,20 @@ function find(di)
 
     end
 
-    println("\nFile types found in $di:\n")
+
+    @info "File types found in $di"
 
     for na in na_n
 
-        println(na)
+        @info na
 
     end
 
-    println("\nSize of gzipped files:\n")
+    @info "Size of gzipped files"
 
     for fi in re_
 
-        println("File $fi is: $(Base.format_bytes(stat(fi).size))")
+        @info "File $fi is:" Base.format_bytes(stat(fi).size)
 
     end
 
@@ -58,19 +59,21 @@ function find(di)
 
 end
 
-function check_read(di, re_, n_jo)
+function check_read(pa, re_, n_jo)
 
     FASTQ.Support.log()
 
     FASTQ.Support.error_if_directory(di)
 
-    run(`fastqc --threads $(minimum((length(re_), n_jo))) --outdir $di $re_`)
+    th = minimum((length(re_), n_jo))
 
-    run(`multiqc --outdir $di $di`)
+    run(`fastqc --threads $th --outdir $pa $re_`)
+
+    run(`multiqc --outdir $pa $pa`)
 
 end
 
-function check_read(r1, r2, pa, n_jo; sor1 = nothing, sor2 = nothing)
+function check_read(pa, r1, r2, n_jo; sor1 = nothing, sor2 = nothing)
 
     if sor1 === nothing
 
@@ -112,9 +115,9 @@ function concatenate(fq_; na = "R1")
 
     n_re = length(re_)
 
-    println("Number of forward read files found = $n_fo\n")
+    @info "Number of forward read files = $n_fo"
 
-    println("Number of reverse read files found = $n_re\n")
+    @info "Number of reverse read files = $n_re"
 
     sa = last(splitdir(dirname(fq_[1])))
 
@@ -122,15 +125,13 @@ function concatenate(fq_; na = "R1")
 
     if n_fo <= 1 && n_re <= 1
 
-        println(
-            "\nNothing to concatenate, number of forward reads and reverse reads are both <= 1\n",
-        )
+        @warn "Nothing to concatenate, number of forward reads and reverse reads are both <= 1"
 
     else
 
         FASTQ.Support.error_if_directory(co)
 
-        println("\nConcatenating\n")
+        @info "Concatenating"
 
         gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
 
@@ -140,7 +141,7 @@ function concatenate(fq_; na = "R1")
 
         end
 
-        println("\nConcatenated files saved at: $co\n")
+        @info "Concatenated files saved at: $co"
 
     end
 
@@ -152,9 +153,12 @@ function trim(pa, n_jo, r1, r2)
 
     Fastq.Support.error_if_directory(pa)
 
-    ht, js = joinpath(pa, "fastp.html"), joinpath(pa, "fastp.json")
+    ht = joinpath(pa, "fastp.html"),
+    js = joinpath(pa, "fastp.json")
 
-    ou1, ou2 = joinpath(pa, FASTQ.TRIMMED_R1), joinpath(pa, FASTQ.TRIMMED_R2)
+    ou1 = joinpath(pa, FASTQ.TRIMMED_R1)
+
+    ou2 = joinpath(pa, FASTQ.TRIMMED_R2)
 
     run(
         `fastp --detect_adapter_for_pe --thread $n_jo --json $js --html $ht --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
@@ -162,7 +166,7 @@ function trim(pa, n_jo, r1, r2)
 
 end
 
-function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
+function psuedoalign(ou, tr, n_jo, r1, r2, fr, sd)
 
     FASTQ.Support.log()
 
@@ -170,7 +174,7 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
     if !ispath(id)
 
-        println("\nCreating kallisto index at $id. This will take a while.")
+        @info "Creating kallisto index at $id"
 
         run(`kallisto index --index $id $tr`)
 
@@ -192,11 +196,11 @@ function psuedoalign(tr, n_jo, ou, r1, r2, fr, sd)
 
 end
 
-function align_cdna(al, ge, n_jo, sa, r1, r2)
+function align_cdna(pa, ge, n_jo, sa, r1, r2)
 
     FASTQ.Support.log()
 
-    FASTQ.Support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(pa)
 
     id = joinpath(dirname(ge), "star_indexes")
 
@@ -204,7 +208,7 @@ function align_cdna(al, ge, n_jo, sa, r1, r2)
 
         mkdir(id)
 
-        println("\nMaking STAR indices. This may take a while.\n")
+        @info "Making STAR indices"
 
         ged = splitext(ge)[1]
 
@@ -220,7 +224,7 @@ function align_cdna(al, ge, n_jo, sa, r1, r2)
 
     end
 
-    pr = joinpath(al, "$(sa).")
+    pr = joinpath(pa, "$(sa).")
 
     run(
         `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
@@ -234,7 +238,7 @@ function align_cdna(al, ge, n_jo, sa, r1, r2)
 
 end
 
-function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
+function align_cdna(pa, cd, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
     FASTQ.Support.log()
 
@@ -258,13 +262,13 @@ function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
                 sa = last(splitdir(splitext(split(fq1, na)[1])[1]))
 
-                println("Working on sample: $sa\n")
+                @info "Working on sample: $sa"
 
-                pas = joinpath(ou, sa)
+                pas = joinpath(pa, sa)
 
                 if al == "transcriptome"
 
-                    psuedoalign(re, n_jo, pas, fq1, fq2, fr, sd)
+                    psuedoalign(pas, re, n_jo, fq1, fq2, fr, sd)
 
                 elseif al == "genome"
 
@@ -281,11 +285,11 @@ function align_cdna(cd, ou, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 end
 
 
-function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
+function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
 
     FASTQ.Support.log()
 
-    FASTQ.Support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(pa)
 
     gei = "$ge.mmi"
 
@@ -295,9 +299,9 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
     end
 
-    tm = joinpath(al, "samtools_sort")
+    tm = joinpath(pa, "samtools_sort")
 
-    du = joinpath(al, "$sa.unmarked_duplicates.bam")
+    du = joinpath(pa, "$sa.unmarked_duplicates.bam")
 
     run(
         pipeline(
@@ -317,11 +321,11 @@ function align_dna(al, sa, ba, r1, r2, ge, n_jo, me)
 
 end
 
-function align_single_cell_cdna(al, sa, r1, r2, ge, n_jo)
+function align_single_cell_cdna(pa, sa, r1, r2, ge, n_jo)
 
     FASTQ.Support.log()
 
-    FASTQ.Support.error_if_directory(al)
+    FASTQ.Support.error_if_directory(pa)
 
     # Change to star index made with gtf gene annotation file
     id = joinpath(dirname(ge), "star_indexes")
@@ -329,8 +333,6 @@ function align_single_cell_cdna(al, sa, r1, r2, ge, n_jo)
     if !ispath(id)
 
         mkdir(id)
-
-        println("\nMaking STAR indices, this may take a while\n")
 
         ged = splitext(ge)[1]
 
@@ -346,7 +348,7 @@ function align_single_cell_cdna(al, sa, r1, r2, ge, n_jo)
 
     end
 
-    pr = joinpath(al, "$(sa).")
+    pr = joinpath(pa, "$(sa).")
 
     # Update star run
     run(

@@ -38,7 +38,7 @@ function call_variants_on_bulk_cdna(
 
     re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pou, "check_read"), re_, number_of_jobs)
 
     FASTQ.Raw.align_cdna(pac, cdna_read_directory, reference_genome, number_of_jobs, al = "genome")
 
@@ -56,11 +56,11 @@ function call_variants_on_bulk_cdna(
                 pas = joinpath(pav, sa)
 
                 FASTQ.BAM.call_germline_variant(
-                    reference_genome,
-                    chromosome_position,
                     pas,
                     tool_directory,
                     ba,
+                    reference_genome,
+                    chromosome_position,
                     exome,
                     molecule,
                     number_of_jobs,
@@ -101,7 +101,7 @@ function measure_gene_expression_of_bulk_cdna(
 
     re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    FASTQ.Raw.check_read(re_, joinpath(pou, "check_read"), number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pou, "check_read"), re_, number_of_jobs)
 
     FASTQ.Raw.align_cdna(
         pap,
@@ -147,7 +147,7 @@ function call_variants_on_germline_dna(
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.check_read(read1, read2, pa, number_of_jobs)
+    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs)
 
     for pa in [read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff]
 
@@ -161,13 +161,13 @@ function call_variants_on_germline_dna(
 
     tr = joinpath(pa, "trim/")
 
-    FASTQ.Raw.trim(read1, read2, tr, number_of_jobs)
+    FASTQ.Raw.trim(tr, read1, read2, number_of_jobs)
 
     r1t = joinpath(tr, FASTQ.TRIMMED_R1)
 
     r2t = joinpath(tr, FASTQ.TRIMMED_R2)
 
-    FASTQ.Raw.check_read([r1t, r2t], joinpath(pa, "check_trim"), number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pa, "check_trim"), [r1t, r2t], number_of_jobs)
 
     al = joinpath(pa, "align_dna")
 
@@ -178,11 +178,11 @@ function call_variants_on_germline_dna(
     pav = joinpath(pa, "call_germline_variant")
 
     FASTQ.BAM.call_germline_variant(
-        reference_genome,
-        chromosome_position,
         pav,
         tool_directory,
         ba,
+        reference_genome,
+        chromosome_position,
         exome,
         molecule,
         number_of_jobs,
@@ -219,7 +219,7 @@ function call_variants_on_somatic_dna(
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.check_read(read1, read2, pa, number_of_jobs, somatic_read1, somatic_read2)
+    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs, somatic_read1, somatic_read2)
 
     for fi in [
         read1,
@@ -252,13 +252,13 @@ function call_variants_on_somatic_dna(
 
     sr2 = joinpath(trso, FASTQ.TRIMMED_R2)
 
-    for g in [[read1, read2, trge], [somatic_read1, somatic_read2, trso]]
+    for g in [[trge, read1, read2], [trso, somatic_read1, somatic_read2]]
 
         FASTQ.Raw.trim(g[1], g[2], g[3], number_of_jobs)
 
     end
 
-    FASTQ.Raw.check_read([gr1, gr2, sr1, sr2], joinpath(pa, "check_trim"), number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pa, "check_trim"), [gr1, gr2, sr1, sr2], number_of_jobs)
 
     alg = joinpath(pa, "align_$(molecule)_germline")
 
@@ -290,16 +290,16 @@ function call_variants_on_somatic_dna(
     basom = joinpath(als, "$sample.bam")
 
     FASTQ.BAM.call_somatic_variant(
-        exome,
+        pav,
+        tool_directory,
         bagem,
-        basom,
         reference_genome,
         chromosome_position,
-        chromosome_name,
-        pav,
+        basom,
+        exome,
         number_of_jobs,
         memory,
-        tool_directory,
+        chromosome_name,
         snpeff,
         annotate_with_rsid,
         variant_database,
