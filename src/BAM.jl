@@ -2,7 +2,7 @@ module BAM
 
 using FASTQ
 
-function _prepare_for_variant_calling(fa, chs, pa)
+function _prepare_for_variant_calling(pa, fa, chs)
 
     FASTQ.Support.index_genome_files(fa, chs)
 
@@ -98,13 +98,13 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
 end
 
-function call_germline_variant(pao, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
+function call_germline_variant(pa, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
 
     FASTQ.Support.log()
 
-    _prepare_for_variant_calling(pao)
+    _prepare_for_variant_calling(pa, fa, chs)
 
-    id, voo, vof, voc, vogefi, vot = _run_strelka_manta_docker_container(to, ge, fa, chs, pao)
+    id, voo, vof, voc, vogefi, vot = _run_strelka_manta_docker_container(to, ge, fa, chs, pa)
 
     co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"
 
@@ -126,11 +126,13 @@ function call_germline_variant(pao, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, 
 
     vost = joinpath(voo, "strelka")
 
+    vostr = joinpath(vost, "runWorkflow.py")
+
     sc = "$(FASTQ.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$vost && ./home/$(joinpath(vost, "runWorkflow.py")) $ru"`,
+            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$vost && ./home/$vostr $ru"`,
         ),
     )
 
@@ -142,41 +144,41 @@ function call_germline_variant(pao, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, 
 
     if mo == "cdna"
 
-        vc_ = [joinpath(pao, "strelka", pav, "variants.vcf.gz")]
+        vc_ = [joinpath(pa, "strelka", pav, "variants.vcf.gz")]
 
     else
 
         vc_ = [
-            joinpath(pao, "manta", pav, "diploidSV.vcf.gz"),
-            joinpath(pao, "strelka", pav, "variants.vcf.gz"),
+            joinpath(pa, "manta", pav, "diploidSV.vcf.gz"),
+            joinpath(pa, "strelka", pav, "variants.vcf.gz"),
         ]
 
     end
 
-    paco = joinpath(pao, "concat.vcf.gz")
+    paco = joinpath(pa, "concat.vcf.gz")
 
     FASTQ.VCF.combine_vcf(n_jo, vc_, chn, paco)
 
     run(`tabix $paco`)
 
-    papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+    papa = FASTQ.VCF.annotate_with_snpeff(pa, me, sn, paco, n_jo)
 
     if rs
 
-        FASTQ.VCF.annotate_with_snpsift(pao, sn, va, papa, n_jo)
+        FASTQ.VCF.annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
     end
 
 end
 
-function call_somatic_variant(pao, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs, va)
+function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs, va)
 
     FASTQ.Support.log()
 
-    _prepare_for_variant_calling(pao)
+    _prepare_for_variant_calling(pa, fa, chs)
 
     id, voo, vof, voc, vogefi, vosofi, vot =
-        _run_strelka_manta_docker_container(to, ge, fa, chs, pao, so = so)
+        _run_strelka_manta_docker_container(to, ge, fa, chs, pa, so = so)
 
     co = "--referenceFasta /home/$vof --callRegions /home/$voc --normalBam /home/$vogefi --tumorBam /home/$vosofi"
 
@@ -206,29 +208,29 @@ function call_somatic_variant(pao, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, r
 
     FASTQ.Support.remove_docker_container(id)
 
-    past = joinpath(pao, "strelka")
+    past = joinpath(pa, "strelka")
 
-    sa = joinpath(pao, "sample.txt")
+    sa = joinpath(pa, "sample.txt")
 
     open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
     vc_ = [
         FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.indels.vcf.gz"), n_jo, sa),
         FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.snvs.vcf.gz"), n_jo, sa),
-        FASTQ.VCF.reheader_vcf(joinpath(pao, "manta", pav, "somaticSV.vcf.gz"), n_jo, sa),
+        FASTQ.VCF.reheader_vcf(joinpath(pa, "manta", pav, "somaticSV.vcf.gz"), n_jo, sa),
     ]
 
-    paco = joinpath(pao, "concat.vcf.gz")
+    paco = joinpath(pa, "concat.vcf.gz")
 
     FASTQ.VCF.combine_vcf(n_jo, vc_, chn, paco)
 
     run(`tabix $paco`)
 
-    papa = FASTQ.VCF.annotate_with_snpeff(pao, me, sn, paco, n_jo)
+    papa = FASTQ.VCF.annotate_with_snpeff(pa, me, sn, paco, n_jo)
 
     if rs
 
-        FASTQ.VCF.annotate_with_snpsift(pao, sn, va, papa, n_jo)
+        FASTQ.VCF.annotate_with_snpsift(pa, sn, va, papa, n_jo)
 
     end
 
