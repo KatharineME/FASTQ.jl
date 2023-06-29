@@ -28,15 +28,15 @@ function call_variants_on_bulk_cdna(
     variant_database,
 )
 
+    pa = joinpath(output_directory, "call_variants_on_bulk_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
+
     for fi in (reference_genome, chromosome_position, chromosome_name, snpeff, variant_database)
 
         BioLab.Path.error_missing(fi)
 
     end
-
-    pa = joinpath(output_directory, "call_variants_on_bulk_cdna")
-
-    FASTQ.Support.error_if_directory(pa)
 
     pac = joinpath(pa, "align_cdna/")
 
@@ -96,16 +96,15 @@ function measure_gene_expression_of_bulk_cdna(
     organism,
     mouse_transcript_to_mouse_gene,
 )
+    pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
 
     for fi in (reference_transcriptome, mouse_transcript_to_mouse_gene)
 
         BioLab.Path.error_missing(fi)
 
     end
-
-    pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
-
-    FASTQ.Support.error_if_directory(pa)
 
     pap = joinpath(pa, "psuedoalign/")
 
@@ -131,15 +130,15 @@ end
 
 function measure_gene_expression_of_single_cell_cdna()
 
+    pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
+
     for fi in (reference_genome,)
 
         BioLab.Path.error_missing(fi)
 
     end
-
-    pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
-
-    FASTQ.Support.error_if_directory(pa)
 
 end
 
