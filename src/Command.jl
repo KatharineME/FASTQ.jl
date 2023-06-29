@@ -129,8 +129,6 @@ function measure_gene_expression_of_bulk_cdna(
 
 end
 
-########################################################################################
-
 function measure_gene_expression_of_single_cell_cdna()
 
     for fi in (reference_genome,)
@@ -144,8 +142,6 @@ function measure_gene_expression_of_single_cell_cdna()
     FASTQ.Support.error_if_directory(pa)
 
 end
-
-########################################################################################
 
 function call_variants_on_germline_dna(
     output_directory,
