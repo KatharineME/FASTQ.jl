@@ -28,21 +28,27 @@ function call_variants_on_bulk_cdna(
     variant_database,
 )
 
-    pou = joinpath(output_directory, "apply_cdna_to_genome")
+    for fi in (reference_genome, chromosome_position, chromosome_name, snpeff, variant_database)
 
-    FASTQ.Support.error_if_directory(pou)
+        BioLab.Path.error_missing(fi)
 
-    pac = joinpath(pou, "align_cdna/")
+    end
+
+    pa = joinpath(output_directory, "call_variants_on_bulk_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
+
+    pac = joinpath(pa, "align_cdna/")
 
     FASTQ.Support.error_if_directory(pac)
 
     re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    FASTQ.Raw.check_read(joinpath(pou, "check_read"), re_, number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pa, "check_read"), re_, number_of_jobs)
 
     FASTQ.Raw.align_cdna(pac, cdna_read_directory, reference_genome, number_of_jobs, al = "genome")
 
-    pav = joinpath(pou, "call_germline_variant")
+    pav = joinpath(pa, "call_germline_variant")
 
     for (ro, di_, fi_) in walkdir(pac)
 
@@ -91,17 +97,23 @@ function measure_gene_expression_of_bulk_cdna(
     mouse_transcript_to_mouse_gene,
 )
 
-    pou = joinpath(output_directory, "apply_cdna_to_transcriptome")
+    for fi in (reference_transcriptome, mouse_transcript_to_mouse_gene)
 
-    FASTQ.Support.error_if_directory(pou)
+        BioLab.Path.error_missing(fi)
 
-    pap = joinpath(pou, "psuedoalign/")
+    end
+
+    pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
+
+    pap = joinpath(pa, "psuedoalign/")
 
     FASTQ.Support.error_if_directory(pap)
 
     re_ = FASTQ.Raw.find(cdna_read_directory)
 
-    FASTQ.Raw.check_read(joinpath(pou, "check_read"), re_, number_of_jobs)
+    FASTQ.Raw.check_read(joinpath(pa, "check_read"), re_, number_of_jobs)
 
     FASTQ.Raw.align_cdna(
         pap,
@@ -113,13 +125,23 @@ function measure_gene_expression_of_bulk_cdna(
         sd = fragment_length_standard_deviation,
     )
 
-    FASTQ.Abundance.make_gene_by_sample(pap, pou, organism, mouse_transcript_to_mouse_gene)
+    FASTQ.Abundance.make_gene_by_sample(pap, pa, organism, mouse_transcript_to_mouse_gene)
 
 end
 
 ########################################################################################
 
 function measure_gene_expression_of_single_cell_cdna()
+
+    for fi in (reference_genome,)
+
+        BioLab.Path.error_missing(fi)
+
+    end
+
+    pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
+
+    FASTQ.Support.error_if_directory(pa)
 
 end
 
@@ -143,21 +165,17 @@ function call_variants_on_germline_dna(
     variant_database,
 )
 
-    pa = joinpath(output_directory, "apply_germline_dna_to_genome")
+    pa = joinpath(output_directory, "call_variants_on_germline_dna")
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs)
+    for fi in (read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff)
 
-    for pa in [read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff]
-
-        if !isfile(pa)
-
-            error("$pa does not exist.")
-
-        end
+        BioLab.Path.error_missing(fi)
 
     end
+
+    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs)
 
     tr = joinpath(pa, "trim/")
 
@@ -215,13 +233,11 @@ function call_variants_on_somatic_dna(
     variant_database,
 )
 
-    pa = joinpath(output_directory, "apply_somatic_dna_to_genome")
+    pa = joinpath(output_directory, "call_variants_on_somatic_dna")
 
     FASTQ.Support.error_if_directory(pa)
 
-    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs, somatic_read1, somatic_read2)
-
-    for fi in [
+    for fi in (
         read1,
         read2,
         somatic_read1,
@@ -230,15 +246,13 @@ function call_variants_on_somatic_dna(
         chromosome_position,
         chromosome_name,
         snpeff,
-    ]
+    )
 
-        if !isfile(fi)
-
-            error("$fi does not exist.")
-
-        end
+        BioLab.Path.error_missing(fi)
 
     end
+
+    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs, somatic_read1, somatic_read2)
 
     trge = joinpath(pa, "trim", "germline")
 
@@ -324,9 +338,15 @@ function benchmark(
 
     FASTQ.Support.error_if_directory(pa)
 
+    for fi in (name_chromosome, query_vcf, truth_vcf, confident_regions_bed)
+
+        BioLab.Path.error_missing(fi)
+
+    end
+
     red = split(reference_genome, ".gz")[1]
 
-    if !isfile(reference_genome)
+    if !isfile(red)
 
         run(`bgzip -d $reference_genome`)
 
