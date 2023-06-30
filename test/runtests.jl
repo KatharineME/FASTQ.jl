@@ -1,85 +1,33 @@
-using Test
+using Aqua
 
-using FASTQ
+include("environment.jl")
 
-FASTQ.Command.call_variants_on_bulk_cdna(
-    output_directory,
-    cdna_read_directory,
-    number_of_jobs,
-    reference_genome,
-    molecule,
-    exome,
-    chromosome_position,
-    chromosome_name,
-    memory,
-    tool_directory,
-    snpeff,
-    annotate_with_rsid,
-    variant_database,
-)
+# ---- #
 
-FASTQ.Command.measure_gene_expression_of_bulk_cdna(
-    output_directory,
-    cdna_read_directory,
-    number_of_jobs,
-    reference_transcriptome,
-    fragment_length,
-    fragment_length_standard_deviation,
-    organism,
-    mouse_transcript_to_mouse_gene,
-)
+Aqua.test_all(FASTQ; ambiguities = false)
 
-FASTQ.Command.measure_gene_expression_of_single_cell_cdna()
+Aqua.test_ambiguities(FASTQ)
 
-FASTQ.Command.call_variants_on_germline_dna(
-    output_directory,
-    read1,
-    read2,
-    number_of_jobs,
-    memory,
-    sample,
-    reference_genome,
-    chromosome_position,
-    chromosome_name,
-    snpeff,
-    molecule,
-    exome,
-    tool_directory,
-    annotate_with_rsid,
-    variant_database,
-)
+# ----------------------------------------------------------------------------------------------- #
 
-FASTQ.Command.call_variants_on_somatic_dna(
-    output_directory,
-    read1,
-    read2,
-    somatic_read1,
-    somatic_read2,
-    number_of_jobs,
-    memory,
-    sample,
-    reference_genome,
-    chromosome_position,
-    chromosome_name,
-    snpeff,
-    molecule,
-    exome,
-    tool_directory,
-    annotate_with_rsid,
-    variant_database,
-)
+@test isdir(FASTQ.TE)
 
-FASTQ.Command.benchmark(
-    output_directory,
-    reference_genome,
-    rtg_tools,
-    number_of_jobs,
-    name_chromosome,
-    query_vcf,
-    truth_vcf,
-    confident_regions_bed,
-)
+@test isempty(readdir(FASTQ.TE))
 
-FASTQ.Command.concatenate_fastq(dna_read_directory, read_name_scheme)
+# ---- #
 
-@info "Tests passed."
+te_ = filter!(!startswith('_'), readdir(@__DIR__))
+
+# ---- #
+
+for te in te_
+
+    if te != "runtests.jl"
+
+        @info "Testing $te"
+
+        run(`julia --project $te`)
+
+    end
+
+end

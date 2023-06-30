@@ -1,14 +1,16 @@
 module FASTQ
 
-const ROOT = pkgdir(Fastq)
+const DA = joinpath(dirname(@__DIR__), "data")
 
-const MANTA = "manta-1.6.0.centos6_x86_64"
+const TE = joinpath(tempdir(), "FASTQ")
 
-const STRELKA = "strelka-2.9.10.centos6_x86_64"
+const MA = "manta-1.6.0.centos6_x86_64"
 
-const TRIMMED_R1 = "trimmed.R1.fastq.gz"
+const ST = "strelka-2.9.10.centos6_x86_64"
 
-const TRIMMED_R2 = "trimmed.R2.fastq.gz"
+const TR1 = "trimmed.R1.fastq.gz"
+
+const TR2 = "trimmed.R2.fastq.gz"
 
 include("Abundance.jl")
 

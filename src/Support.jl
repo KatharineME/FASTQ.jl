@@ -82,7 +82,7 @@ end
 
 function test_strelka_and_manta(pa)
 
-    for pr in (FASTQ.MANTA, FASTQ.STRELKA)
+    for pr in (FASTQ.MA, FASTQ.ST)
 
         if !(pr in readdir(pa))
 
@@ -101,9 +101,9 @@ function test_strelka_and_manta(pa)
     )
 
     for sc in [
-        joinpath(FASTQ.MANTA, "bin", "runMantaWorkflowDemo.py"),
-        joinpath(FASTQ.STRELKA, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
-        joinpath(FASTQ.STRELKA, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
+        joinpath(FASTQ.MA, "bin", "runMantaWorkflowDemo.py"),
+        joinpath(FASTQ.ST, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
+        joinpath(FASTQ.ST, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     ]
 
         re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))

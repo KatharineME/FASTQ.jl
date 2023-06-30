@@ -17,7 +17,7 @@ function _configure_and_run_manta(voo, id, vot, co, ru)
 
     vomr = joinpath(vom, "runWorkflow.py")
 
-    sc = "$(FASTQ.MANTA)/bin/configManta.py"
+    sc = "$(FASTQ.MA)/bin/configManta.py"
 
     re = readlines(
         pipeline(
