@@ -2,6 +2,8 @@ module Command
 
 using JSON
 
+using BioLab
+
 using FASTQ
 
 function concatenate_fastq(dna_read_directory, read_name_scheme)
@@ -27,6 +29,8 @@ function call_variants_on_bulk_cdna(
     annotate_with_rsid,
     variant_database,
 )
+
+    FASTQ.Support.log_top_level_function()
 
     pa = joinpath(output_directory, "call_variants_on_bulk_cdna")
 
@@ -98,6 +102,8 @@ function measure_gene_expression_of_bulk_cdna(
 )
     pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
 
+    @info "Working in $pa"
+
     FASTQ.Support.error_if_directory(pa)
 
     for fi in (reference_transcriptome, mouse_transcript_to_mouse_gene)
@@ -132,6 +138,8 @@ function measure_gene_expression_of_single_cell_cdna()
 
     pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
 
+    @info "Working in $pa"
+
     FASTQ.Support.error_if_directory(pa)
 
     for fi in (reference_genome,)
@@ -160,7 +168,11 @@ function call_variants_on_germline_dna(
     variant_database,
 )
 
-    pa = joinpath(output_directory, "call_variants_on_germline_dna")
+    na = "call_variants_on_germline_dna"
+
+    pa = joinpath(output_directory, na)
+
+    @info "Working in:" uppercase(na) pa
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -229,6 +241,8 @@ function call_variants_on_somatic_dna(
 )
 
     pa = joinpath(output_directory, "call_variants_on_somatic_dna")
+
+    @info "Working in $pa"
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -330,6 +344,8 @@ function benchmark(
     FASTQ.Support.log()
 
     pa = joinpath(output_directory, "benchmark")
+
+    @info "Working in $pa"
 
     FASTQ.Support.error_if_directory(pa)
 

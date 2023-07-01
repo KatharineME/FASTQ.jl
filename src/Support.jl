@@ -16,7 +16,7 @@ function error_if_directory(pa)
 
     else
 
-        mkdir(paf)
+        mkpath(paf)
 
     end
 
@@ -38,11 +38,28 @@ function index_genome_files(ge, chs)
 
 end
 
-function log()
+function log_top_level_function()
 
-    @info "="^99 StackTraces.stacktrace()[2].func BioLab.Time.stamp()
+    fu = replace(string(StackTraces.stacktrace()[2].func), "_" => " ")
 
-    @info "="^99
+    ti = BioLab.Time.stamp()
+
+    @info "==============================
+    $fu 
+    $ti
+    ================================"
+end
+
+function log_sub_level_function()
+
+    fu = replace(string(StackTraces.stacktrace()[2].func), "_" => " ")
+
+    ti = BioLab.Time.stamp()
+
+    @info "------------------------------
+    $fu 
+    $ti
+    --------------------------------"
 
 end
 

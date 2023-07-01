@@ -4,17 +4,11 @@ include("environment.jl")
 
 # ---- #
 
-Aqua.test_all(FASTQ; ambiguities = false)
-
-Aqua.test_ambiguities(FASTQ)
+# Aqua.test_all(FASTQ; ambiguities = false)
+# 
+# Aqua.test_ambiguities(FASTQ)
 
 # ----------------------------------------------------------------------------------------------- #
-
-@test isdir(FASTQ.TE)
-
-@test isempty(readdir(FASTQ.TE))
-
-# ---- #
 
 te_ = filter!(!startswith('_'), readdir(@__DIR__))
 

@@ -82,7 +82,7 @@ end
 
 function make_gene_by_sample(pap, pou, or, ma)
 
-    FASTQ.support.log()
+    FASTQ.Support.log()
 
     # Make transcript by sample from adbundance.tsvs
 
@@ -91,6 +91,7 @@ function make_gene_by_sample(pap, pou, or, ma)
     for (ro, di_, fi_) in walkdir(pap)
 
         for fi in fi_
+
             if endswith(fi, ".tsv")
 
                 paf = joinpath(ro, fi)

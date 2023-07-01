@@ -12,16 +12,44 @@ const TR1 = "trimmed.R1.fastq.gz"
 
 const TR2 = "trimmed.R2.fastq.gz"
 
-include("Abundance.jl")
+for jl in readdir(@__DIR__)
 
-include("BAM.jl")
+    if !startswith(jl, '_') && jl != "FASTQ.jl"
 
-include("Command.jl")
+        include(jl)
 
-include("Raw.jl")
+    end
 
-include("Support.jl")
+end
 
-include("VCF.jl")
+macro is_error(ex)
+
+    quote
+
+        try
+
+            $(esc(ex))
+
+            false
+
+        catch er
+
+            @info "Errored." er
+
+            true
+
+        end
+
+    end
+
+end
+
+function __init__()
+
+    rm(TE; recursive = true, force = true)
+
+    mkdir(TE)
+
+end
 
 end

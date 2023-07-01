@@ -4,7 +4,7 @@ using FASTQ
 
 function find(di)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     re_ = []
 
@@ -61,13 +61,13 @@ end
 
 function check_read(pa, re_, n_jo)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(di)
+    FASTQ.Support.error_if_directory(pa)
 
     th = minimum((length(re_), n_jo))
 
-    run(`fastqc --threads $th --outdir $pa $re_`)
+    @debug run(`fastqc --threads $th --outdir $pa $re_`)
 
     run(`multiqc --outdir $pa $pa`)
 
@@ -91,7 +91,7 @@ end
 
 function concatenate(fq_; na = "R1")
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     fo_ = []
 
@@ -149,11 +149,13 @@ end
 
 function trim(pa, n_jo, r1, r2)
 
-    Fastq.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
-    Fastq.Support.error_if_directory(pa)
+    FASTQ.Support.error_if_directory(pa)
 
-    ht = joinpath(pa, "fastp.html"), js = joinpath(pa, "fastp.json")
+    ht = joinpath(pa, "fastp.html")
+
+    js = joinpath(pa, "fastp.json")
 
     ou1 = joinpath(pa, FASTQ.TR1)
 
@@ -167,7 +169,7 @@ end
 
 function psuedoalign(ou, tr, n_jo, r1, r2, fr, sd)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     id = "$tr.kallisto_index"
 
@@ -197,7 +199,7 @@ end
 
 function align_cdna(pa, ge, n_jo, sa, r1, r2)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -239,7 +241,7 @@ end
 
 function align_cdna(pa, cd, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     fq_ = find(cd)
 
@@ -286,7 +288,7 @@ end
 
 function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -322,7 +324,7 @@ end
 
 function align_single_cell_cdna(pa, sa, r1, r2, ge, n_jo)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     FASTQ.Support.error_if_directory(pa)
 

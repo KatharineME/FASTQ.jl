@@ -16,7 +16,7 @@ DA = FASTQ.DA
 
 DAT = joinpath(FASTQ.DA, "Test")
 
-DAC = joinpath(DAT, "ReferenceGenome", "Chromosome")
+DAC = joinpath(DA, "ReferenceGenome", "Chromosome")
 
 TO = joinpath(dirname(@__DIR__), "tool")
 
@@ -38,7 +38,8 @@ chs = joinpath(DAC, "chromosome.bed.gz")
 
 chn = joinpath(DAC, "chrn_n.tsv")
 
-cd = joinpath(DA, "cDNA"),
+cd = joinpath(DAT, "cDNA")
+
 sn = joinpath(TO, "snpEff", "snpEff.jar")
 
 va = joinpath(DA, "Ensembl", "homo_sapiens-chr1_y.vcf.gz")
@@ -109,35 +110,39 @@ FASTQ.Command.call_variants_on_germline_dna(
     variant_database,
 )
 
-# FASTQ.Command.call_variants_on_somatic_dna(
-#     output_directory,
-#     read1,
-#     read2,
-#     somatic_read1,
-#     somatic_read2,
-#     number_of_jobs,
-#     memory,
-#     sample,
-#     reference_genome,
-#     chromosome_position,
-#     chromosome_name,
-#     snpeff,
-#     molecule,
-#     exome,
-#     tool_directory,
-#     annotate_with_rsid,
-#     variant_database,
-# )
-# 
-# FASTQ.Command.benchmark(
-#     output_directory,
-#     reference_genome,
-#     rtg_tools,
-#     number_of_jobs,
-#     name_chromosome,
-#     query_vcf,
-#     truth_vcf,
-#     confident_regions_bed,
-# )
-# 
-# FASTQ.Command.concatenate_fastq(dna_read_directory, read_name_scheme)
+# ---- #
+
+sor1 =
+    sor1 =
+        FASTQ.Command.call_variants_on_somatic_dna(
+            TE,
+            r1,
+            r2,
+            sor1,
+            sor2,
+            n_jo,
+            me,
+            sa,
+            ge,
+            chs,
+            chn,
+            sn,
+            mo,
+            exome,
+            TO,
+            rs,
+            va,
+        )
+
+# ---- #
+
+rt =
+    vq =
+        vt =
+            be =
+                nch =
+                    FASTQ.Command.benchmark(TE, ge, rt, n_jo, nch, vq, vt, be)
+
+# ---- #
+
+FASTQ.Command.concatenate_fastq(dna_read_directory, read_name_scheme)
