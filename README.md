@@ -48,7 +48,7 @@ _Currently works only on MacOS._
 ```bash
 brew install fastqc kallisto samtools bcftools
 
-pip install multiqc
+pip3 install multiqc
 ```
 
 #### 2. Download SnpEff
