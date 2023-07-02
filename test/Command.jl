@@ -26,23 +26,45 @@ n_jo = 8
 
 me = 8
 
+mo = "dna"
+
+rs = true
+
+ex = false
+
+cd = joinpath(DAT, "cDNA")
+
+chs = joinpath(DAC, "chromosome.bed.gz")
+
+chn = joinpath(DAC, "chrn_n.tsv")
+
+sn = joinpath(TO, "snpEff", "snpEff.jar")
+
+va = joinpath(DA, "Ensembl", "homo_sapiens-chr1_y.vcf.gz")
+
 ge = joinpath(
     DA,
     "ReferenceGenome",
     "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz",
 )
 
-tr = joinpath(DA, "ReferenceTranscriptome", "Homo_sapiens.GRCh38.cdna.all.fa.gz")
+# FASTQ.Command.call_variants_on_bulk_cdna(
+#     TE,
+#     cd,
+#     n_jo,
+#     ge,
+#     mo,
+#     ex,
+#     chs,
+#     chn,
+#     me,
+#     TO,
+#     sn,
+#     rs,
+#     va,
+# )
 
-chs = joinpath(DAC, "chromosome.bed.gz")
-
-chn = joinpath(DAC, "chrn_n.tsv")
-
-cd = joinpath(DAT, "cDNA")
-
-sn = joinpath(TO, "snpEff", "snpEff.jar")
-
-va = joinpath(DA, "Ensembl", "homo_sapiens-chr1_y.vcf.gz")
+# ---- #
 
 fr = 51
 
@@ -50,47 +72,25 @@ sd = 0.05
 
 or = "human"
 
-sa = "test"
-
-rs = true
+tr = joinpath(DA, "ReferenceTranscriptome", "Homo_sapiens.GRCh38.cdna.all.fa.gz")
 
 mg = joinpath(DA, "Mouse", "mouse_transcript_mouse_gene.tsv")
 
-# ---- #
-
-FASTQ.Command.call_variants_on_bulk_cdna(
-    TE,
-    cd,
-    n_jo,
-    ge,
-    "dna",
-    false,
-    chs,
-    chn,
-    me,
-    TO,
-    sn,
-    true,
-    va,
-)
-
-# ---- #
-
-FASTQ.Command.measure_gene_expression_of_bulk_cdna(TE, cd, n_jo, tr, fr, sd, or, mg)
+#FASTQ.Command.measure_gene_expression_of_bulk_cdna(TE, cd, n_jo, tr, fr, sd, or, mg)
 
 # ---- #
 
 # FASTQ.Command.measure_gene_expression_of_single_cell_cdna()
-# 
+ 
 # ---- #
+
+sa = "test"
 
 DAD = joinpath(DA, "Test", "DNA")
 
 r1 = joinpath(DAD, "test_dna_4k.R1.fastq.gz")
 
-r1 = joinpath(DAD, "test_dna_4k.R2.fastq.gz")
-
-mo = "dna"
+r2 = joinpath(DAD, "test_dna_4k.R2.fastq.gz")
 
 FASTQ.Command.call_variants_on_germline_dna(
     TE,
@@ -103,11 +103,29 @@ FASTQ.Command.call_variants_on_germline_dna(
     chs,
     chn,
     sn,
-    molecule,
-    exome,
-    tool_directory,
-    annotate_with_rsid,
-    variant_database,
+    mo,
+    ex,
+    TO,
+    rs,
+    va,
+)
+
+# ---- #
+
+FASTQ.Command.call_variants_on_germline_dna(
+    TE,
+    DAD,
+    n_jo,
+    me,
+    ge,
+    chs,
+    chn,
+    sn,
+    mo,
+    ex,
+    TO,
+    rs,
+    va,
 )
 
 # ---- #

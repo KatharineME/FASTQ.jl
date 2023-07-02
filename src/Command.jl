@@ -226,7 +226,6 @@ function call_variants_on_germline_dna(
     dna_read_directory,
     number_of_jobs,
     memory,
-    sample,
     reference_genome,
     chromosome_position,
     chromosome_name,
@@ -240,13 +239,13 @@ function call_variants_on_germline_dna(
 
     FASTQ.Support.log_top_level_function()
 
-    pa = joinpath(output_directory, "call_variants_on_germline_dna")
-
     sa_ = []
 
-    for fi in readdir(dna_read_directory, join = true)
+    for pa in readdir(dna_read_directory, join = true)
 
         if endswith(fi, ".gz")
+
+            fi = basename(pa)
 
             sa = rsplit(fi, "R"; limit = 2)
 
@@ -254,14 +253,48 @@ function call_variants_on_germline_dna(
 
                 continue
 
+                @info "Continuing" sa_
+
             else
 
                 push!(sa_, sa)
 
+                pao = joinpath(output_directory, sa, "call_variants_on_germline_dna")
+
                 if occursin("R1", fi)
-                    r1 = fi
+                    
+                    r1 = pa
+
+                    r2 = replace(pa, "R1" => "R2")
+
+                else
+
+                    r2 = fi
+
+                    r1 = replace(fi, "R2" => "R1")
 
                 end
+
+                @info "Running germline variant calling on:" r1 r2
+
+                call_variants_on_germline_dna( 
+                    pao,
+                    r1,
+                    r2,
+                    number_of_jobs,
+                    memory,
+                    sa,
+                    reference_genome,
+                    chromosome_position,
+                    chromosome_name,
+                    snpeff,
+                    molecule,
+                    exome,
+                    tool_directory,
+                    annotate_with_rsid,
+                    variant_database,
+                )
+
             end
         end
     end

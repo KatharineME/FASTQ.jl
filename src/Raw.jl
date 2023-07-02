@@ -85,7 +85,7 @@ function check_read(pa, r1, r2, n_jo; sor1 = nothing, sor2 = nothing)
 
     end
 
-    check_read(re_, joinpath(pa, "check_raw"), n_jo)
+    check_read(joinpath(pa, "check_raw"), re_, n_jo)
 
 end
 
