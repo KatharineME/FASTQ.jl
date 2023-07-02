@@ -4,7 +4,7 @@ using FASTQ
 
 function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     pas = joinpath(pa, "snpeff")
 
@@ -44,7 +44,7 @@ end
 
 function annotate_with_snpsift(pa, sn, va, pap, n_jo)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     pas = joinpath(pa, "snpsift")
 
@@ -68,6 +68,10 @@ end
 
 function combine_vcf(pa, n_jo, vc_, chn)
 
+    FASTQ.Support.log_sub_level_function()
+
+    @warn "THIS IS PA: $pa"
+
     run(
         pipeline(
             `bcftools concat --threads $n_jo --allow-overlaps $vc_`,
@@ -80,6 +84,8 @@ function combine_vcf(pa, n_jo, vc_, chn)
 end
 
 function reheader_vcf(pa, n_jo, sa)
+
+    FASTQ.Support.log_sub_level_function()
 
     na = split(basename(pa), "vcf.gz")[1]
 

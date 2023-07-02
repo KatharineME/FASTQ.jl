@@ -10,7 +10,7 @@ using FASTQ
 
 function map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
 
-    FASTQ.support.log()
+    FASTQ.support.log_sub_level_function()
 
     mt_mg = CSV.read(ma, DataFrame)
 
@@ -44,6 +44,8 @@ using CSV
 using DataFrames
 
 function make_gene_by_sample(pas, fi, ma)
+
+    FASTQ.support.log_sub_level_function()
 
     if ra == true
 
@@ -82,9 +84,7 @@ end
 
 function make_gene_by_sample(pap, pou, or, ma)
 
-    FASTQ.Support.log()
-
-    # Make transcript by sample from adbundance.tsvs
+    FASTQ.Support.log_sub_level_function()
 
     tpm__ = Dict()
 
@@ -135,9 +135,6 @@ function make_gene_by_sample(pap, pou, or, ma)
 
     select!(nu_tr_sa, :id, Not(:transcript_id))
 
-
-    # If mouse, convert mouse transcript to mouse gene
-
     if or == "mouse"
 
         df = map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
@@ -151,9 +148,6 @@ function make_gene_by_sample(pap, pou, or, ma)
         co = :id
 
     end
-
-
-    # Convert to human gene
 
     na_, ma_ = BioLab.Gene.rename(df[!, co])
 

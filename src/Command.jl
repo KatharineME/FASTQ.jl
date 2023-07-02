@@ -8,6 +8,8 @@ using FASTQ
 
 function concatenate_fastq(dna_read_directory, read_name_scheme)
 
+    FASTQ.Support.log_top_level_function()
+
     re_ = FASTQ.Raw.find(dna_read_directory)
 
     FASTQ.Raw.concatenate(re_, read_name_scheme)
@@ -100,9 +102,10 @@ function measure_gene_expression_of_bulk_cdna(
     organism,
     mouse_transcript_to_mouse_gene,
 )
-    pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
 
-    @info "Working in $pa"
+    FASTQ.Support.log_top_level_function()
+
+    pa = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -136,9 +139,9 @@ end
 
 function measure_gene_expression_of_single_cell_cdna()
 
-    pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
+    FASTQ.Support.log_top_level_function()
 
-    @info "Working in $pa"
+    pa = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -168,11 +171,9 @@ function call_variants_on_germline_dna(
     variant_database,
 )
 
-    na = "call_variants_on_germline_dna"
+    FASTQ.Support.log_top_level_function()
 
-    pa = joinpath(output_directory, na)
-
-    @info "Working in:" uppercase(na) pa
+    pa = joinpath(output_directory, "call_variants_on_germline_dna")
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -220,6 +221,54 @@ function call_variants_on_germline_dna(
 
 end
 
+function call_variants_on_germline_dna(
+    output_directory,
+    dna_read_directory,
+    number_of_jobs,
+    memory,
+    sample,
+    reference_genome,
+    chromosome_position,
+    chromosome_name,
+    snpeff,
+    molecule,
+    exome,
+    tool_directory,
+    annotate_with_rsid,
+    variant_database,
+)
+
+    FASTQ.Support.log_top_level_function()
+
+    pa = joinpath(output_directory, "call_variants_on_germline_dna")
+
+    sa_ = []
+
+    for fi in readdir(dna_read_directory, join = true)
+
+        if endswith(fi, ".gz")
+
+            sa = rsplit(fi, "R"; limit = 2)
+
+            if sa in sa_
+
+                continue
+
+            else
+
+                push!(sa_, sa)
+
+                if occursin("R1", fi)
+                    r1 = fi
+
+                end
+            end
+        end
+    end
+
+end
+
+
 function call_variants_on_somatic_dna(
     output_directory,
     read1,
@@ -240,9 +289,9 @@ function call_variants_on_somatic_dna(
     variant_database,
 )
 
-    pa = joinpath(output_directory, "call_variants_on_somatic_dna")
+    FASTQ.Support.log_top_level_function()
 
-    @info "Working in $pa"
+    pa = joinpath(output_directory, "call_variants_on_somatic_dna")
 
     FASTQ.Support.error_if_directory(pa)
 
@@ -341,11 +390,9 @@ function benchmark(
     confident_regions_bed,
 )
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_top_level_function()
 
     pa = joinpath(output_directory, "benchmark")
-
-    @info "Working in $pa"
 
     FASTQ.Support.error_if_directory(pa)
 

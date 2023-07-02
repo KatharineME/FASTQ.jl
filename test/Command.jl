@@ -112,36 +112,43 @@ FASTQ.Command.call_variants_on_germline_dna(
 
 # ---- #
 
-sor1 =
-    sor1 =
-        FASTQ.Command.call_variants_on_somatic_dna(
-            TE,
-            r1,
-            r2,
-            sor1,
-            sor2,
-            n_jo,
-            me,
-            sa,
-            ge,
-            chs,
-            chn,
-            sn,
-            mo,
-            exome,
-            TO,
-            rs,
-            va,
-        )
+sor1 = joinpath(DAD, "test_dna_40k.R1.fastq.gz")
+
+sor1 = joinpath(DAD, "test_dna_40k.R2.fastq.gz")
+
+FASTQ.Command.call_variants_on_somatic_dna(
+    TE,
+    r1,
+    r2,
+    sor1,
+    sor2,
+    n_jo,
+    me,
+    sa,
+    ge,
+    chs,
+    chn,
+    sn,
+    mo,
+    exome,
+    TO,
+    rs,
+    va,
+)
 
 # ---- #
 
-rt =
-    vq =
-        vt =
-            be =
-                nch =
-                    FASTQ.Command.benchmark(TE, ge, rt, n_jo, nch, vq, vt, be)
+rt = joinpath(TO, "rtg-tools-3.11")
+
+vq = "benchmark/apply_germline_dna_to_genome/call_germline_variant/pass.vcf.gz"
+
+vt = "benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz"
+
+be = "benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed.gz"
+
+nch = "grch/chromosome/n_chrn.tsv"
+
+FASTQ.Command.benchmark(TE, ge, rt, n_jo, nch, vq, vt, be)
 
 # ---- #
 

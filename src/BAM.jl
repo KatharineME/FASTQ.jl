@@ -1,5 +1,7 @@
 module BAM
 
+using BioLab
+
 using FASTQ
 
 function _prepare_for_variant_calling(pa, fa, chs)
@@ -100,7 +102,7 @@ end
 
 function call_germline_variant(pa, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     _prepare_for_variant_calling(pa, fa, chs)
 
@@ -128,7 +130,7 @@ function call_germline_variant(pa, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, r
 
     vostr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$(FASTQ.STRELKA)/bin/configureStrelkaGermlineWorkflow.py"
+    sc = "$(FASTQ.ST)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -157,7 +159,7 @@ function call_germline_variant(pa, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, r
 
     paco = joinpath(pa, "concat.vcf.gz")
 
-    FASTQ.VCF.combine_vcf(n_jo, vc_, chn, paco)
+    FASTQ.VCF.combine_vcf(paco, n_jo, vc_, chn)
 
     run(`tabix $paco`)
 
@@ -173,7 +175,7 @@ end
 
 function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs, va)
 
-    FASTQ.Support.log()
+    FASTQ.Support.log_sub_level_function()
 
     _prepare_for_variant_calling(pa, fa, chs)
 
@@ -196,7 +198,7 @@ function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs
 
     vost = joinpath(voo, "strelka")
 
-    sc = "$(FASTQ.STRELKA)/bin/configureStrelkaSomaticWorkflow.py"
+    sc = "$(FASTQ.ST)/bin/configureStrelkaSomaticWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -222,7 +224,7 @@ function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs
 
     paco = joinpath(pa, "concat.vcf.gz")
 
-    FASTQ.VCF.combine_vcf(n_jo, vc_, chn, paco)
+    FASTQ.VCF.combine_vcf(paco, n_jo, vc_, chn)
 
     run(`tabix $paco`)
 
