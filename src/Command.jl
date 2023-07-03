@@ -187,7 +187,7 @@ function call_variants_on_germline_dna(
 
     tr = joinpath(pa, "trim/")
 
-    FASTQ.Raw.trim(tr, read1, read2, number_of_jobs)
+    FASTQ.Raw.trim(tr, number_of_jobs, read1, read2)
 
     r1t = joinpath(tr, FASTQ.TR1)
 
@@ -243,11 +243,11 @@ function call_variants_on_germline_dna(
 
     for pa in readdir(dna_read_directory, join = true)
 
-        if endswith(fi, ".gz")
+        if endswith(pa, ".gz")
 
             fi = basename(pa)
 
-            sa = rsplit(fi, "R"; limit = 2)
+            sa = strip(rsplit(fi, "R"; limit = 2)[1], ['.'])
 
             if sa in sa_
 
@@ -262,7 +262,7 @@ function call_variants_on_germline_dna(
                 pao = joinpath(output_directory, sa, "call_variants_on_germline_dna")
 
                 if occursin("R1", fi)
-                    
+
                     r1 = pa
 
                     r2 = replace(pa, "R1" => "R2")
@@ -277,7 +277,7 @@ function call_variants_on_germline_dna(
 
                 @info "Running germline variant calling on:" r1 r2
 
-                call_variants_on_germline_dna( 
+                call_variants_on_germline_dna(
                     pao,
                     r1,
                     r2,
@@ -343,7 +343,14 @@ function call_variants_on_somatic_dna(
 
     end
 
-    FASTQ.Raw.check_read(pa, read1, read2, number_of_jobs, somatic_read1, somatic_read2)
+    FASTQ.Raw.check_read(
+        pa,
+        read1,
+        read2,
+        number_of_jobs,
+        sor1 = somatic_read1,
+        sor2 = somatic_read2,
+    )
 
     trge = joinpath(pa, "trim", "germline")
 
@@ -359,7 +366,7 @@ function call_variants_on_somatic_dna(
 
     for g in [[trge, read1, read2], [trso, somatic_read1, somatic_read2]]
 
-        FASTQ.Raw.trim(g[1], g[2], g[3], number_of_jobs)
+        FASTQ.Raw.trim(g[1], number_of_jobs, g[2], g[3])
 
     end
 

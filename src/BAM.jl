@@ -100,15 +100,15 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
 end
 
-function call_germline_variant(pa, to, ge, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
+function call_germline_variant(pa, to, ba, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
 
     FASTQ.Support.log_sub_level_function()
 
     _prepare_for_variant_calling(pa, fa, chs)
 
-    id, voo, vof, voc, vogefi, vot = _run_strelka_manta_docker_container(to, ge, fa, chs, pa)
+    id, voo, vof, voc, voba, vot = _run_strelka_manta_docker_container(to, ba, fa, chs, pa)
 
-    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$vogefi"
+    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voba"
 
     if ta
 

@@ -67,7 +67,7 @@ function check_read(pa, re_, n_jo)
 
     th = minimum((length(re_), n_jo))
 
-    @debug run(`fastqc --threads $th --outdir $pa $re_`)
+    run(`fastqc --threads $th --outdir $pa $re_`)
 
     run(`multiqc --outdir $pa $pa`)
 

@@ -70,8 +70,6 @@ function combine_vcf(pa, n_jo, vc_, chn)
 
     FASTQ.Support.log_sub_level_function()
 
-    @warn "THIS IS PA: $pa"
-
     run(
         pipeline(
             `bcftools concat --threads $n_jo --allow-overlaps $vc_`,

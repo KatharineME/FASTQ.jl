@@ -81,7 +81,7 @@ mg = joinpath(DA, "Mouse", "mouse_transcript_mouse_gene.tsv")
 # ---- #
 
 # FASTQ.Command.measure_gene_expression_of_single_cell_cdna()
- 
+
 # ---- #
 
 sa = "test"
@@ -132,7 +132,7 @@ FASTQ.Command.call_variants_on_germline_dna(
 
 sor1 = joinpath(DAD, "test_dna_40k.R1.fastq.gz")
 
-sor1 = joinpath(DAD, "test_dna_40k.R2.fastq.gz")
+sor2 = joinpath(DAD, "test_dna_40k.R2.fastq.gz")
 
 FASTQ.Command.call_variants_on_somatic_dna(
     TE,
@@ -148,7 +148,7 @@ FASTQ.Command.call_variants_on_somatic_dna(
     chn,
     sn,
     mo,
-    exome,
+    ex,
     TO,
     rs,
     va,
