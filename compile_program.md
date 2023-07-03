@@ -1,6 +1,10 @@
 ## Compile fastp from source
 
 ```bash
+brew install isa-l
+
+brew install libdeflate
+
 git clone https://github.com/OpenGene/fastp.git
 
 cd fastp
@@ -9,7 +13,6 @@ make
 
 sudo make install
 
-# Follow brew install or upgrade instructions if errors arise.
 ```
 
 ## Compile minimap2 from source
