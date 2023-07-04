@@ -42,7 +42,7 @@ chn = joinpath(DAC, "chrn_n.tsv")
 
 sn = joinpath(TO, "snpEff", "snpEff.jar")
 
-va = joinpath(DA, "Ensembl", "GRCh38", "homo_sapiens-chr1_y.vcf.gz")
+va = joinpath(DA, "Ensembl", "GRCh38", "homo_sapiens-grch38-chr1_y.vcf.gz")
 
 ge = joinpath(DAR, "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz")
 
