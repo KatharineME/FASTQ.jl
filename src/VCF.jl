@@ -18,7 +18,7 @@ function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
     run(
         pipeline(
-            `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $stc -htmlStats $sth $pac`,
+            `java -Xmx$(me)g -jar $sn GRCh37.75 -noLog -verbose -csvStats $stc -htmlStats $sth $pac`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
@@ -52,11 +52,11 @@ function annotate_with_snpsift(pa, sn, va, pap, n_jo)
 
     vc = joinpath(pas, "snpsift.vcf.gz")
 
-    snd = joinpath(dirname(sn), "SnpSift.jar")
+    ss = joinpath(dirname(sn), "SnpSift.jar")
 
     run(
         pipeline(
-            `java -jar $snd annotate -tabix -id -v $va $pap`,
+            `java -jar $ss annotate -tabix -id -v $va $pap`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
