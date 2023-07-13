@@ -27,16 +27,16 @@ julia> using Fastq
 julia> Fastq.command.concatenate_fastq("my/project/setting.json")
 
 # Germline DNA alignment and variant calling
-julia> Fastq.command.apply_germline_dna_to_genome("my/project/setting.json")
+julia> FASTQ.Command.call_variants_on_germline_dna("my/project/setting.json")
 
 # Somatic DNA alignment and variant calling
-julia> Fastq.command.apply_somatic_dna_to_genome("my/project/setting.json")
+julia> FASTQ.Command.call_variants_on_somatic_dna("my/project/setting.json")
 
 # cDNA alignment and variant calling
-julia> Fastq.command.apply_cdna_to_genome("my/project/setting.json")
+julia> FASTQ.Command.call_variants_on_cdna("my/project/setting.json")
 
 # cDNA psuedoalignment and gene_x_sample creation
-julia> Fastq.command.apply_cdna_to_transcriptome("my/project/setting.json")
+julia> FASTQ.Command.measure_gene_expression("my/project/setting.json")
 ```
 
 ## Prepare Environment
