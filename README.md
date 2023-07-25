@@ -86,8 +86,6 @@ julia --project --eval "using Pkg; Pkg.instantiate()"
 
 ## Test
 
-Update `Fastq.jl/test/setting.json`.
-
 ```bash
 julia --project --eval "using Pkg; Pkg.test()"
 ```
