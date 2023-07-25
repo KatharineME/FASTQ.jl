@@ -14,8 +14,6 @@ Sequence analysis pipeline for raw DNA and cDNA reads :sparkles:
 
 ## Use
 
-Copy `Fastq.jl/setting.json` to your project directory and edit it accordingly. See [setting.md](setting.md) for details.
-
 ```bash
 cd Fastq.jl
 
