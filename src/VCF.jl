@@ -56,7 +56,7 @@ function annotate_with_snpsift(pa, sn, va, pap, n_jo)
 
     run(
         pipeline(
-            `java -jar $ss annotate -tabix -id -v $va $pap`,
+            `java -jar $ss annotate -tabix -v $va $pap`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
