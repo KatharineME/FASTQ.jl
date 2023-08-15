@@ -6,27 +6,29 @@ function find(di)
 
     FASTQ.Support.log_sub_level_function()
 
-    re_ = []
+    re_ = Vector{String}()
 
     na_n = Dict(".fq" => 0, ".fastq" => 0, "fq.gz" => 0, "fastq.gz" => 0)
 
     for (ro, di_, fi_) in walkdir(di)
 
+        @info ro
+
+        @info di_
+
+        @info fi_
+
         for fi in fi_
 
-            if !occursin(".md5", fi)
+            for (na, _) in na_n
 
-                for (na, _) in na_n
+                if endswith(fi, na)
 
-                    if endswith(fi, na)
+                    na_n[na] += 1
 
-                        na_n[na] += 1
+                    if endswith(fi, ".gz")
 
-                        if endswith(fi, ".gz")
-
-                            push!(re_, joinpath(ro, fi))
-
-                        end
+                        push!(re_, joinpath(ro, fi))
 
                     end
 
@@ -37,7 +39,6 @@ function find(di)
         end
 
     end
-
 
     @info "File types found in $di"
 

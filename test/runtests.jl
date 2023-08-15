@@ -1,102 +1,28 @@
-using Logging
-
-using Test
-
-using BioLab: BioLab, @is_error
-
-using FASTQ
-
-TE = FASTQ.TE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using Aqua
-
-include("environment.jl")
-
-# ---- #
-
-# Aqua.test_all(FASTQ; ambiguities = false)
-# 
-# Aqua.test_ambiguities(FASTQ)
-
-# ----------------------------------------------------------------------------------------------- #
-
-te_ = filter!(!startswith('_'), readdir(@__DIR__))
-
-# ---- #
-
-for te in te_
-
-    if te != "runtests.jl"
-
-        @info "Testing $te"
-
-        run(`julia --project $te`)
-
-    end
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 using Test: @test
 
 using BioLab
 
+using FASTQ
+
 # ---- #
 
 # ----------------------------------------------------------------------------------------------- #
 
-@test isconst(BioLab, :_DA)
+# TODO: add constants
+@test isconst(FASTQ, :_DA)
 
-@test basename(BioLab._DA) == "data"
+@test basename(FASTQ._DA) == "data"
 
-@test BioLab.Path.read(BioLab._DA) == [
-    "CLS",
-    "DataFrame",
-    "Dict",
-    "FeatureSetEnrichment",
-    "GCT",
-    "GMT",
-    "Gene",
-    "Plot",
-    "SingleCell",
-]
+@test BioLab.Path.read(FASTQ._DA) ==
+      ["Clinvar", "Ensembl", "Gene", "Mouse", "ReferenceGenome", "ReferenceTranscriptome", "Test"]
 
 # ---- #
 
-@test isconst(BioLab, :TE)
+@test isconst(FASTQ, :TE)
 
-@test basename(BioLab.TE) == "BioLab"
+@test basename(FASTQ.TE) == "FASTQ"
 
-@test isempty(BioLab.Path.read(BioLab.TE))
+@test isempty(BioLab.Path.read(FASTQ.TE))
 
 # ---- #
 
@@ -118,7 +44,7 @@ end
 
 # ---- #
 
-@test symdiff(MO_, TE_) == ["BioLab.jl", "runtests.jl"]
+@test symdiff(MO_, TE_) == ["FASTQ.jl", "runtests.jl"]
 
 # ---- #
 
@@ -132,4 +58,4 @@ for jl in TE_
 
     end
 
-endd
+end
