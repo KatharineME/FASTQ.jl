@@ -1,3 +1,5 @@
+using Test: @test
+
 using FASTQ
 
 include("environment.jl")

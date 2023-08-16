@@ -58,7 +58,7 @@ function check_read(pa, re_, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_if_directory(pa)
 
     th = minimum((length(re_), n_jo))
 

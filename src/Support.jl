@@ -6,21 +6,25 @@ using BioLab
 
 using FASTQ
 
+function trash_if_directory(di)
 
-# TODO: move to trash if exists
-function error_if_directory(pa)
+    dia = rstrip(abspath(expanduser(di)), '/')
 
-    paf = BioLab.Path.make_absolute(pa)
+    if ispath(dia)
 
-    if ispath(paf)
+        @warn "Trashing $dia"
 
-        error("Directory already exists: $pa")
+        mv(dia, joinpath(joinpath(homedir(), ".Trash"), basename(dia)), force = true)
 
-    else
+    elseif ispath(di)
 
-        mkpath(paf)
+        error("$di is not a directory.")
 
     end
+
+    @info "Making $dia"
+
+    mkpath(dia)
 
 end
 

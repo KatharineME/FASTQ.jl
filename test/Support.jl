@@ -1,3 +1,3 @@
-using FASTQ
+using Test: @test
 
-#---#
+using FASTQ
