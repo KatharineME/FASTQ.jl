@@ -6,7 +6,7 @@ using BioLab
 
 using FASTQ
 
-function trash_if_directory(di)
+function trash_remake_directory(di)
 
     dia = rstrip(abspath(expanduser(di)), '/')
 
