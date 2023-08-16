@@ -6,6 +6,8 @@ using BioLab
 
 using FASTQ
 
+
+# TODO: move to trash if exists
 function error_if_directory(pa)
 
     paf = BioLab.Path.make_absolute(pa)

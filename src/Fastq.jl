@@ -1,5 +1,7 @@
 module FASTQ
 
+using BioLab
+
 const _DA = joinpath(dirname(@__DIR__), "data")
 
 const TE = joinpath(tempdir(), "FASTQ")

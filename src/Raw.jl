@@ -12,12 +12,6 @@ function find(di)
 
     for (ro, di_, fi_) in walkdir(di)
 
-        @info ro
-
-        @info di_
-
-        @info fi_
-
         for fi in fi_
 
             for (na, _) in na_n
