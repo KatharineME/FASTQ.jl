@@ -6,6 +6,16 @@ using BioLab
 
 using FASTQ
 
+function error_if_file_missing(fi)
+
+    if !isfile(fi)
+
+        error("File does not exist: $fi")
+
+    end
+
+end
+
 function trash_remake_directory(di)
 
     dia = rstrip(abspath(expanduser(di)), '/')
