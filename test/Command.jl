@@ -2,27 +2,19 @@ using Test: @test
 
 using FASTQ
 
-include("environment.jl")
-
 # ---- #
 
-for pa in (joinpath(TE, "missing_path"), TE)
+TE = FASTQ.TE
 
-    BioLab.Path.warn_overwrite(pa)
+DA = FASTQ._DA
 
-end
-
-# ---- #
-
-DA = FASTQ.DA
-
-DAT = joinpath(FASTQ.DA, "Test")
+DAT = joinpath(DA, "Test")
 
 DAR = joinpath(DA, "ReferenceGenome", "GRCh38")
 
 DAC = joinpath(DAR, "Chromosome")
 
-TO = joinpath(dirname(@__DIR__), "tool")
+TO = joinpath(FASTQ.FA, "tool")
 
 # ---- #
 
@@ -78,23 +70,23 @@ r1 = joinpath(DAD, "test_dna_4k.R1.fastq.gz")
 
 r2 = joinpath(DAD, "test_dna_4k.R2.fastq.gz")
 
-# FASTQ.Command.call_variants_on_germline_dna(
-#     TE,
-#     r1,
-#     r2,
-#     n_jo,
-#     me,
-#     sa,
-#     ge,
-#     chs,
-#     chn,
-#     sn,
-#     mo,
-#     ex,
-#     TO,
-#     rs,
-#     va,
-# )
+FASTQ.Command.call_variants_on_germline_dna(
+    TE,
+    r1,
+    r2,
+    n_jo,
+    me,
+    sa,
+    ge,
+    chs,
+    chn,
+    sn,
+    mo,
+    ex,
+    TO,
+    rs,
+    va,
+)
 
 # ---- #
 

@@ -8,7 +8,7 @@ function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
     pas = joinpath(pa, "snpeff")
 
-    FASTQ.Support.error_if_directory(pas)
+    FASTQ.Support.trash_remake_directory(pas)
 
     stc = joinpath(pas, "stats.csv")
 
@@ -18,7 +18,7 @@ function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
     run(
         pipeline(
-            `java -Xmx$(me)g -jar $sn GRCh37.75 -noLog -verbose -csvStats $stc -htmlStats $sth $pac`,
+            `java -Xmx$(me)g -jar $sn GRCh38.99 -noLog -verbose -csvStats $stc -htmlStats $sth $pac`,
             `bgzip --threads $n_jo --stdout`,
             vc,
         ),
@@ -48,7 +48,7 @@ function annotate_with_snpsift(pa, sn, va, pap, n_jo)
 
     pas = joinpath(pa, "snpsift")
 
-    FASTQ.Support.error_if_directory(pas)
+    FASTQ.Support.trash_remake_directory(pas)
 
     vc = joinpath(pas, "snpsift.vcf.gz")
 

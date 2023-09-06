@@ -189,9 +189,9 @@ function call_variants_on_germline_dna(
 
     FASTQ.Raw.trim(tr, number_of_jobs, read1, read2)
 
-    r1t = joinpath(tr, FASTQ.TR1)
+    r1t = joinpath(tr, FASTQ._TR1)
 
-    r2t = joinpath(tr, FASTQ.TR2)
+    r2t = joinpath(tr, FASTQ._TR2)
 
     FASTQ.Raw.check_read(joinpath(wo, "check_trim"), [r1t, r2t], number_of_jobs)
 
@@ -354,15 +354,15 @@ function call_variants_on_somatic_dna(
 
     trge = joinpath(wo, "trim", "germline")
 
-    gr1 = joinpath(trge, FASTQ.TR1)
+    gr1 = joinpath(trge, FASTQ._TR1)
 
-    gr2 = joinpath(trge, FASTQ.TR2)
+    gr2 = joinpath(trge, FASTQ._TR2)
 
     trso = joinpath(wo, "trim", "somatic")
 
-    sr1 = joinpath(trso, FASTQ.TR1)
+    sr1 = joinpath(trso, FASTQ._TR1)
 
-    sr2 = joinpath(trso, FASTQ.TR2)
+    sr2 = joinpath(trso, FASTQ._TR2)
 
     for g in [[trge, read1, read2], [trso, somatic_read1, somatic_read2]]
 

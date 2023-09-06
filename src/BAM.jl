@@ -8,7 +8,7 @@ function _prepare_for_variant_calling(pa, fa, chs)
 
     FASTQ.Support.index_genome_files(fa, chs)
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
 end
 
@@ -19,7 +19,7 @@ function _configure_and_run_manta(voo, id, vot, co, ru)
 
     vomr = joinpath(vom, "runWorkflow.py")
 
-    sc = "$(FASTQ.MA)/bin/configManta.py"
+    sc = "$(FASTQ._MA)/bin/configManta.py"
 
     re = readlines(
         pipeline(
@@ -45,7 +45,7 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
     vot = basename(to)
 
-    page = dirname(BioLab.Path.make_absolute(ge))
+    page = dirname(FASTQ.Support.make_path_absolute(ge))
 
     sp = split(page, "/")
 
@@ -53,7 +53,7 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
     vogefi = joinpath(voge, basename(ge))
 
-    pag = dirname(BioLab.Path.make_absolute(fa))
+    pag = dirname(FASTQ.Support.make_path_absolute(fa))
 
     vog = basename(pag)
 
@@ -61,7 +61,7 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
     voc = joinpath(vog, "chromosome", basename(chs))
 
-    pao = BioLab.Path.make_absolute(pao)
+    pao = FASTQ.Support.make_path_absolute(pao)
 
     voo = basename(pao)
 
@@ -80,7 +80,7 @@ function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
 
     if so !== nothing
 
-        paso = dirname(BioLab.Path.make_absolute(so))
+        paso = dirname(FASTQ.Support.make_path_absolute(so))
 
         voso = basename(paso)
 
@@ -130,7 +130,7 @@ function call_germline_variant(pa, to, ba, fa, chs, ta, mo, n_jo, me, chn, sn, r
 
     vostr = joinpath(vost, "runWorkflow.py")
 
-    sc = "$(FASTQ.ST)/bin/configureStrelkaGermlineWorkflow.py"
+    sc = "$(FASTQ._ST)/bin/configureStrelkaGermlineWorkflow.py"
 
     re = readlines(
         pipeline(
@@ -198,7 +198,7 @@ function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs
 
     vost = joinpath(voo, "strelka")
 
-    sc = "$(FASTQ.ST)/bin/configureStrelkaSomaticWorkflow.py"
+    sc = "$(FASTQ._ST)/bin/configureStrelkaSomaticWorkflow.py"
 
     re = readlines(
         pipeline(

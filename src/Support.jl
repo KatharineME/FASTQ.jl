@@ -6,6 +6,15 @@ using BioLab
 
 using FASTQ
 
+
+function make_path_absolute(pa)
+
+    rstrip(abspath(expanduser(pa)), '/')
+
+end
+
+
+
 function error_if_file_missing(fi)
 
     if !isfile(fi)
@@ -115,7 +124,7 @@ end
 
 function test_strelka_and_manta(pa)
 
-    for pr in (FASTQ.MA, FASTQ.ST)
+    for pr in (FASTQ._MA, FASTQ._ST)
 
         if !(pr in readdir(pa))
 
@@ -134,9 +143,9 @@ function test_strelka_and_manta(pa)
     )
 
     for sc in [
-        joinpath(FASTQ.MA, "bin", "runMantaWorkflowDemo.py"),
-        joinpath(FASTQ.ST, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
-        joinpath(FASTQ.ST, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
+        joinpath(FASTQ._MA, "bin", "runMantaWorkflowDemo.py"),
+        joinpath(FASTQ._ST, "bin", "runStrelkaGermlineWorkflowDemo.bash"),
+        joinpath(FASTQ._ST, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     ]
 
         re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))

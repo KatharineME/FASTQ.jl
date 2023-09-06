@@ -6,7 +6,7 @@ function find(di)
 
     FASTQ.Support.log_sub_level_function()
 
-    re_ = Vector{String}()
+    fq_ = Vector{String}()
 
     na_n = Dict(".fq" => 0, ".fastq" => 0, "fq.gz" => 0, "fastq.gz" => 0)
 
@@ -22,7 +22,7 @@ function find(di)
 
                     if endswith(fi, ".gz")
 
-                        push!(re_, joinpath(ro, fi))
+                        push!(fq_, joinpath(ro, fi))
 
                     end
 
@@ -44,25 +44,25 @@ function find(di)
 
     @info "Size of gzipped files"
 
-    for fi in re_
+    for fi in fq_
 
         @info "File $fi is:" Base.format_bytes(stat(fi).size)
 
     end
 
-    re_
+    fq_
 
 end
 
-function check_read(pa, re_, n_jo)
+function check_read(pa, fq_, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.trash_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
-    th = minimum((length(re_), n_jo))
+    th = minimum((length(fq_), n_jo))
 
-    run(`fastqc --threads $th --outdir $pa $re_`)
+    run(`fastqc --threads $th --outdir $pa $fq_`)
 
     run(`multiqc --outdir $pa $pa`)
 
@@ -72,15 +72,15 @@ function check_read(pa, r1, r2, n_jo; sor1 = nothing, sor2 = nothing)
 
     if sor1 === nothing
 
-        re_ = [r1, r2]
+        fq_ = [r1, r2]
 
     else
 
-        re_ = [r1, r2, sor1, sor2]
+        fq_ = [r1, r2, sor1, sor2]
 
     end
 
-    check_read(joinpath(pa, "check_raw"), re_, n_jo)
+    check_read(joinpath(pa, "check_raw"), fq_, n_jo)
 
 end
 
@@ -124,7 +124,7 @@ function concatenate(fq_; na = "R1")
 
     else
 
-        FASTQ.Support.error_if_directory(co)
+        FASTQ.Support.trash_remake_directory(co)
 
         @info "Concatenating"
 
@@ -146,15 +146,15 @@ function trim(pa, n_jo, r1, r2)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
     ht = joinpath(pa, "fastp.html")
 
     js = joinpath(pa, "fastp.json")
 
-    ou1 = joinpath(pa, FASTQ.TR1)
+    ou1 = joinpath(pa, FASTQ._TR1)
 
-    ou2 = joinpath(pa, FASTQ.TR2)
+    ou2 = joinpath(pa, FASTQ._TR2)
 
     run(
         `fastp --detect_adapter_for_pe --thread $n_jo --json $js --html $ht --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
@@ -196,7 +196,7 @@ function align_cdna(pa, ge, n_jo, sa, r1, r2)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
     id = joinpath(dirname(ge), "star_indexes")
 
@@ -285,7 +285,7 @@ function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
     gei = "$ge.mmi"
 
@@ -321,7 +321,7 @@ function align_single_cell_cdna(pa, sa, r1, r2, ge, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.error_if_directory(pa)
+    FASTQ.Support.trash_remake_directory(pa)
 
     # Change to star index made with gtf gene annotation file
     id = joinpath(dirname(ge), "star_indexes")
