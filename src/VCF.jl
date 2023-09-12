@@ -2,6 +2,8 @@ module VCF
 
 using FASTQ
 
+
+# TODO: Pass in GRCh version
 function annotate_with_snpeff(pa, me, sn, pac, n_jo)
 
     FASTQ.Support.log_sub_level_function()

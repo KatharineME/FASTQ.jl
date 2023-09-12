@@ -88,9 +88,9 @@ function concatenate(fq_; na = "R1")
 
     FASTQ.Support.log_sub_level_function()
 
-    fo_ = []
+    fo_ = Vector{String}()
 
-    re_ = []
+    re_ = Vector{String}()
 
     for fq in fq_
 
@@ -114,29 +114,38 @@ function concatenate(fq_; na = "R1")
 
     @info "Number of reverse read files = $n_re"
 
-    sa = last(splitdir(dirname(fq_[1])))
+    fo1 = split(fo_[1], "/")
 
-    co = joinpath(dirname(dirname(fq_[1])), "$(sa)_concatenated")
+    co = ""
 
-    if n_fo <= 1 && n_re <= 1
+    for i in reverse(1:length(fo1))
+        if all(split(fq, "/")[i] == fo1[i] for fq in fq_)
+            co = fo1[i]
+            break
+        end
+    end
 
-        @warn "Nothing to concatenate, number of forward reads and reverse reads are both <= 1"
+    pac = joinpath(split(fo_[1], co)[1], "$(co)Concatenated")
+
+    if 1 >= n_fo && 1 >= n_re
+
+        @warn "Nothing to concatenate. The umber of forward reads and reverse reads are both less than or equal to 1."
 
     else
 
-        FASTQ.Support.trash_remake_directory(co)
+        FASTQ.Support.trash_remake_directory(pac)
 
         @info "Concatenating"
 
-        gr_su = Dict(fo_ => "_R1.fastq.gz", re_ => "_R2.fastq.gz")
+        dr_ = ((fo_, "R1.fastq.gz"), (re_, "R2.fastq.gz"))
 
-        for gr in keys(gr_su)
+        for (fq_, na) in dr_
 
-            run(pipeline(`cat $gr`, stdout = joinpath(co, "$(sa)$(gr_su[gr])")))
+            run(pipeline(`cat $fq_`, stdout = joinpath(pac, "$na")))
 
         end
 
-        @info "Concatenated files saved at: $co"
+        @info "Concatenated files saved at: $pac"
 
     end
 
@@ -150,7 +159,7 @@ function trim(pa, n_jo, r1, r2)
 
     ht = joinpath(pa, "fastp.html")
 
-    js = joinpath(pa, "fastp.json")
+    js = replace(ht, "html" => "json")
 
     ou1 = joinpath(pa, FASTQ._TR1)
 
