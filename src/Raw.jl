@@ -1,90 +1,30 @@
 module Raw
 
-using FASTQ
+using ..FASTQ
 
-function find(di)
+function find(pa)
 
-    FASTQ.Support.log_sub_level_function()
+    fi_ = readdir(pa, join = true)
 
-    fq_ = Vector{String}()
-
-    na_n = Dict(".fq" => 0, ".fastq" => 0, "fq.gz" => 0, "fastq.gz" => 0)
-
-    for (ro, di_, fi_) in walkdir(di)
-
-        for fi in fi_
-
-            for (na, _) in na_n
-
-                if endswith(fi, na)
-
-                    na_n[na] += 1
-
-                    if endswith(fi, ".gz")
-
-                        push!(fq_, joinpath(ro, fi))
-
-                    end
-
-                end
-
-            end
-
-        end
-
-    end
-
-    @info "File types found in $di"
-
-    for na in na_n
-
-        @info na
-
-    end
-
-    @info "Size of gzipped files"
-
-    for fi in fq_
-
-        @info "File $fi is:" Base.format_bytes(stat(fi).size)
-
-    end
-
-    fq_
+    fq_ = fi_[findall(occursin.(".gz", fi_))]
 
 end
 
-function check_read(pa, fq_, n_jo)
+function check(pa, fq_, n_jo)
 
     FASTQ.Support.log_sub_level_function()
-
-    FASTQ.Support.trash_remake_directory(pa)
 
     th = minimum((length(fq_), n_jo))
 
     run(`fastqc --threads $th --outdir $pa $fq_`)
 
-    run(`multiqc --outdir $pa $pa`)
+    #run(`multiqc --outdir $pa $pa`)
+
+    basename(pa), fq_[1], fq_[2]
 
 end
 
-function check_read(pa, r1, r2, n_jo; sor1 = nothing, sor2 = nothing)
-
-    if sor1 === nothing
-
-        fq_ = [r1, r2]
-
-    else
-
-        fq_ = [r1, r2, sor1, sor2]
-
-    end
-
-    check_read(joinpath(pa, "check_raw"), fq_, n_jo)
-
-end
-
-function concatenate(fq_; na = "R1")
+function concatenate(pa, fq_; na = "R1")
 
     FASTQ.Support.log_sub_level_function()
 
@@ -106,195 +46,57 @@ function concatenate(fq_; na = "R1")
 
     end
 
-    n_fo = length(fo_)
-
-    n_re = length(re_)
+    n_fo, n_re = length(fo_), length(re_)
 
     @info "Number of forward read files = $n_fo"
 
     @info "Number of reverse read files = $n_re"
 
-    fo1 = split(fo_[1], "/")
-
-    co = ""
-
-    for i in reverse(1:length(fo1))
-        if all(split(fq, "/")[i] == fo1[i] for fq in fq_)
-            co = fo1[i]
-            break
-        end
-    end
-
-    pac = joinpath(split(fo_[1], co)[1], "$(co)Concatenated")
-
     if 1 >= n_fo && 1 >= n_re
 
-        @warn "Nothing to concatenate. The umber of forward reads and reverse reads are both less than or equal to 1."
+        @warn "Nothing to concatenate. The number of forward reads and reverse reads are both less than or equal to 1."
 
     else
-
-        FASTQ.Support.trash_remake_directory(pac)
-
-        @info "Concatenating"
 
         dr_ = ((fo_, "R1.fastq.gz"), (re_, "R2.fastq.gz"))
 
         for (fq_, na) in dr_
 
-            run(pipeline(`cat $fq_`, stdout = joinpath(pac, "$na")))
+            run(pipeline(`cat $fq_`, stdout = joinpath(pa, "$na")))
 
         end
 
-        @info "Concatenated files saved at: $pac"
+        @info "Concatenated files saved at: $pa"
 
     end
 
+    nothing
+
 end
 
-function trim(pa, n_jo, r1, r2)
+function trim(pa, r1, r2, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.trash_remake_directory(pa)
-
     ht = joinpath(pa, "fastp.html")
 
-    js = replace(ht, "html" => "json")
+    js = joinpath(pa, "fastp.json")
 
-    ou1 = joinpath(pa, FASTQ._TR1)
+    ou1 = joinpath(pa, "trimmed.R1.fastq.gz")
 
-    ou2 = joinpath(pa, FASTQ._TR2)
+    ou2 = joinpath(pa, "trimmed.R2.fastq.gz")
 
     run(
         `fastp --detect_adapter_for_pe --thread $n_jo --json $js --html $ht --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
     )
 
-end
-
-function psuedoalign(ou, tr, n_jo, r1, r2, fr, sd)
-
-    FASTQ.Support.log_sub_level_function()
-
-    id = "$tr.kallisto_index"
-
-    if !ispath(id)
-
-        @info "Creating kallisto index at $id"
-
-        run(`kallisto index --index $id $tr`)
-
-    end
-
-    fu_ = ["kallisto", "quant"]
-
-    ru_ = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$ou"]
-
-    if r2 !== nothing
-
-        run(`$fu_ $ru_ $r1 $r2`)
-
-    else
-
-        run(`$fu_ --single --fragment-length $fr --sd $sd $ru_ $r1`)
-
-    end
+    ou1, ou2
 
 end
 
-function align_cdna(pa, ge, n_jo, sa, r1, r2)
+function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
-
-    FASTQ.Support.trash_remake_directory(pa)
-
-    id = joinpath(dirname(ge), "star_indexes")
-
-    if !ispath(id)
-
-        mkdir(id)
-
-        @info "Making STAR indices"
-
-        ged = splitext(ge)[1]
-
-        if !isfile(ged)
-
-            run(pipeline(`bgzip --decompress --stdout $ge`, `$ged`))
-
-        end
-
-        run(
-            `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $id --genomeFastaFiles $ged`,
-        )
-
-    end
-
-    pr = joinpath(pa, "$(sa).")
-
-    run(
-        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
-    )
-
-    ba = "$(pr)Aligned.sortedByCoord.out.bam"
-
-    run(`samtools index -@ $n_jo $ba`)
-
-    run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
-
-end
-
-function align_cdna(pa, cd, re, n_jo; al = "transcriptome", fr = 51, sd = 0.05)
-
-    FASTQ.Support.log_sub_level_function()
-
-    fq_ = find(cd)
-
-    na_ = ["R1", "read1", "_1.fq"]
-
-    for fq1 in fq_
-
-        for na in na_
-
-            if occursin(na, fq1)
-
-                fq2 = replace(fq1, na => replace(na, "1" => "2"))
-
-                if !isfile(fq2)
-
-                    fq2 = nothing
-
-                end
-
-                sa = last(splitdir(splitext(split(fq1, na)[1])[1]))
-
-                @info "Working on sample: $sa"
-
-                pas = joinpath(pa, sa)
-
-                if al == "transcriptome"
-
-                    psuedoalign(pas, re, n_jo, fq1, fq2, fr, sd)
-
-                elseif al == "genome"
-
-                    align_cdna(pas, re, n_jo, sa, fq1, fq2)
-
-                end
-
-            end
-
-        end
-
-    end
-
-end
-
-
-function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
-
-    FASTQ.Support.log_sub_level_function()
-
-    FASTQ.Support.trash_remake_directory(pa)
 
     gei = "$ge.mmi"
 
@@ -316,6 +118,8 @@ function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
         ),
     )
 
+    ba = joinpath(pa, "$sa.bam")
+
     run(`samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $du $ba`)
 
     run(`samtools index -@ $n_jo $ba`)
@@ -324,47 +128,103 @@ function align_dna(pa, sa, ba, r1, r2, ge, n_jo, me)
 
     rm(du)
 
+    ba
+
 end
 
-function align_single_cell_cdna(pa, sa, r1, r2, ge, n_jo)
+function align_bulk_cdna_to_transcriptome(pa, r1, r2, fr, sd, tr, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
-    FASTQ.Support.trash_remake_directory(pa)
-
-    # Change to star index made with gtf gene annotation file
-    id = joinpath(dirname(ge), "star_indexes")
+    id = "$tr.kallisto_index"
 
     if !ispath(id)
 
-        mkdir(id)
+        @info "Creating kallisto index at $id"
 
-        ged = splitext(ge)[1]
-
-        if !isfile(ged)
-
-            run(pipeline(`bgzip --decompress --stdout $ge`, `$ged`))
-
-        end
-
-        run(
-            `star --runThreadN $n_jo --runMode genomeGenerate --genomeDir $id --genomeFastaFiles $ged`,
-        )
+        run(`kallisto index --index $id $tr`)
 
     end
 
-    pr = joinpath(pa, "$(sa).")
+    fu_ = ["kallisto", "quant"]
 
-    # Update star run
-    run(
-        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pr`,
-    )
+    ru_ = ["--threads", "$n_jo", "--index", "$id", "--output-dir", "$pa"]
 
-    ba = "$(pr)Aligned.sortedByCoord.out.bam"
+    if r2 !== nothing
+
+        run(`$fu_ $ru_ $r1 $r2`)
+
+    else
+
+        run(`$fu_ --single --fragment-length $fr --sd $sd $ru_ $r1`)
+
+    end
+
+end
+
+function _index_and_stat(pa, n_jo)
+
+    ba = joinpath(pa, "Aligned.sortedByCoord.out.bam")
 
     run(`samtools index -@ $n_jo $ba`)
 
     run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
+
+    ba
+
+end
+
+function align_bulk_cdna_to_genome(pa, r1, r2, id, n_jo)
+
+    FASTQ.Support.log_sub_level_function()
+
+    run(
+        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pa/`,
+    )
+
+    ba = _index_and_stat(pa, n_jo)
+
+end
+
+function align_and_quantify_bulk_cdna_to_genome(pa, r1, r2, id, n_jo)
+
+    FASTQ.Support.log_sub_level_function()
+
+    run(
+        `star --quantMode TranscriptomeSAM GeneCounts --runThreadN $n_jo --genomeDir $id --readFilesIn $r1 $r2 --readFilesCommand "gzip --decompress --stdout" --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pa/`,
+    )
+
+    ba = _index_and_stat(pa, n_jo)
+
+end
+
+function align_single_cell_cdna_to_genome(
+    pas,
+    r1,
+    r2,
+    id,
+    n_jo;
+    wh = nothing,
+    bas = 1,
+    bal = 16,
+    ums = 17,
+    uml = 12,
+    rel = 151,
+)
+
+    FASTQ.Support.log_sub_level_function()
+
+    if wh == nothing
+
+        wh = joinpath(FASTQ.PR, "data", "CellRangerBarcodes", "3M-february-2018.txt")
+
+    end
+
+    co = "gzip --decompress --stdout"
+
+    run(
+        `star --runThreadN $n_jo --genomeDir $id --readFilesIn $r2 $r1 --readFilesCommand $co --outSAMtype BAM SortedByCoordinate --outFileNamePrefix $pas/ --soloType Droplet --soloCBwhitelist $wh --soloCBstart $bas --soloCBlen $bal --soloUMIstart $ums --soloUMIlen $uml --clipAdapterType CellRanger4 --outFilterScoreMin 30 --soloCBmatchWLtype 1MM_multi_Nbase_pseudocounts --soloUMIfiltering MultiGeneUMI_CR --soloUMIdedup 1MM_CR --soloBarcodeReadLength $rel`,
+    )
 
 end
 

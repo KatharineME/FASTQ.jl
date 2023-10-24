@@ -1,43 +1,79 @@
-using Test: @test
+using Test: @test, @test_throws
 
 using FASTQ
 
 # ---- #
 
-DI = joinpath(FASTQ.TE, "Ponies")
+@test FASTQ.Support.test_local_environment() == nothing
 
-mkdir(DI)
+# ---- #
 
-FI_ = (("RainbowDash.txt", "rainbow"), ("Applejack.txt", "apple"))
+@test FASTQ.Support.log_top_level_function() == nothing
 
-for (fi, tx) in FI_
+# ---- #
 
-    write(joinpath(DI, fi), tx)
+@test FASTQ.Support.log_sub_level_function() == nothing
+
+# ---- #
+
+const DA = joinpath(FASTQ._DA, "Test")
+
+const DNA = joinpath(DA, "DNA")
+
+@test FASTQ.Support.error_if_file_missing(readdir(DNA, join = true)) == nothing
+
+@test_throws ErrorException FASTQ.Support.error_if_file_missing(("Unicorn.txt", "Rainbow.txt"))
+
+# ---- #
+
+const AB = joinpath("/Users", ENV["USER"], "Downloads")
+
+@test FASTQ.Support.make_path_absolute("~/Downloads/") == AB
+
+# ---- #
+
+const S1 = "Sample1"
+
+const S2 = "Sample2"
+
+@test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(DA)
+
+SA1, SA2, = [mkdir(joinpath(FASTQ.TE, sa)) for sa in (S1, S2)]
+
+const CP_ = ((SA1, "40k"), (SA2, "4k"))
+
+for fi in readdir(DNA, join = true)
+
+    for (sa, st) in CP_
+
+        if occursin(st, fi)
+
+            cp(fi, joinpath(sa, basename(fi)))
+
+        end
+
+    end
 
 end
 
-FASTQ.Support.trash_remake_directory(DI)
+const SA_FQ_ = FASTQ.Support.make_sample_to_fastq_dictionary(FASTQ.TE)
 
-@test isempty(readdir(DI))
+@test [keys(SA_FQ_)...] == [SA1, SA2]
 
-@test readdir(joinpath(homedir(), ".Trash", basename(DI))) == ["Applejack.txt", "RainbowDash.txt"]
+for sa in (SA1, SA2)
+
+    @test length(get(SA_FQ_, sa, "")) == 2
+
+end
+
+# ---- #
+
+const AN = joinpath(FASTQ.TE, "Analysis")
+
+FASTQ.Support.make_analysis_directory(FASTQ.TE, "Analysis", ("One", "Two"); sa_fq_ = SA_FQ_)
+
+@test readdir(joinpath(AN, "One")) == [S1, S2]
 
 # ---- #
 
-DII = joinpath(FASTQ.TE, "index")
-
-mkdir(DII)
-
-GR = joinpath(FASTQ._DA, "ReferenceGenome", "GRCh38")
-
-GE = joinpath(GR, "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz")
-
-CHS = joinpath(GR, "Chromosome", "chromosome.bed.gz")
-
-cp(GE, joinpath(DII, basename(GE)))
-
-cp(CHS, joinpath(DII, basename(CHS)))
-
-FASTQ.Support.index_genome_files(joinpath(DII, basename(GE)), joinpath(DII, basename(CHS)))
-
-# ---- #
+FASTQ.Support.test_strelka_and_manta(joinpath(FASTQ.PR, "tool"))

@@ -1,87 +1,28 @@
 module Command
 
-using JSON
+using ..FASTQ
 
-using BioLab
+const RN = "R1"
 
-using FASTQ
-
-function concatenate_fastq(dna_read_directory, read_name_scheme)
+function concatenate_fastq(dna_read_directory; read_name_scheme = RN)
 
     FASTQ.Support.log_top_level_function()
 
-    re_ = FASTQ.Raw.find(dna_read_directory)
+    di_ = readdir(dna_read_directory, join = true)
 
-    FASTQ.Raw.concatenate(re_, read_name_scheme)
+    for sa in readdir(dna_read_directory, join = true)
 
-end
+        if isdir(sa)
 
-function call_variants_on_bulk_cdna(
-    output_directory,
-    cdna_read_directory,
-    number_of_jobs,
-    reference_genome,
-    molecule,
-    exome,
-    chromosome_position,
-    chromosome_name,
-    memory,
-    tool_directory,
-    snpeff,
-    annotate_with_rsid,
-    variant_database,
-)
+            fq_ = FASTQ.Raw.find(sa)
 
-    FASTQ.Support.log_top_level_function()
+            if length(fq_) > 2
 
-    wo = joinpath(output_directory, "call_variants_on_bulk_cdna")
-
-    FASTQ.Support.trash_remake_directory(wo)
-
-    for fi in (reference_genome, chromosome_position, chromosome_name, snpeff, variant_database)
-
-        FASTQ.Support.error_if_file_missing(fi)
-
-    end
-
-    pac = joinpath(wo, "align_cdna/")
-
-    FASTQ.Support.trash_remake_directory(pac)
-
-    re_ = FASTQ.Raw.find(cdna_read_directory)
-
-    FASTQ.Raw.check_read(joinpath(wo, "check_read"), re_, number_of_jobs)
-
-    FASTQ.Raw.align_cdna(pac, cdna_read_directory, reference_genome, number_of_jobs, al = "genome")
-
-    pav = joinpath(wo, "call_germline_variant")
-
-    for (ro, di_, fi_) in walkdir(pac)
-
-        for fi in fi_
-            if endswith(fi, ".bam")
-
-                ba = joinpath(ro, fi)
-
-                sa = basename(splitdir(ba)[1])
-
-                pas = joinpath(pav, sa)
-
-                FASTQ.BAM.call_germline_variant(
-                    pas,
-                    tool_directory,
-                    ba,
-                    reference_genome,
-                    chromosome_position,
-                    exome,
-                    molecule,
-                    number_of_jobs,
-                    memory,
-                    chromosome_name,
-                    snpeff,
-                    annotate_with_rsid,
-                    variant_database,
+                pa = FASTQ.Support.trash_remake_directory(
+                    joinpath(splitdir(sa)[1], string(basename(sa), "Concatenated")),
                 )
+
+                FASTQ.Raw.concatenate(pa, fq_; na = read_name_scheme)
 
             end
 
@@ -89,218 +30,152 @@ function call_variants_on_bulk_cdna(
 
     end
 
+    nothing
+
 end
 
+function _get_snpeff_path(to)
 
-function measure_gene_expression_of_bulk_cdna(
-    output_directory,
-    cdna_read_directory,
-    number_of_jobs,
-    reference_transcriptome,
-    fragment_length,
-    fragment_length_standard_deviation,
-    organism,
-    mouse_transcript_to_mouse_gene,
-)
+    joinpath(to, "snpEff", "snpEff.jar")
 
-    FASTQ.Support.log_top_level_function()
+end
 
-    wo = joinpath(output_directory, "measure_gene_expression_of_bulk_cdna")
+function _combine_and_annotate_vcf(pase, pass, paco, vc_, re, chn, va, se, n_jo, me; sa = nothing)
 
-    FASTQ.Support.trash_remake_directory(wo)
+    if sa != nothing
 
-    for fi in (reference_transcriptome, mouse_transcript_to_mouse_gene)
-
-        FASTQ.Support.error_if_file_missing(fi)
+        pase, pass = joinpath(pase, sa), joinpath(pass, sa)
 
     end
 
-    pap = joinpath(wo, "psuedoalign/")
+    FASTQ.VCF.combine_vcf(paco, vc_, chn, n_jo)
 
-    FASTQ.Support.trash_remake_directory(pap)
+    papa = FASTQ.VCF.annotate_with_snpeff(pase, paco, re, se, n_jo, me)
 
-    re_ = FASTQ.Raw.find(cdna_read_directory)
-
-    FASTQ.Raw.check_read(joinpath(wo, "check_read"), re_, number_of_jobs)
-
-    FASTQ.Raw.align_cdna(
-        pap,
-        cdna_read_directory,
-        reference_transcriptome,
-        number_of_jobs,
-        al = "transcriptome",
-        fr = fragment_length,
-        sd = fragment_length_standard_deviation,
-    )
-
-    FASTQ.Abundance.make_gene_by_sample(pap, wo, organism, mouse_transcript_to_mouse_gene)
+    FASTQ.VCF.annotate_with_snpsift(pass, papa, va, se, n_jo)
 
 end
 
-function measure_gene_expression_of_single_cell_cdna()
+const CTR = "CheckTrim"
 
-    FASTQ.Support.log_top_level_function()
+const TR = "Trim"
 
-    wo = joinpath(output_directory, "measure_gene_expression_of_single_cell_cdna")
+const ALD = "AlignDNA"
 
-    FASTQ.Support.trash_remake_directory(wo)
+const CG = "CallGermlineVariant"
 
-    for fi in (reference_genome,)
+const AN = "Annotate"
 
-        FASTQ.Support.error_if_file_missing(fi)
+const SE = "Snpeff"
 
-    end
+const SS = "Snpsift"
 
-end
+const CRA = "1.CheckRaw"
 
-function call_variants_on_germline_dna(
-    output_directory,
-    read1,
-    read2,
-    number_of_jobs,
-    memory,
-    sample,
-    reference_genome,
-    chromosome_position,
-    chromosome_name,
-    snpeff,
-    molecule,
-    exome,
-    tool_directory,
-    annotate_with_rsid,
-    variant_database,
-)
+const TW = "2."
 
-    FASTQ.Support.log_top_level_function()
+const TH = "3."
 
-    wo = joinpath(output_directory, "call_variants_on_germline_dna")
+const FO = "4."
 
-    FASTQ.Support.trash_remake_directory(wo)
+const FI = "5."
 
-    for fi in (read1, read2, reference_genome, chromosome_position, chromosome_name, snpeff)
-
-        FASTQ.Support.error_if_file_missing(fi)
-
-    end
-
-    FASTQ.Raw.check_read(wo, read1, read2, number_of_jobs)
-
-    tr = joinpath(wo, "trim/")
-
-    FASTQ.Raw.trim(tr, number_of_jobs, read1, read2)
-
-    r1t = joinpath(tr, FASTQ._TR1)
-
-    r2t = joinpath(tr, FASTQ._TR2)
-
-    FASTQ.Raw.check_read(joinpath(wo, "check_trim"), [r1t, r2t], number_of_jobs)
-
-    al = joinpath(wo, "align_dna")
-
-    ba = joinpath(al, "$sample.bam")
-
-    FASTQ.Raw.align_dna(al, sample, ba, r1t, r2t, reference_genome, number_of_jobs, memory)
-
-    pav = joinpath(wo, "call_germline_variant")
-
-    FASTQ.BAM.call_germline_variant(
-        pav,
-        tool_directory,
-        ba,
-        reference_genome,
-        chromosome_position,
-        exome,
-        molecule,
-        number_of_jobs,
-        memory,
-        chromosome_name,
-        snpeff,
-        annotate_with_rsid,
-        variant_database,
-    )
-
-end
+const SI = "6."
 
 function call_variants_on_germline_dna(
     output_directory,
     dna_read_directory,
-    number_of_jobs,
-    memory,
-    reference_genome,
-    chromosome_position,
-    chromosome_name,
-    snpeff,
-    molecule,
     exome,
-    tool_directory,
-    annotate_with_rsid,
+    reference_genome,
     variant_database,
+    tool_directory,
+    number_of_jobs,
+    memory;
+    read_name_scheme = RN,
 )
 
     FASTQ.Support.log_top_level_function()
 
-    sa_ = []
+    chs, chn = FASTQ.Reference.get_chromosome_file_path(reference_genome)
 
-    for wo in readdir(dna_read_directory, join = true)
+    se = _get_snpeff_path(tool_directory)
 
-        if endswith(wo, ".gz")
+    FASTQ.Support.error_if_file_missing((reference_genome, chs, chn, se, variant_database))
 
-            fi = basename(wo)
+    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(dna_read_directory, read_name_scheme)
 
-            sa = strip(rsplit(fi, "R"; limit = 2)[1], ['.'])
+    cha, tr, cht, al, va, pase, pass = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "CallVariantsonGermlineDNA",
+        (
+            CRA,
+            string(TW, TR),
+            string(TH, CTR),
+            string(FO, ALD),
+            string(FI, CG),
+            joinpath(string(SI, AN), SE),
+            joinpath(string(SI, AN), SS),
+        );
+        sa_fq_ = sa_fq_,
+    )
 
-            if sa in sa_
+    FASTQ.Reference.index_genome_file(reference_genome, chs)
 
-                continue
+    for (sa, fq_) in sa_fq_
 
-                @info "Continuing" sa_
+        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
-            else
+        r1t, r2t = FASTQ.Raw.trim(joinpath(tr, san), fq1, fq2, number_of_jobs)
 
-                push!(sa_, sa)
+        FASTQ.Raw.check(joinpath(cht, san), (r1t, r2t), number_of_jobs)
 
-                pao = joinpath(output_directory, sa, "call_variants_on_germline_dna")
+        ba = FASTQ.Raw.align_dna(
+            joinpath(al, san),
+            san,
+            r1t,
+            r2t,
+            reference_genome,
+            number_of_jobs,
+            memory,
+        )
 
-                if occursin("R1", fi)
+        vc_, paco = FASTQ.BAM.call_germline_variant(
+            joinpath(va, san),
+            ba,
+            "dna",
+            exome,
+            reference_genome,
+            chs,
+            chn,
+            variant_database,
+            tool_directory,
+            number_of_jobs,
+            memory,
+        )
 
-                    r1 = wo
+        _combine_and_annotate_vcf(
+            pase,
+            pass,
+            paco,
+            vc_,
+            reference_genome,
+            chn,
+            variant_database,
+            se,
+            number_of_jobs,
+            memory;
+            sa = san,
+        )
 
-                    r2 = replace(wo, "R1" => "R2")
-
-                else
-
-                    r2 = fi
-
-                    r1 = replace(fi, "R2" => "R1")
-
-                end
-
-                @info "Running germline variant calling on:" r1 r2
-
-                call_variants_on_germline_dna(
-                    pao,
-                    r1,
-                    r2,
-                    number_of_jobs,
-                    memory,
-                    sa,
-                    reference_genome,
-                    chromosome_position,
-                    chromosome_name,
-                    snpeff,
-                    molecule,
-                    exome,
-                    tool_directory,
-                    annotate_with_rsid,
-                    variant_database,
-                )
-
-            end
-        end
     end
+
+    nothing
 
 end
 
+const GE = "Germline"
+
+const SO = "Somatic"
 
 function call_variants_on_somatic_dna(
     output_directory,
@@ -308,247 +183,324 @@ function call_variants_on_somatic_dna(
     read2,
     somatic_read1,
     somatic_read2,
-    number_of_jobs,
-    memory,
+    exome,
     sample,
     reference_genome,
-    chromosome_position,
-    chromosome_name,
-    snpeff,
-    molecule,
-    exome,
-    tool_directory,
-    annotate_with_rsid,
     variant_database,
+    tool_directory,
+    number_of_jobs,
+    memory,
 )
 
     FASTQ.Support.log_top_level_function()
 
-    wo = joinpath(output_directory, "call_variants_on_somatic_dna")
+    chs, chn = FASTQ.Reference.get_chromosome_file_path(reference_genome)
 
-    FASTQ.Support.trash_remake_directory(wo)
+    se = _get_snpeff_path(tool_directory)
 
-    for fi in (
+    FASTQ.Support.error_if_file_missing((
         read1,
         read2,
         somatic_read1,
         somatic_read2,
         reference_genome,
-        chromosome_position,
-        chromosome_name,
-        snpeff,
+        chs,
+        chn,
+        se,
+    ))
+
+    tr, ald, an = string(TW, TR), string(FO, ALD), string(SI, AN)
+
+    cha, trge, trso, cht, alg, als, pav, pase, pass = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "CallVariantsonSomaticDNA",
+        (
+            CRA,
+            joinpath(tr, GE),
+            joinpath(tr, SO),
+            string(TH, CTR),
+            joinpath(ald, GE),
+            joinpath(ald, SO),
+            "5.CallSomaticVariant",
+            joinpath(an, SE),
+            joinpath(an, SS),
+        ),
     )
 
-        FASTQ.Support.error_if_file_missing(fi)
+    FASTQ.Raw.check(cha, (read1, read2, somatic_read1, somatic_read2), number_of_jobs)
 
-    end
+    gr1, gr2 = FASTQ.Raw.trim(trge, read1, read2, number_of_jobs)
 
-    FASTQ.Raw.check_read(
-        wo,
-        read1,
-        read2,
-        number_of_jobs,
-        sor1 = somatic_read1,
-        sor2 = somatic_read2,
-    )
+    sr1, sr2 = FASTQ.Raw.trim(trso, somatic_read1, somatic_read2, number_of_jobs)
 
-    trge = joinpath(wo, "trim", "germline")
+    FASTQ.Raw.check(cht, (gr1, gr2, sr1, sr2), number_of_jobs)
 
-    gr1 = joinpath(trge, FASTQ._TR1)
+    ba_ = Vector{String}()
 
-    gr2 = joinpath(trge, FASTQ._TR2)
+    for (pa, r1, r2) in ((alg, gr1, gr2), (als, sr1, sr2))
 
-    trso = joinpath(wo, "trim", "somatic")
-
-    sr1 = joinpath(trso, FASTQ._TR1)
-
-    sr2 = joinpath(trso, FASTQ._TR2)
-
-    for g in [[trge, read1, read2], [trso, somatic_read1, somatic_read2]]
-
-        FASTQ.Raw.trim(g[1], number_of_jobs, g[2], g[3])
-
-    end
-
-    FASTQ.Raw.check_read(joinpath(wo, "check_trim"), [gr1, gr2, sr1, sr2], number_of_jobs)
-
-    alg = joinpath(wo, "align_$(molecule)_germline")
-
-    als = joinpath(wo, "align_$(molecule)_somatic")
-
-    bage = joinpath(alg, "$sample.bam")
-
-    baso = joinpath(als, "$sample.bam")
-
-    for g in [[alg, bage, gr1, gr2], [als, baso, sr1, sr2]]
-
-        FASTQ.Raw.align_dna(
-            g[1],
-            sample,
-            g[2],
-            g[3],
-            g[4],
-            reference_genome,
-            number_of_jobs,
-            memory,
+        push!(
+            ba_,
+            FASTQ.Raw.align_dna(pa, sample, r1, r2, reference_genome, number_of_jobs, memory),
         )
 
     end
 
-    pav = joinpath(wo, "call_somatic_variant")
+    bagem, basom = ba_[1], ba_[2]
 
-    bagem = joinpath(alg, "$sample.bam")
+    FASTQ.Reference.index_genome_file(reference_genome, chs)
 
-    basom = joinpath(als, "$sample.bam")
-
-    FASTQ.BAM.call_somatic_variant(
+    vc_, paco = FASTQ.BAM.call_somatic_variant(
         pav,
-        tool_directory,
         bagem,
-        reference_genome,
-        chromosome_position,
         basom,
         exome,
+        reference_genome,
+        chs,
+        chn,
+        variant_database,
+        tool_directory,
         number_of_jobs,
         memory,
-        chromosome_name,
-        snpeff,
-        annotate_with_rsid,
-        variant_database,
     )
+
+    _combine_and_annotate_vcf(
+        pase,
+        pass,
+        paco,
+        vc_,
+        reference_genome,
+        chn,
+        variant_database,
+        se,
+        number_of_jobs,
+        memory,
+    )
+
+    nothing
 
 end
 
-function benchmark(
+function call_variants_on_bulk_cdna(
     output_directory,
+    cdna_read_directory,
+    exome,
     reference_genome,
-    rtg_tools,
+    variant_database,
+    tool_directory,
     number_of_jobs,
-    name_chromosome,
-    query_vcf,
-    truth_vcf,
-    confident_regions_bed,
+    memory;
+    read_name_scheme = RN,
+    gene_annotation = nothing,
 )
 
     FASTQ.Support.log_top_level_function()
 
-    wo = joinpath(output_directory, "benchmark")
+    chs, chn = FASTQ.Reference.get_chromosome_file_path(reference_genome)
 
-    FASTQ.Support.trash_remake_directory(wo)
+    se = _get_snpeff_path(tool_directory)
 
-    for fi in (name_chromosome, query_vcf, truth_vcf, confident_regions_bed)
+    FASTQ.Support.error_if_file_missing((reference_genome, chs, chn, se, variant_database))
 
-        FASTQ.Support.error_if_file_missing(fi)
+    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
-    end
+    cha, al, va, pase, pass = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "CallVariantsonBulkCDNA",
+        (
+            CRA,
+            string(TW, "AlignBulkCDNAtoGenome"),
+            string(TH, CG),
+            joinpath(string(FO, AN), SE),
+            joinpath(string(FO, AN), SS),
+        );
+        sa_fq_ = sa_fq_,
+    )
 
-    red = split(reference_genome, ".gz")[1]
+    id = FASTQ.Reference.generate_star_genome_file(
+        reference_genome,
+        number_of_jobs;
+        ga = gene_annotation,
+    )
 
-    if !isfile(red)
+    for (sa, fq_) in sa_fq_
 
-        run(`bgzip -d $reference_genome`)
+        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
-    end
+        ba = FASTQ.Raw.align_bulk_cdna_to_genome(joinpath(al, san), fq1, fq2, id, number_of_jobs)
 
-    sd = replace(red, "fna" => "sdf")
+        vc_, paco = FASTQ.BAM.call_germline_variant(
+            joinpath(va, san),
+            ba,
+            "cdna",
+            exome,
+            reference_genome,
+            chs,
+            chn,
+            variant_database,
+            tool_directory,
+            number_of_jobs,
+            memory,
+        )
 
-    if !isdir(sd)
-
-        @info "Making vcfeval genome sdf"
-
-        run(`$rtg_tools format -o $sd $red`)
-
-    end
-
-    vqn = replace(query_vcf, "pass" => "pass_rename_chromosomes")
-
-    if !isfile(vqn)
-
-        @warn "Renaming query VCF chromosomes"
-
-        run(
-            `bcftools annotate --threads=$number_of_jobs --rename-chrs=$name_chromosome --output=$vqn $query_vcf`,
+        _combine_and_annotate_vcf(
+            pase,
+            pass,
+            paco,
+            vc_,
+            reference_genome,
+            chn,
+            variant_database,
+            se,
+            number_of_jobs,
+            memory;
+            sa = san,
         )
 
     end
 
-    @info "Running vcfeval"
+    nothing
 
-    ouv = joinpath(wo, "vcfeval")
+end
 
-    rte = joinpath(rtg_tools, "rtg")
+function measure_gene_expression_of_bulk_cdna(
+    output_directory,
+    cdna_read_directory,
+    organism,
+    fragment_length,
+    fragment_length_standard_deviation,
+    reference,
+    number_of_jobs;
+    read_name_scheme = RN,
+    method = "align_to_transcriptome",
+    gene_annotation = nothing,
+    mouse_transcript_to_mouse_gene = nothing,
+)
 
-    run(`$rte vcfeval 
-        --baseline=$truth_vcf 
-        --bed-regions=$confident_regions_bed 
-        --calls=$vqn 
-        --template=$sd 
-        --output=$ouv
-        --threads=$number_of_jobs`)
+    FASTQ.Support.log_top_level_function()
 
-    @info "Running hap.py"
+    FASTQ.Support.error_if_file_missing((reference,))
 
-    ouh = joinpath(wo, "happy/")
+    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
-    mkdir(ouh)
-
-    ho = "/home/"
-
-    vouh = joinpath(ho, splitpath(ouh)[end])
-
-    pvt = dirname(BioLab.Path.make_absolute(truth_vcf))
-
-    vvt = joinpath(ho, basename(pvt))
-
-    pvqn = dirname(BioLab.Path.make_absolute(vqn))
-
-    vvqn = joinpath(ho, basename(pvqn))
-
-    pbd = dirname(BioLab.Path.make_absolute(confident_regions_bed))
-
-    vbd = joinpath(ho, "confident_regions_bed/")
-
-    pre = dirname(BioLab.Path.make_absolute(red))
-
-    vre = joinpath(ho, basename(pre))
-
-    vrt = joinpath(ho, basename(rtg_tools))
-
-    vsd = joinpath(ho, basename(sd))
-
-    id = readlines(pipeline(`docker run 
-            --interactive 
-            --detach 
-            --tty 
-            --user root
-            -v $pvt:$vvt 
-            -v $pvqn:$vvqn 
-            -v $pbd:$vbd 
-            -v $pre:$vre 
-            -v $ouh:$vouh 
-            -v $rtg_tools:$vrt 
-            -v $sd:$vsd 
-            pkrusche/hap.py
-            bash`))
-
-
-    vh = joinpath(vouh, "hap.py")
-
-    vr = joinpath(vre, basename(red))
-
-    vb = joinpath(vbd, basename(confident_regions_bed))
-
-    vtr = joinpath(vvt, basename(truth_vcf))
-
-    vqu = joinpath(vvqn, basename(vqn))
-
-    readlines(
-        pipeline(
-            `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $vtr $vqu -f $vb -r $vr -o $vh --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
-        ),
+    me_na_ = Dict(
+        "align_to_transcriptome" => "2.AlignBulkCDNAtoTranscriptome",
+        "align_to_genome" => "2.AlignandQuantifyBulkCDNAtoGenome",
     )
 
-    FASTQ.Support.remove_docker_container(id)
+    cha, al = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "MeasureGeneExpressionofBulkCDNA",
+        (CRA, me_na_[method]);
+        sa_fq_ = sa_fq_,
+    )
+
+    if method == "align_to_transcriptome"
+
+        for (sa, fq_) in sa_fq_
+
+            san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+
+            FASTQ.Raw.align_bulk_cdna_to_transcriptome(
+                joinpath(al, san),
+                fq1,
+                fq2,
+                fragment_length,
+                fragment_length_standard_deviation,
+                reference,
+                number_of_jobs,
+            )
+
+            #FASTQ.Abundance.make_gene_by_sample(pal, wo, organism, mouse_transcript_to_mouse_gene)
+
+        end
+
+    elseif method == "align_to_genome"
+
+        id = FASTQ.Reference.generate_star_genome_file(
+            reference,
+            number_of_jobs;
+            ga = gene_annotation,
+        )
+
+        for (sa, fq_) in sa_fq_
+
+            san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+
+            ba = FASTQ.Raw.align_and_quantify_bulk_cdna_to_genome(
+                joinpath(al, san),
+                fq1,
+                fq2,
+                id,
+                number_of_jobs,
+            )
+
+            #FASTQ.Abundance.make_gene_by_sample()
+
+        end
+
+    end
+
+    nothing
+
+end
+
+function measure_gene_expression_of_single_cell_cdna(
+    output_directory,
+    single_cell_read_directory,
+    reference_genome,
+    number_of_jobs;
+    read_name_scheme = RN,
+    gene_annotation = nothing,
+    whitelist = nothing,
+    barcodestart = 1,
+    barcodelength = 16,
+    umistart = 17,
+    umilength = 12,
+    readlength = 151,
+)
+
+    FASTQ.Support.log_top_level_function()
+
+    FASTQ.Support.error_if_file_missing((reference_genome,))
+
+    sa_fq_ =
+        FASTQ.Support.make_sample_to_fastq_dictionary(single_cell_read_directory, read_name_scheme)
+
+    id = FASTQ.Reference.generate_star_genome_file(
+        reference_genome,
+        number_of_jobs;
+        ga = gene_annotation,
+    )
+
+    cha, al = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "MeasureGeneExpressionofSingleCellCDNA",
+        (CRA, "2.AlignSingleCellCDNAtoGenome");
+        sa_fq_ = sa_fq_,
+    )
+
+    for (sa, fq_) in sa_fq_
+
+        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+
+        FASTQ.Raw.align_single_cell_cdna_to_genome(
+            joinpath(al, san),
+            fq1,
+            fq2,
+            id,
+            number_of_jobs;
+            wh = whitelist,
+            bas = barcodestart,
+            bal = barcodelength,
+            ums = umistart,
+            uml = umilength,
+            rel = readlength,
+        )
+
+    end
+
+    nothing
 
 end
 

@@ -1,19 +1,91 @@
 module BAM
 
-using BioLab
+using ..FASTQ
 
-using FASTQ
+const HO = "home"
 
-function _prepare_for_variant_calling(pa, fa, chs)
+function _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = nothing)
 
-    FASTQ.Support.index_genome_files(fa, chs)
+    bage, re, pa = [FASTQ.Support.make_path_absolute(pa) for pa in (bage, re, pa)]
 
-    FASTQ.Support.trash_remake_directory(pa)
+    vot = basename(to)
+
+    page = dirname(bage)
+
+    voge = joinpath(basename(dirname(page)), basename(page))
+
+    par = dirname(re)
+
+    vor = basename(par)
+
+    vorfi = joinpath(vor, basename(re))
+
+    voo = basename(pa)
+
+    vo = "volume"
+
+    vo_ = (
+        "--$vo",
+        "$to:/$HO/$vot",
+        "--$vo",
+        "$page:/$HO/$voge",
+        "--$vo",
+        "$par:/$HO/$vor",
+        "--$vo",
+        "$pa:/$HO/$voo",
+    )
+
+    com = ("docker", "run", "--interactive", "--detach", "--tty", "--user", "root", "--memory=30g")
+
+    con = ("centos:centos6", "bash")
+
+    vost = joinpath(voo, "strelka")
+
+    vostr = joinpath(vost, "runWorkflow.py")
+
+    voc = joinpath(vor, basename(chs))
+
+    vogefi = joinpath(voge, basename(bage))
+
+    if baso != nothing
+
+        paso = dirname(FASTQ.Support.make_path_absolute(baso))
+
+        voso = basename(paso)
+
+        vosofi = joinpath(voso, basename(baso))
+
+        id = readlines(pipeline(`$com $vo_ --$vo $paso:/$HO/$voso $con`))
+
+        return id, voo, vost, vostr, vorfi, voc, vogefi, vosofi, vot
+
+    else
+
+        id = readlines(pipeline(`$com $vo_ $con`))
+
+        return id, voo, vost, vostr, vorfi, voc, vogefi, vot
+
+    end
 
 end
 
+function _set_output_path(pa)
 
-function _configure_and_run_manta(voo, id, vot, co, ru)
+    past, pama, paco = [joinpath(pa, st) for st in ("strelka", "manta", "concat.vcf.gz")]
+
+    pav = joinpath("results", "variants")
+
+    past, pama, pav, paco
+
+end
+
+function _set_strelka_manta_run(n_jo, me)
+
+    "--mode local --jobs $n_jo --memGb $me --quiet"
+
+end
+
+function _configure_and_run_manta(id, co, ru, voo, vot)
 
     vom = joinpath(voo, "manta")
 
@@ -23,7 +95,7 @@ function _configure_and_run_manta(voo, id, vot, co, ru)
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --outputContig --runDir /home/$vom && ./home/$vomr $ru"`,
+            `docker exec --interactive $id bash -c "./$HO/$vot/$(sc) $co --outputContig --runDir /$HO/$vom && ./$HO/$vomr $ru"`,
         ),
     )
 
@@ -33,84 +105,23 @@ function _configure_and_run_manta(voo, id, vot, co, ru)
 
 end
 
-function _set_strelka_manta_run(n_jo, me)
-
-    return "--mode local --jobs $n_jo --memGb $me --quiet"
-
-end
-
-function _run_strelka_manta_docker_container(to, ge, fa, chs, pao; so = nothing)
-
-    com = ["docker", "run", "--interactive", "--detach", "--tty", "--user", "root", "--memory=30g"]
-
-    vot = basename(to)
-
-    page = dirname(FASTQ.Support.make_path_absolute(ge))
-
-    sp = split(page, "/")
-
-    voge = joinpath(sp[length(sp) - 1], last(sp))
-
-    vogefi = joinpath(voge, basename(ge))
-
-    pag = dirname(FASTQ.Support.make_path_absolute(fa))
-
-    vog = basename(pag)
-
-    vof = joinpath(vog, basename(fa))
-
-    voc = joinpath(vog, "chromosome", basename(chs))
-
-    pao = FASTQ.Support.make_path_absolute(pao)
-
-    voo = basename(pao)
-
-    vo_ = [
-        "--volume",
-        "$to:/home/$vot",
-        "--volume",
-        "$page:/home/$voge",
-        "--volume",
-        "$pag:/home/$vog",
-        "--volume",
-        "$pao:/home/$voo",
-    ]
-
-    con = ["centos:centos6", "bash"]
-
-    if so !== nothing
-
-        paso = dirname(FASTQ.Support.make_path_absolute(so))
-
-        voso = basename(paso)
-
-        vosofi = joinpath(voso, basename(so))
-
-        id = readlines(pipeline(`$com $vo_ --volume $paso:/home/$voso $con`))
-
-        return id, voo, vof, voc, vogefi, vosofi, vot
-
-    else
-
-        id = readlines(pipeline(`$com $vo_ $con`))
-
-        return id, voo, vof, voc, vogefi, vot
-
-    end
-
-end
-
-function call_germline_variant(pa, to, ba, fa, chs, ta, mo, n_jo, me, chn, sn, rs, va)
+function call_germline_variant(pa, ba, mo, ex, re, chs, chn, va, to, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
 
-    _prepare_for_variant_calling(pa, fa, chs)
+    id, voo, vost, vostr, vorfi, voc, voba, vot =
+        _run_strelka_manta_docker_container(pa, ba, re, chs, to)
 
-    id, voo, vof, voc, voba, vot = _run_strelka_manta_docker_container(to, ba, fa, chs, pa)
+    past, pama, pav, paco = _set_output_path(pa)
 
-    co = "--referenceFasta /home/$vof --callRegions home/$voc --bam home/$voba"
+    co = "--referenceFasta /$HO/$vorfi --callRegions $HO/$voc --bam $HO/$voba"
 
-    if ta
+    vc_ = (
+        joinpath(pa, "manta", pav, "diploidSV.vcf.gz"),
+        joinpath(pa, "strelka", pav, "variants.vcf.gz"),
+    )
+
+    if ex
 
         co = "$co --exome"
 
@@ -120,71 +131,40 @@ function call_germline_variant(pa, to, ba, fa, chs, ta, mo, n_jo, me, chn, sn, r
 
         co = "$co --rna"
 
+        vc_ = [joinpath(pa, "strelka", pav, "variants.vcf.gz")]
+
     end
 
     ru = _set_strelka_manta_run(n_jo, me)
 
-    _configure_and_run_manta(voo, id, vot, co, ru)
+    _configure_and_run_manta(id, co, ru, voo, vot)
 
-    vost = joinpath(voo, "strelka")
-
-    vostr = joinpath(vost, "runWorkflow.py")
-
-    sc = "$(FASTQ._ST)/bin/configureStrelkaGermlineWorkflow.py"
+    sc = joinpath(FASTQ._ST, "bin", "configureStrelkaGermlineWorkflow.py")
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --runDir /home/$vost && ./home/$vostr $ru"`,
+            `docker exec --interactive $id bash -c "./$HO/$vot/$(sc) $co --runDir /$HO/$vost && ./$HO/$vostr $ru"`,
         ),
     )
 
-    @info join(re, " ")
-
     FASTQ.Support.remove_docker_container(id)
 
-    pav = joinpath("results", "variants")
-
-    if mo == "cdna"
-
-        vc_ = [joinpath(pa, "strelka", pav, "variants.vcf.gz")]
-
-    else
-
-        vc_ = [
-            joinpath(pa, "manta", pav, "diploidSV.vcf.gz"),
-            joinpath(pa, "strelka", pav, "variants.vcf.gz"),
-        ]
-
-    end
-
-    paco = joinpath(pa, "concat.vcf.gz")
-
-    FASTQ.VCF.combine_vcf(paco, n_jo, vc_, chn)
-
-    run(`tabix $paco`)
-
-    papa = FASTQ.VCF.annotate_with_snpeff(pa, me, sn, paco, n_jo)
-
-    if rs
-
-        FASTQ.VCF.annotate_with_snpsift(pa, sn, va, papa, n_jo)
-
-    end
+    vc_, paco
 
 end
 
-function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs, va)
+function call_somatic_variant(pa, bage, baso, ex, re, chs, chn, va, to, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
 
-    _prepare_for_variant_calling(pa, fa, chs)
+    id, voo, vost, vostr, vorfi, voc, vogefi, vosofi, vot =
+        _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = baso)
 
-    id, voo, vof, voc, vogefi, vosofi, vot =
-        _run_strelka_manta_docker_container(to, ge, fa, chs, pa, so = so)
+    past, pama, pav, paco = _set_output_path(pa)
 
-    co = "--referenceFasta /home/$vof --callRegions /home/$voc --normalBam /home/$vogefi --tumorBam /home/$vosofi"
+    co = "--referenceFasta /$HO/$vorfi --callRegions /$HO/$voc --normalBam /$HO/$vogefi --tumorBam /$HO/$vosofi"
 
-    if ta
+    if ex
 
         co = "$co --exome"
 
@@ -192,49 +172,31 @@ function call_somatic_variant(pa, to, ge, fa, chs, so, ta, n_jo, me, chn, sn, rs
 
     ru = _set_strelka_manta_run(n_jo, me)
 
-    vom = _configure_and_run_manta(voo, id, vot, co, ru)
+    vom = _configure_and_run_manta(id, co, ru, voo, vot)
 
-    pav = joinpath("results", "variants")
+    sc = joinpath(FASTQ._ST, "bin", "configureStrelkaSomaticWorkflow.py")
 
-    vost = joinpath(voo, "strelka")
-
-    sc = "$(FASTQ._ST)/bin/configureStrelkaSomaticWorkflow.py"
+    ca = joinpath("$HO", vom, pav, "candidateSmallIndels.vcf.gz")
 
     re = readlines(
         pipeline(
-            `docker exec --interactive $id bash -c "./home/$vot/$(sc) $co --indelCandidates $(joinpath("home", vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /home/$vost && ./home/$(joinpath(vost, "runWorkflow.py")) $ru"`,
+            `docker exec --interactive $id bash -c "./$HO/$vot/$(sc) $co --indelCandidates $ca --runDir /$HO/$vost && ./$HO/$vostr $ru"`,
         ),
     )
 
-    @info join(re, " ")
-
     FASTQ.Support.remove_docker_container(id)
-
-    past = joinpath(pa, "strelka")
 
     sa = joinpath(pa, "sample.txt")
 
     open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
-    vc_ = [
-        FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.indels.vcf.gz"), n_jo, sa),
-        FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.snvs.vcf.gz"), n_jo, sa),
-        FASTQ.VCF.reheader_vcf(joinpath(pa, "manta", pav, "somaticSV.vcf.gz"), n_jo, sa),
-    ]
+    vc_ = (
+        FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.indels.vcf.gz"), sa, n_jo),
+        FASTQ.VCF.reheader_vcf(joinpath(past, pav, "somatic.snvs.vcf.gz"), sa, n_jo),
+        FASTQ.VCF.reheader_vcf(joinpath(pama, pav, "somaticSV.vcf.gz"), sa, n_jo),
+    )
 
-    paco = joinpath(pa, "concat.vcf.gz")
-
-    FASTQ.VCF.combine_vcf(paco, n_jo, vc_, chn)
-
-    run(`tabix $paco`)
-
-    papa = FASTQ.VCF.annotate_with_snpeff(pa, me, sn, paco, n_jo)
-
-    if rs
-
-        FASTQ.VCF.annotate_with_snpsift(pa, sn, va, papa, n_jo)
-
-    end
+    vc_, paco
 
 end
 

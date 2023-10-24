@@ -4,148 +4,237 @@ using FASTQ
 
 # ---- #
 
-TE = FASTQ.TE
+const TE = FASTQ.TE
 
-DA = FASTQ._DA
+const DA = FASTQ._DA
 
-DAT = joinpath(DA, "Test")
+const DAT = joinpath(DA, "Test")
 
-DAR = joinpath(DA, "ReferenceGenome", "GRCh38")
-
-DAC = joinpath(DAR, "Chromosome")
-
-TO = joinpath(FASTQ.FA, "tool")
+const DAD = joinpath(DAT, "DNA")
 
 # ---- #
 
-n_jo = 8
+const CO = joinpath(TE, "TestConcatenate")
 
-me = 8
+run(`cp -Rf $DAD $CO`)
 
-mo = "dna"
+const S1 = "Sample1"
 
-rs = true
+const S2 = "Sample2"
 
-ex = false
+const S1C = joinpath(CO, S1)
 
-cd = joinpath(DAT, "cDNA")
+const S2C = replace(S1C, S1 => S2)
 
-chs = joinpath(DAC, "chromosome.bed.gz")
-
-chn = joinpath(DAC, "chrn_n.tsv")
-
-sn = joinpath(TO, "snpEff", "snpEff.jar")
-
-va = joinpath(DA, "Ensembl", "GRCh38", "homo_sapiens-grch38-chr1_y.vcf.gz")
-
-ge = joinpath(DAR, "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna.gz")
-
-# FASTQ.Command.call_variants_on_bulk_cdna(TE, cd, n_jo, ge, mo, ex, chs, chn, me, TO, sn, rs, va)
+run(`cp -Rf $S1C/ $S2C/`)
 
 # ---- #
 
-fr = 51
+FASTQ.Command.concatenate_fastq(CO, read_name_scheme = "R1")
 
-sd = 0.05
+@test sum(endswith(di, "Concatenated") for di in readdir(CO)) == 1
 
-or = "human"
-
-tr = joinpath(DA, "ReferenceTranscriptome", "Homo_sapiens.GRCh38.cdna.all.fa.gz")
-
-mg = joinpath(DA, "Mouse", "mouse_transcript_mouse_gene.tsv")
-
-# FASTQ.Command.measure_gene_expression_of_bulk_cdna(TE, cd, n_jo, tr, fr, sd, or, mg)
-
-# ---- #
-
-# FASTQ.Command.measure_gene_expression_of_single_cell_cdna()
+@test round(
+    sum([
+        FASTQ.Support.calculate_size(fi) for
+        fi in readdir(joinpath(CO, "S2Concatenated"), join = true)
+    ]),
+) == 6
 
 # ---- #
 
-sa = "test"
+const SEO, SSO = [mkdir(joinpath(TE, st)) for st in ("Snpeff", "Snpsift")]
 
-DAD = joinpath(DA, "Test", "DNA")
+const DAV = joinpath(DAT, "VCF", S1)
 
-r1 = joinpath(DAD, "test_dna_4k.R1.fastq.gz")
+const VC_ =
+    (joinpath(DAV, "Manta", "diploidSV.vcf.gz"), joinpath(DAV, "Strelka", "variants.vcf.gz"))
 
-r2 = joinpath(DAD, "test_dna_4k.R2.fastq.gz")
+const CON = joinpath(TE, "concat.vcf.gz")
 
-FASTQ.Command.call_variants_on_germline_dna(
+const DAR = joinpath(DA, "GRCh38")
+
+const GEN = "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set"
+
+const GEPA = joinpath(DAR, GEN)
+
+const GE = joinpath(GEPA, string(GEN, ".fna.gz"))
+
+const CHN = joinpath(GEPA, "chrn_n.tsv")
+
+const VA = joinpath(DAR, "homo_sapiens-grch38-chr1_y.vcf.gz")
+
+const TO = joinpath(FASTQ.PR, "tool")
+
+const SE = joinpath(TO, "snpEff", "snpEff.jar")
+
+const N_JO = 8
+
+const ME = 8
+
+# ---- #
+
+FASTQ.Command._combine_and_annotate_vcf(SEO, SSO, CON, VC_, GE, CHN, VA, SE, N_JO, ME)
+
+@test round(FASTQ.Support.calculate_size(CON)) == 27
+
+@test round(FASTQ.Support.calculate_size(joinpath(SSO, "snpsift.vcf.gz"))) == 21
+
+# ---- #
+
+const EX = false
+
+const MO = "dna"
+
+const CHS = joinpath(GEPA, "chromosome.bed.gz")
+
+const AN, SS, SSV = "6.Annotate", "Snpsift", "snpsift.vcf.gz"
+
+# ---- #
+
+FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
+
+@test round(
+    FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV)),
+) == 21
+
+# ---- #
+
+const R1 = joinpath(DAD, S1, "test_dna_4k.R1.fastq.gz")
+
+const R2 = replace(R1, "R1" => "R2")
+
+const SOR1 = joinpath(DAD, S2, "test_dna_40k.R1.fastq.gz")
+
+const SOR2 = replace(SOR1, "R1" => "R2")
+
+# ---- #
+
+@test FASTQ.Command.call_variants_on_somatic_dna(
     TE,
-    r1,
-    r2,
-    n_jo,
-    me,
-    sa,
-    ge,
-    chs,
-    chn,
-    sn,
-    mo,
-    ex,
+    R1,
+    R2,
+    SOR1,
+    SOR2,
+    EX,
+    S1,
+    GE,
+    VA,
     TO,
-    rs,
-    va,
-)
+    N_JO,
+    ME,
+) == nothing
+
+@test round(FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV))) ==
+      19
 
 # ---- #
 
-# FASTQ.Command.call_variants_on_germline_dna(
-#     TE,
-#     DAD,
-#     n_jo,
-#     me,
-#     ge,
-#     chs,
-#     chn,
-#     sn,
-#     mo,
-#     ex,
-#     TO,
-#     rs,
-#     va,
-# )
+const CD = joinpath(DAT, "cDNABulk")
 
 # ---- #
 
-sor1 = joinpath(DAD, "test_dna_40k.R1.fastq.gz")
+@test FASTQ.Command.call_variants_on_bulk_cdna(TE, CD, EX, GE, VA, TO, N_JO, ME) == nothing
 
-sor2 = joinpath(DAD, "test_dna_40k.R2.fastq.gz")
-
-# FASTQ.Command.call_variants_on_somatic_dna(
-#     TE,
-#     r1,
-#     r2,
-#     sor1,
-#     sor2,
-#     n_jo,
-#     me,
-#     sa,
-#     ge,
-#     chs,
-#     chn,
-#     sn,
-#     mo,
-#     ex,
-#     TO,
-#     rs,
-#     va,
-# )
+@test round(
+    FASTQ.Support.calculate_size(
+        joinpath(TE, "CallVariantsonBulkCDNA", "4.Annotate", SS, S1, SSV),
+    ),
+) == 26
 
 # ---- #
 
-rt = joinpath(TO, "rtg-tools-3.11")
+const OR = "human"
 
-vq = "benchmark/apply_germline_dna_to_genome/call_germline_variant/pass.vcf.gz"
+const FR = 51
 
-vt = "benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz"
+const SD = 0.05
 
-be = "benchmark/HG002_truth/HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed.gz"
+const TRN = "Homo_sapiens.GRCh38.cdna.all"
 
-nch = "grch/chromosome/n_chrn.tsv"
+const TR = joinpath(DAR, TRN, string(TRN, ".fa.gz"))
 
-# FASTQ.Command.benchmark(TE, ge, rt, n_jo, nch, vq, vt, be)
+const MG = joinpath(DA, "GRCm38", "mouse_transcript_mouse_gene.tsv")
+
+const MGE = "MeasureGeneExpressionofBulkCDNA"
 
 # ---- #
 
-FASTQ.Command.concatenate_fastq(DAD, "R1")
+@test FASTQ.Command.measure_gene_expression_of_bulk_cdna(
+    TE,
+    CD,
+    OR,
+    FR,
+    SD,
+    TR,
+    N_JO;
+    method = "align_to_transcriptome",
+    mouse_transcript_to_mouse_gene = MG,
+) == nothing
+
+@test round(
+    FASTQ.Support.calculate_size(
+        joinpath(TE, MGE, "2.AlignBulkCDNAtoTranscriptome", S1, "abundance.tsv"),
+    ),
+) == 6
+
+# ---- #
+
+@test FASTQ.Command.measure_gene_expression_of_bulk_cdna(
+    TE,
+    CD,
+    OR,
+    FR,
+    SD,
+    GE,
+    N_JO;
+    method = "align_to_genome",
+    mouse_transcript_to_mouse_gene = MG,
+) == nothing
+
+@test round(
+    FASTQ.Support.calculate_size(
+        joinpath(
+            TE,
+            MGE,
+            "2.AlignandQuantifyBulkCDNAtoGenome",
+            S1,
+            "Aligned.sortedByCoord.out.bam",
+        ),
+    ),
+) == 791
+
+# ---- #
+
+const SI = joinpath(DAT, "cDNASingleCell")
+
+# ---- #
+
+@test FASTQ.Command.measure_gene_expression_of_single_cell_cdna(
+    TE,
+    SI,
+    GE,
+    N_JO;
+    gene_annotation = nothing,
+    whitelist = nothing,
+    barcodestart = 1,
+    barcodelength = 16,
+    umistart = 17,
+    umilength = 12,
+    readlength = 151,
+) == nothing
+
+@test round(
+    FASTQ.Support.calculate_size(
+        joinpath(
+            TE,
+            "MeasureGeneExpressionofSingleCellCDNA",
+            "2.AlignSingleCellCDNAtoGenome",
+            S1,
+            "Solo.out",
+            "Gene",
+            "filtered",
+            "matrix.mtx",
+        ),
+    ),
+) == 703

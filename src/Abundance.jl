@@ -6,81 +6,26 @@ using DataFrames
 
 using BioLab
 
-using FASTQ
+using ..FASTQ
 
 function map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)
 
     FASTQ.support.log_sub_level_function()
 
-    mt_mg = CSV.read(ma, DataFrame)
+    mt_mg_ = CSV.read(ma, DataFrame)
 
-    rename!(mt_mg, "Transcript stable ID" => :id, "Gene name" => :gene)
+    rename!(mt_mg_, "Transcript stable ID" => :id, "Gene name" => :gene)
 
-    dropmissing!(mt_mg, :gene)
+    dropmissing!(mt_mg_, :gene)
 
-    nu_ge_sa = innerjoin(nu_tr_sa, mt_mg, on = :id)
+    nu_ge_sa = innerjoin(nu_tr_sa, mt_mg_, on = :id)
 
     select!(nu_ge_sa, :gene, Not([:id]))
 
     nu_ge_sa =
         combine(groupby(nu_ge_sa, :gene), names(nu_ge_sa, Not(:gene)) .=> sum, renamecols = false)
 
-    return nu_ge_sa
-
 end
-
-
-pas = "/Users/kate/Downloads/ferreira_treg/output/7166-MR-100/"
-
-# Use the raw STARsolo output. If false, the filtered output will be used.
-ra = true
-
-or = "human"
-
-using BioLab
-
-using CSV
-
-using DataFrames
-
-function make_gene_by_sample(pas, fi, ma)
-
-    FASTQ.support.log_sub_level_function()
-
-    if ra == true
-
-        pa = "Solo.out/Gene/raw/"
-
-    else
-
-        pa = "Solo.out/Gene/filtered/"
-
-    end
-
-    # ma = CSV.read(joinpath(pas, pa, "matrix.mtx"), DataFrame; delim='\t')
-
-    # ce = CSV.read(joinpath(pas, pa, "barcodes.tsv"), DataFrame; delim='\t')
-
-    # ge = CSV.read(joinpath(pas, pa, "features.tsv"), DataFrame; delim='\t')
-
-    ma = DataFrame(feature = [1, 5, 3], cell = [1, 1, 2], count = [1, 15, 7])
-
-    ge_ = ["A", "B", "C", "D", "E"]
-
-    ce_ = ["cell1", "cell2", "cell3"]
-
-    df = DataFrame()
-
-    df.gene = ma
-
-    # Build gene by cell
-
-    # Plot expression per gene conveniently 
-
-    # Plot mitochondrial expression conveniently
-
-end
-
 
 function make_gene_by_sample(pap, pou, or, ma)
 
@@ -96,9 +41,9 @@ function make_gene_by_sample(pap, pou, or, ma)
 
                 paf = joinpath(ro, fi)
 
-                ab = CSV.read(paf, DataFrame;)
+                ab = CSV.read(paf, DataFrame)
 
-                na = splitdir(splitdir(paf)[1])[2]
+                na = basename(splitdir(paf)[1])
 
                 tpm__[na] = ab[!, "tpm"]
 
@@ -119,9 +64,6 @@ function make_gene_by_sample(pap, pou, or, ma)
     select!(nu_tr_sa, :transcript_id, Not([:transcript_id]))
 
     CSV.write(joinpath(pou, "transcript_x_sample.tsv"), nu_tr_sa)
-
-
-    # Remove transcript version number
 
     id_ = []
 

@@ -100,5 +100,3 @@ Concatenate two vcfs with the same sample set.
 From the same author as SnpEff, SnpSift is a tool that annotates VCFs with specific information from other databases.
 
 - `annotate` Will annotate VCF with rsids from another VCF.
-
-- `-id` Only ID column of VCF will be annotated, not INFO or other columns.
