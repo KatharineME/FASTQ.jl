@@ -20,7 +20,7 @@ run(`cp -Rf $DAD $CO`)
 
 const S1 = "Sample1"
 
-const S2 = "Sample2"
+const S2 = replace(S1, "1" => "2")
 
 const S1C = joinpath(CO, S1)
 
@@ -37,7 +37,7 @@ FASTQ.Command.concatenate_fastq(CO, read_name_scheme = "R1")
 @test round(
     sum([
         FASTQ.Support.calculate_size(fi) for
-        fi in readdir(joinpath(CO, "S2Concatenated"), join = true)
+        fi in readdir(joinpath(CO, string(S2, "Concatenated")), join = true)
     ]),
 ) == 6
 

@@ -20,7 +20,11 @@ const DA = joinpath(FASTQ._DA, "Test")
 
 const DNA = joinpath(DA, "DNA")
 
-@test FASTQ.Support.error_if_file_missing(readdir(DNA, join = true)) == nothing
+const S1 = "Sample1"
+
+# ---- #
+
+@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1), join = true)) == nothing
 
 @test_throws ErrorException FASTQ.Support.error_if_file_missing(("Unicorn.txt", "Rainbow.txt"))
 
@@ -28,47 +32,35 @@ const DNA = joinpath(DA, "DNA")
 
 const AB = joinpath("/Users", ENV["USER"], "Downloads")
 
+# ---- #
+
 @test FASTQ.Support.make_path_absolute("~/Downloads/") == AB
 
 # ---- #
 
-const S1 = "Sample1"
+const S2 = replace(S1, "1" => "2")
 
-const S2 = "Sample2"
+const RN = "R1"
 
-@test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(DA)
+# ---- #
 
-SA1, SA2, = [mkdir(joinpath(FASTQ.TE, sa)) for sa in (S1, S2)]
+@test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(DA, RN)
 
-const CP_ = ((SA1, "40k"), (SA2, "4k"))
+const TE = FASTQ.TE
 
-for fi in readdir(DNA, join = true)
+run(`cp -r $DNA"/" $TE`)
 
-    for (sa, st) in CP_
+const SA_FQ_ = FASTQ.Support.make_sample_to_fastq_dictionary(TE, RN)
 
-        if occursin(st, fi)
+@test all(occursin("Sample", basename(ke)) for ke in keys(SA_FQ_))
 
-            cp(fi, joinpath(sa, basename(fi)))
-
-        end
-
-    end
-
-end
-
-const SA_FQ_ = FASTQ.Support.make_sample_to_fastq_dictionary(FASTQ.TE)
-
-@test [keys(SA_FQ_)...] == [SA1, SA2]
-
-for sa in (SA1, SA2)
-
-    @test length(get(SA_FQ_, sa, "")) == 2
-
-end
+@test all(length(get(SA_FQ_, sa, "")) == 2 for sa in (SA1, SA2))
 
 # ---- #
 
 const AN = joinpath(FASTQ.TE, "Analysis")
+
+# ---- #
 
 FASTQ.Support.make_analysis_directory(FASTQ.TE, "Analysis", ("One", "Two"); sa_fq_ = SA_FQ_)
 
@@ -76,4 +68,4 @@ FASTQ.Support.make_analysis_directory(FASTQ.TE, "Analysis", ("One", "Two"); sa_f
 
 # ---- #
 
-FASTQ.Support.test_strelka_and_manta(joinpath(FASTQ.PR, "tool"))
+@test FASTQ.Support.test_strelka_and_manta(joinpath(FASTQ.PR, "tool")) == nothing

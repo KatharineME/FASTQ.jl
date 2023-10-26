@@ -85,7 +85,7 @@ function error_if_file_missing(fi_)
 
         if !isfile(fi)
 
-            error("Does not exist: $fi")
+            error("File does not exist: $fi")
 
         end
 

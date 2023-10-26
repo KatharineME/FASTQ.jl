@@ -59,7 +59,7 @@ function benchmark(
 
     rte = joinpath(rtg_tools, "rtg")
 
-    ouv = joinpath(output_directory, "vcfeval")
+    ouv = joinpath(output_directory, "Vcfeval")
 
     run(`$rte vcfeval 
         --baseline=$truth_vcf 
@@ -69,10 +69,9 @@ function benchmark(
         --output=$ouv
         --threads=$number_of_jobs`)
 
+    FASTQ.Reference.index_genome_file(reference_genome, chs)
 
     @info "Running hap.py"
-
-    FASTQ.Reference.index_genome_file(reference_genome, chs)
 
     ho = "/home"
 

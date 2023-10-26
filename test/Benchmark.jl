@@ -30,12 +30,12 @@ const BE = joinpath(DAT, "Benchmark")
 
 const VT = joinpath(BE, "HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz")
 
-const BE = joinpath(BE, "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed.gz")
+const BED = joinpath(BE, "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed.gz")
 
 const N_JO = 8
 
 # ---- #
 
-@test FASTQ.Benchmark.benchmark(TE, GE, RT, N_JO, VQ, VT, BE) == nothing
+@test FASTQ.Benchmark.benchmark(TE, GE, RT, N_JO, VQ, VT, BED) == nothing
 
 @test length([fi for fi in readdir(joinpath(TE, "Benchmark", "happy")) if fi != ".DS_Store"]) == 11

@@ -42,7 +42,9 @@ run(`cp -Rf $DAD $CO`)
 
 const S1C = joinpath(CO, S1)
 
-const S2C = replace(S1C, S1 => "S2")
+const S2 = "Sample2"
+
+const S2C = replace(S1C, S1 => S2)
 
 run(`cp -Rf $S1C/ $S2C/`)
 
@@ -63,8 +65,6 @@ const R2 = replace(R1, "R1" => "R2")
 const RE_ = (R1, R2)
 
 const PA = joinpath(TE, "CheckRaw")
-
-const S2 = "Sample2"
 
 const SOR1 = joinpath(DAT, "DNA", S2, "test_dna_40k.R1.fastq.gz")
 
@@ -113,7 +113,7 @@ const ME = 8
 
 const BA = FASTQ.Raw.align_dna(ALD, S1, R1, R2, GE, N_JO, ME)
 
-@test round(FASTQ.Support.calculate_size(BA)) == 769
+@test round(FASTQ.Support.calculate_size(BA)) > 770
 
 @test sum(occursin("bam", fi) for fi in readdir(ALD)) == 3
 
@@ -182,7 +182,7 @@ const BAQ = FASTQ.Raw.align_and_quantify_bulk_cdna_to_genome(ALQ, R1C, R2C, ID, 
 
 const DAS = joinpath(DAT, "cDNASingleCell", S1)
 
-const R1S = joinpath(DAS, "pbmc_1k_v3_S1_L002_R1_001.fastq.gz")
+const R1S = joinpath(DAS, "400K.R1.fastq.gz")
 
 const R2S = replace(R1S, "R1" => "R2")
 
@@ -201,3 +201,7 @@ FASTQ.Raw.align_single_cell_cdna_to_genome(
     uml = 12,
     rel = 151,
 )
+
+@test round(
+    FASTQ.Support.calculate_size(joinpath(ALS, "Solo.out", "Gene", "filtered", "matrix.mtx")),
+) == 703

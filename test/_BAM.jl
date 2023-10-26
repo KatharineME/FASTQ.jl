@@ -10,7 +10,7 @@ const DA = FASTQ._DA
 
 const S1 = "Sample1"
 
-const BAGE = joinpath(DA, "Test", "DNABAM", S1, string(S1, ".bam"))
+const BAGE = joinpath(DA, "Test", "DNABAMMinimap", S1, string(S1, ".bam"))
 
 const DAR = joinpath(DA, "GRCh38")
 
@@ -26,18 +26,17 @@ const TO = joinpath(FASTQ.PR, "tool")
 
 # ---- #
 
-id, voo, vost, vostr, vorfi, voc, vogefi, vot =
-    FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)
+const ID = FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)[1]
 
-@test length(readlines(pipeline(`docker exec --interactive $id bash -c "ls /home/GRCh38/"`))) == 22
+@test length(readlines(pipeline(`docker exec --interactive $ID bash -c "ls /home/$GEN/"`))) == 16
 
 # ---- #
 
 const ST = "path"
 
-pa_ = FASTQ.BAM._set_output_path(ST)
+const PA_ = FASTQ.BAM._set_output_path(ST)
 
-@test pa_[4] == joinpath(ST, "concat.vcf.gz")
+@test PA_[4] == joinpath(ST, "concat.vcf.gz")
 
 # ---- #
 
@@ -59,20 +58,26 @@ const ME = 8
 
 # ---- #
 
-vc_, paco = FASTQ.BAM.call_germline_variant(TE, BAGE, MO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
+const TEG = mkdir(joinpath(TE, "CallGermlineVariant"))
 
-@test length(vc_) == 2
+# ---- #
 
-@test all([isfile(fi) for fi in vc_])
+const VCG_, _ = FASTQ.BAM.call_germline_variant(TEG, BAGE, MO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
+
+@test length(VCG_) == 2
+
+@test all([isfile(fi) for fi in VCG_])
 
 # ---- #
 
 const BASO = replace(BAGE, S1 => "Sample2")
 
+const TES = mkdir(joinpath(TE, "CallSomaticVariant"))
+
 # ---- #
 
-vc_, paco = FASTQ.BAM.call_somatic_variant(TE, BAGE, BASO, mo, CHS, CHN, VA, TO, N_JO, ME)
+const VCS_, _ = FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
 
-@test length(vc_) == 3
+@test length(VCS_) == 3
 
-@test all([isfile(fi) for fi in vc_])
+@test all([isfile(fi) for fi in VCS_])

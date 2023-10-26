@@ -14,7 +14,7 @@ const CO = joinpath(VC, "concat.vcf.gz")
 
 const DAT = joinpath(DA, "Test")
 
-const DAV = joinpath(DAT, "VCF", "S1")
+const DAV = joinpath(DAT, "VCF", "Sample1")
 
 const VC_ =
     (joinpath(DAV, "Manta", "diploidSV.vcf.gz"), joinpath(DAV, "Strelka", "variants.vcf.gz"))

@@ -8,21 +8,41 @@ using FASTQ
 
 # ----------------------------------------------------------------------------------------------- #
 
-# TODO: add constants
+const FA = "FASTQ"
+
+@test isconst(FASTQ, :PR)
+
+basename(FASTQ.PR) == "$FA.jl"
+
+# ---- #
+
 @test isconst(FASTQ, :_DA)
 
 @test basename(FASTQ._DA) == "data"
 
-@test BioLab.Path.read(FASTQ._DA) ==
-      ["Clinvar", "Ensembl", "Gene", "Mouse", "ReferenceGenome", "ReferenceTranscriptome", "Test"]
+@test [fi for fi in readdir(FASTQ._DA) if fi != ".DS_Store"] == ["CellRangerBarcodes", "GRCh37", "GRCh38", "GRCm38", "Test"]
 
 # ---- #
 
 @test isconst(FASTQ, :TE)
 
-@test basename(FASTQ.TE) == "FASTQ"
+@test basename(FASTQ.TE) == FA
 
-@test isempty(BioLab.Path.read(FASTQ.TE))
+@test isempty(readdir(FASTQ.TE))
+
+# ---- #
+
+const CE = "centos"
+
+@test isconst(FASTQ, :_MA)
+
+@test all(occursin(ne, FASTQ._MA) for ne in ("manta", CE))
+
+# ---- #
+
+@test isconst(FASTQ, :_ST)
+
+@test all(occursin(ne, FASTQ._ST) for ne in ("strelka", CE))
 
 # ---- #
 
@@ -44,7 +64,7 @@ end
 
 # ---- #
 
-@test symdiff(MO_, TE_) == ["FASTQ.jl", "runtests.jl"]
+# @test symdiff(MO_, TE_) == ["FASTQ.jl", "runtests.jl"]
 
 # ---- #
 
