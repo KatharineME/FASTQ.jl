@@ -54,7 +54,7 @@ const SA_FQ_ = FASTQ.Support.make_sample_to_fastq_dictionary(TE, RN)
 
 @test all(occursin("Sample", basename(ke)) for ke in keys(SA_FQ_))
 
-@test all(length(get(SA_FQ_, sa, "")) == 2 for sa in (SA1, SA2))
+@test all(length(get(SA_FQ_, sa, "")) == 2 for sa in keys(SA_FQ_))
 
 # ---- #
 

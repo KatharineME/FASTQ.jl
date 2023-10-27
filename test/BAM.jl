@@ -76,7 +76,8 @@ const TES = mkdir(joinpath(TE, "CallSomaticVariant"))
 
 # ---- #
 
-const VCS_, _ = FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
+const VCS_, __ =
+    FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
 
 @test length(VCS_) == 3
 
