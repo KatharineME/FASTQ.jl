@@ -2,7 +2,7 @@ module Support
 
 using Dates
 
-using BioLab
+using Nucleus
 
 using ..FASTQ
 
@@ -53,7 +53,7 @@ function log_top_level_function()
 
     fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
-    ti = BioLab.Time.stamp()
+    ti = Nucleus.Time.stamp()
 
     @info "============================================================
     $fu 
@@ -68,7 +68,7 @@ function log_sub_level_function()
 
     fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
-    ti = BioLab.Time.stamp()
+    ti = Nucleus.Time.stamp()
 
     @info "------------------------------
     $fu 

@@ -4,7 +4,7 @@ using CSV
 
 using DataFrames
 
-using BioLab
+using Nucleus
 
 using ..FASTQ
 
@@ -91,7 +91,7 @@ function make_gene_by_sample(pap, pou, or, ma)
 
     end
 
-    na_, ma_ = BioLab.Gene.rename(df[!, co])
+    na_, ma_ = Nucleus.Gene.rename(df[!, co])
 
     insertcols!(df, 1, :human_gene => na_, :membership => ma_)
 

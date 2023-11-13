@@ -71,11 +71,11 @@ end
 
 function _set_output_path(pa)
 
-    past, pama, paco = [joinpath(pa, st) for st in ("strelka", "manta", "concat.vcf.gz")]
+    past, pama = [joinpath(pa, st) for st in ("strelka", "manta")]
 
     pav = joinpath("results", "variants")
 
-    past, pama, pav, paco
+    past, pama, pav
 
 end
 
@@ -112,7 +112,7 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, chn, va, to, n_jo, me)
     id, voo, vost, vostr, vorfi, voc, voba, vot =
         _run_strelka_manta_docker_container(pa, ba, re, chs, to)
 
-    past, pama, pav, paco = _set_output_path(pa)
+    _, _, pav = _set_output_path(pa)
 
     co = "--referenceFasta /$HO/$vorfi --callRegions $HO/$voc --bam $HO/$voba"
 
@@ -149,7 +149,7 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, chn, va, to, n_jo, me)
 
     FASTQ.Support.remove_docker_container(id)
 
-    vc_, paco
+    vc_
 
 end
 
@@ -160,7 +160,7 @@ function call_somatic_variant(pa, bage, baso, ex, re, chs, chn, va, to, n_jo, me
     id, voo, vost, vostr, vorfi, voc, vogefi, vosofi, vot =
         _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = baso)
 
-    past, pama, pav, paco = _set_output_path(pa)
+    past, pama, pav = _set_output_path(pa)
 
     co = "--referenceFasta /$HO/$vorfi --callRegions /$HO/$voc --normalBam /$HO/$vogefi --tumorBam /$HO/$vosofi"
 
@@ -196,7 +196,7 @@ function call_somatic_variant(pa, bage, baso, ex, re, chs, chn, va, to, n_jo, me
         FASTQ.VCF.reheader_vcf(joinpath(pama, pav, "somaticSV.vcf.gz"), sa, n_jo),
     )
 
-    vc_, paco
+    vc_
 
 end
 

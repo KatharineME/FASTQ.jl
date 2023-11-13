@@ -1,6 +1,6 @@
 using Test: @test
 
-using BioLab
+using Nucleus
 
 using FASTQ
 
@@ -50,9 +50,9 @@ const SR = joinpath(dirname(@__DIR__), "src")
 
 const IG_ = (r"^[!_]",)
 
-const MO_ = BioLab.Path.read(SR; ig_ = IG_)
+const MO_ = Nucleus.Path.read(SR; ig_ = IG_)
 
-const TE_ = BioLab.Path.read(@__DIR__; ig_ = IG_)
+const TE_ = Nucleus.Path.read(@__DIR__; ig_ = IG_)
 
 # ---- #
 

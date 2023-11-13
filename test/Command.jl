@@ -43,14 +43,13 @@ FASTQ.Command.concatenate_fastq(CO, read_name_scheme = "R1")
 
 # ---- #
 
-const SEO, SSO = [mkdir(joinpath(TE, st)) for st in ("Snpeff", "Snpsift")]
+const CON, SEO, SSO, FL =
+    [mkdir(joinpath(TE, st)) for st in ("1.Concatenate", "2.Snpeff", "3.Snpsift", "4.Filter")]
 
 const DAV = joinpath(DAT, "VCF", S1)
 
 const VC_ =
     (joinpath(DAV, "Manta", "diploidSV.vcf.gz"), joinpath(DAV, "Strelka", "variants.vcf.gz"))
-
-const CON = joinpath(TE, "concat.vcf.gz")
 
 const DAR = joinpath(DA, "GRCh38")
 
@@ -74,11 +73,13 @@ const ME = 8
 
 # ---- #
 
-FASTQ.Command._combine_and_annotate_vcf(SEO, SSO, CON, VC_, GE, CHN, VA, SE, N_JO, ME)
+FASTQ.Command._combine_and_annotate_vcf(CON, SEO, SSO, FL, VC_, GE, CHN, VA, SE, N_JO, ME)
 
-@test round(FASTQ.Support.calculate_size(CON)) == 27
+@test round(FASTQ.Support.calculate_size(joinpath(CON, "concat.vcf.gz"))) == 27
 
-@test round(FASTQ.Support.calculate_size(joinpath(SSO, "snpsift.vcf.gz"))) == 21
+@test round(FASTQ.Support.calculate_size(joinpath(SSO, "snpsift.vcf.gz"))) == 150
+
+@test round(FASTQ.Support.calculate_size(joinpath(FL, "pass.vcf.gz"))) == 21
 
 # ---- #
 
@@ -88,7 +89,7 @@ const MO = "dna"
 
 const CHS = joinpath(GEPA, "chromosome.bed.gz")
 
-const AN, SS, SSV = "6.Annotate", "Snpsift", "snpsift.vcf.gz"
+const AN, SS, SSV = "6.Annotate", "3.Snpsift", "snpsift.vcf.gz"
 
 # ---- #
 

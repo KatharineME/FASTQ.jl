@@ -40,21 +40,38 @@ function _get_snpeff_path(to)
 
 end
 
-function _combine_and_annotate_vcf(pase, pass, paco, vc_, re, chn, va, se, n_jo, me; sa = nothing)
+function _combine_and_annotate_vcf(
+    con,
+    pase,
+    pass,
+    fl,
+    vc_,
+    re,
+    chn,
+    va,
+    se,
+    n_jo,
+    me;
+    sa = nothing,
+)
 
-    if sa != nothing
+    if sa !== nothing
 
-        pase, pass = joinpath(pase, sa), joinpath(pass, sa)
+        con, pase, pass, fl = [joinpath(pa, sa) for pa in (con, pase, pass, fl)]
 
     end
 
-    FASTQ.VCF.combine_vcf(paco, vc_, chn, n_jo)
+    paco = FASTQ.VCF.combine_vcf(con, vc_, chn, n_jo)
 
-    papa = FASTQ.VCF.annotate_with_snpeff(pase, paco, re, se, n_jo, me)
+    vcss = FASTQ.VCF.annotate_with_snpeff(pase, paco, re, se, n_jo, me)
 
-    FASTQ.VCF.annotate_with_snpsift(pass, papa, va, se, n_jo)
+    vcsn = FASTQ.VCF.annotate_with_snpsift(pass, vcss, va, se, n_jo)
+
+    FASTQ.VCF.filter_vcf(fl, vcsn, n_jo)
 
 end
+
+const CRA = "1.CheckRaw"
 
 const CTR = "CheckTrim"
 
@@ -66,11 +83,13 @@ const CG = "CallGermlineVariant"
 
 const AN = "Annotate"
 
-const SE = "Snpeff"
+const CO = "1.Concatenate"
 
-const SS = "Snpsift"
+const SE = "2.Snpeff"
 
-const CRA = "1.CheckRaw"
+const SS = "3.Snpsift"
+
+const FL = "4.Filter"
 
 const TW = "2."
 
@@ -104,7 +123,9 @@ function call_variants_on_germline_dna(
 
     sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(dna_read_directory, read_name_scheme)
 
-    cha, tr, cht, al, va, pase, pass = FASTQ.Support.make_analysis_directory(
+    an = string(SI, AN)
+
+    cha, tr, cht, al, va, con, pase, pass, fl = FASTQ.Support.make_analysis_directory(
         output_directory,
         "CallVariantsonGermlineDNA",
         (
@@ -113,8 +134,10 @@ function call_variants_on_germline_dna(
             string(TH, CTR),
             string(FO, ALD),
             string(FI, CG),
-            joinpath(string(SI, AN), SE),
-            joinpath(string(SI, AN), SS),
+            joinpath(an, CO),
+            joinpath(an, SE),
+            joinpath(an, SS),
+            joinpath(an, FL),
         );
         sa_fq_ = sa_fq_,
     )
@@ -139,7 +162,7 @@ function call_variants_on_germline_dna(
             memory,
         )
 
-        vc_, paco = FASTQ.BAM.call_germline_variant(
+        vc_ = FASTQ.BAM.call_germline_variant(
             joinpath(va, san),
             ba,
             "dna",
@@ -154,9 +177,10 @@ function call_variants_on_germline_dna(
         )
 
         _combine_and_annotate_vcf(
+            con,
             pase,
             pass,
-            paco,
+            fl,
             vc_,
             reference_genome,
             chn,
@@ -211,21 +235,24 @@ function call_variants_on_somatic_dna(
 
     tr, ald, an = string(TW, TR), string(FO, ALD), string(SI, AN)
 
-    cha, trge, trso, cht, alg, als, pav, pase, pass = FASTQ.Support.make_analysis_directory(
-        output_directory,
-        "CallVariantsonSomaticDNA",
-        (
-            CRA,
-            joinpath(tr, GE),
-            joinpath(tr, SO),
-            string(TH, CTR),
-            joinpath(ald, GE),
-            joinpath(ald, SO),
-            "5.CallSomaticVariant",
-            joinpath(an, SE),
-            joinpath(an, SS),
-        ),
-    )
+    cha, trge, trso, cht, alg, als, pav, con, pase, pass, fl =
+        FASTQ.Support.make_analysis_directory(
+            output_directory,
+            "CallVariantsonSomaticDNA",
+            (
+                CRA,
+                joinpath(tr, GE),
+                joinpath(tr, SO),
+                string(TH, CTR),
+                joinpath(ald, GE),
+                joinpath(ald, SO),
+                "5.CallSomaticVariant",
+                joinpath(an, CO),
+                joinpath(an, SE),
+                joinpath(an, SS),
+                joinpath(an, FL),
+            ),
+        )
 
     FASTQ.Raw.check(cha, (read1, read2, somatic_read1, somatic_read2), number_of_jobs)
 
@@ -250,7 +277,7 @@ function call_variants_on_somatic_dna(
 
     FASTQ.Reference.index_genome_file(reference_genome, chs)
 
-    vc_, paco = FASTQ.BAM.call_somatic_variant(
+    vc_ = FASTQ.BAM.call_somatic_variant(
         pav,
         bagem,
         basom,
@@ -265,9 +292,10 @@ function call_variants_on_somatic_dna(
     )
 
     _combine_and_annotate_vcf(
+        con,
         pase,
         pass,
-        paco,
+        fl,
         vc_,
         reference_genome,
         chn,
@@ -304,6 +332,8 @@ function call_variants_on_bulk_cdna(
 
     sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
+    an = string(FO, AN)
+
     cha, al, va, pase, pass = FASTQ.Support.make_analysis_directory(
         output_directory,
         "CallVariantsonBulkCDNA",
@@ -311,8 +341,10 @@ function call_variants_on_bulk_cdna(
             CRA,
             string(TW, "AlignBulkCDNAtoGenome"),
             string(TH, CG),
-            joinpath(string(FO, AN), SE),
-            joinpath(string(FO, AN), SS),
+            joinpath(an, CO),
+            joinpath(an, SE),
+            joinpath(an, SS),
+            joinpath(an, FL),
         );
         sa_fq_ = sa_fq_,
     )
@@ -329,7 +361,7 @@ function call_variants_on_bulk_cdna(
 
         ba = FASTQ.Raw.align_bulk_cdna_to_genome(joinpath(al, san), fq1, fq2, id, number_of_jobs)
 
-        vc_, paco = FASTQ.BAM.call_germline_variant(
+        vc_ = FASTQ.BAM.call_germline_variant(
             joinpath(va, san),
             ba,
             "cdna",
@@ -344,9 +376,10 @@ function call_variants_on_bulk_cdna(
         )
 
         _combine_and_annotate_vcf(
+            con,
             pase,
             pass,
-            paco,
+            fl,
             vc_,
             reference_genome,
             chn,

@@ -6,16 +6,20 @@ function combine_vcf(pa, vc_, chn, n_jo)
 
     FASTQ.Support.log_sub_level_function()
 
+    paco = joinpath(pa, "concat.vcf.gz")
+
     run(
         pipeline(
             `bcftools concat --threads $n_jo --allow-overlaps $vc_`,
             `bcftools annotate --threads $n_jo --rename-chrs $chn`,
             `bgzip --threads $n_jo --stdout`,
-            pa,
+            paco,
         ),
     )
 
-    run(`tabix $pa`)
+    run(`tabix $paco`)
+
+    paco
 
 end
 
@@ -79,7 +83,6 @@ function annotate_with_snpeff(pa, vc, re, se, n_jo, me)
 
     vcs = joinpath(pa, "snpeff.vcf.gz")
 
-
     run(
         pipeline(
             `java -Xmx$(me)g -jar $se $sg -noLog -verbose -csvStats $stc -htmlStats $sth $vc`,
@@ -90,19 +93,7 @@ function annotate_with_snpeff(pa, vc, re, se, n_jo, me)
 
     run(`tabix $vcs`)
 
-    pap = joinpath(pa, "pass.vcf.gz")
-
-    run(
-        pipeline(
-            `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $vcs`,
-            `bgzip --threads $n_jo --stdout`,
-            pap,
-        ),
-    )
-
-    run(`tabix $pap`)
-
-    pap
+    vcs
 
 end
 
@@ -123,6 +114,28 @@ function annotate_with_snpsift(pa, vc, va, se, n_jo)
     )
 
     run(`tabix $vcs`)
+
+    vcs
+
+end
+
+function filter_vcf(pa, vc, n_jo)
+
+    FASTQ.Support.log_sub_level_function()
+
+    pap = joinpath(pa, "pass.vcf.gz")
+
+    run(
+        pipeline(
+            `bcftools view --threads $n_jo --include 'FILTER=="PASS"' $vc`,
+            `bgzip --threads $n_jo --stdout`,
+            pap,
+        ),
+    )
+
+    run(`tabix $pap`)
+
+    pap
 
 end
 

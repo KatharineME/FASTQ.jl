@@ -1,6 +1,6 @@
 module FASTQ
 
-using BioLab
+using Nucleus
 
 const PR = dirname(@__DIR__)
 
@@ -24,7 +24,13 @@ end
 
 function __init__()
 
-    BioLab.Path.remake_directory(TE)
+    if isdir(TE)
+
+        rm(TE; recursive = true)
+
+    end
+
+    mkdir(TE)
 
 end
 
