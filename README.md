@@ -37,6 +37,14 @@ julia> FASTQ.Command.call_variants_on_cdna("my/project/setting.json")
 julia> FASTQ.Command.measure_gene_expression("my/project/setting.json")
 ```
 
+## Assumptions
+
+You can only p[ass the input directory which should only contain folders of samples. Each folder is the sample name. Inside are the reads for that sample.
+
+All your tools are in one tool direcotry. This includes streak, manta, snpeff. 
+
+Your reference genome is in the same directory as all your chromosome files and your gtf / gif.
+
 ## Prepare Environment
 
 _Currently works only on MacOS._
