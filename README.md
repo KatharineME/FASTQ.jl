@@ -41,7 +41,7 @@ julia> FASTQ.Command.measure_gene_expression("my/project/setting.json")
 
 You can only p[ass the input directory which should only contain folders of samples. Each folder is the sample name. Inside are the reads for that sample.
 
-All your tools are in one tool direcotry. This includes streak, manta, snpeff. 
+All your tools are in one tool direcotry. This includes streak, manta, snpeff.
 
 Your reference genome is in the same directory as all your chromosome files and your gtf / gif.
 

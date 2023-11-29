@@ -97,7 +97,7 @@ FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
 @test round(
     FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV)),
-) == 21
+) == 150
 
 # ---- #
 
@@ -124,7 +124,7 @@ const SOR2 = replace(SOR1, "R1" => "R2")
     TO,
     N_JO,
     ME,
-) == nothing
+) === nothing
 
 @test round(FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV))) ==
       19
@@ -135,7 +135,7 @@ const CD = joinpath(DAT, "cDNABulk")
 
 # ---- #
 
-@test FASTQ.Command.call_variants_on_bulk_cdna(TE, CD, EX, GE, VA, TO, N_JO, ME) == nothing
+@test FASTQ.Command.call_variants_on_bulk_cdna(TE, CD, EX, GE, VA, TO, N_JO, ME) === nothing
 
 @test round(
     FASTQ.Support.calculate_size(
@@ -171,7 +171,7 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
     N_JO;
     method = "align_to_transcriptome",
     mouse_transcript_to_mouse_gene = MG,
-) == nothing
+) === nothing
 
 @test round(
     FASTQ.Support.calculate_size(
@@ -191,7 +191,7 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
     N_JO;
     method = "align_to_genome",
     mouse_transcript_to_mouse_gene = MG,
-) == nothing
+) === nothing
 
 @test round(
     FASTQ.Support.calculate_size(
@@ -223,7 +223,7 @@ const SI = joinpath(DAT, "cDNASingleCell")
     umistart = 17,
     umilength = 12,
     readlength = 151,
-) == nothing
+) === nothing
 
 @test round(
     FASTQ.Support.calculate_size(
