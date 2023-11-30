@@ -29,19 +29,13 @@ end
 
 function _run_vcfeval(ou, vtr, vqn, sd, co, rt, n_jo)
 
-    rte = joinpath(rt, "rtg")
-
-    ouv = joinpath(ou, "Vcfeval")
-
-    run(`$rte vcfeval 
+    run(`$(joinpath(rt, "rtg")) vcfeval 
         --baseline=$vtr 
         --bed-regions=$co 
         --calls=$vqn 
         --template=$sd 
-        --output=$ouv
+        --output=$(joinpath(ou, "Vcfeval"))
         --threads=$n_jo`)
-
-    rte, ouv
 
 end
 
@@ -68,14 +62,16 @@ function _run_happy(ha, vtr, vqn, sd, red, co, rt)
             --$vo $pbd:$vbd 
             --$vo $pre:$vre 
             --$vo $ha:$vha 
-            --$vo $rtg_tools:$vrt 
+            --$vo $rt:$vrt 
             --$vo $sd:$vsd 
             pkrusche/hap.py
             bash`)
 
-    readchomp(
+    run(
         `docker exec --interactive $id bash -c "/opt/hap.py/bin/hap.py $(joinpath(vvt, basename(vtr))) $(joinpath(vvqn, basename(vqn))) -f $(joinpath(vbd, basename(co))) -r $(joinpath(vre, basename(red))) -o $(joinpath(vha, "hap.py")) --engine-vcfeval-path $vrt --engine-vcfeval-template $vsd"`,
     )
+
+    id
 
 end
 
@@ -93,7 +89,7 @@ function benchmark(
     chs, chn = FASTQ.Reference.get_chromosome_file_path(reference_genome)
     FASTQ.Support.error_if_file_missing((chn, chs, query_vcf, truth_vcf, confident_regions_bed))
 
-    ha = FASTQ.Support.make_analysis_directory(output_directory, "Benchmark", ("happy",))
+    ha = FASTQ.Support.make_analysis_directory(output_directory, "Benchmark", ("Happy",))
 
     red, sd, vqn =
         _make_benchmark_files(query_vcf, reference_genome, rtg_tools, chn, number_of_jobs)
@@ -114,7 +110,7 @@ function benchmark(
 
     @info "Running hap.py"
 
-    _run_happy(ha, truth_vcf, vqn, sd, red, confident_regions_bed, rtg_tools)
+    id = _run_happy(ha, truth_vcf, vqn, sd, red, confident_regions_bed, rtg_tools)
 
     FASTQ.Support.remove_docker_container(id)
 

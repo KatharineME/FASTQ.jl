@@ -12,25 +12,27 @@ const DAT = joinpath(DA, "Test")
 
 const DAD = joinpath(DAT, "DNA")
 
+const _RN1, _RN2 = FASTQ._RN1, FASTQ._RN2
+
 const S1 = "Sample1"
 
 # ---- #
 
-const FQ_ = FASTQ.Raw.find(joinpath(DAD, S1))
+fq_ = FASTQ.Raw.find(joinpath(DAD, S1))
 
-@test length(FQ_) == 2
+@test lastindex(fq_) == 2
 
-@test all([endswith(fq, ".gz") for fq in FQ_])
+@test all([endswith(fq, ".gz") for fq in fq_])
 
 # ---- #
 
-N_JO = 8
+const N_JO = 8
 
 # ---- #
 
 const PAC = FASTQ.Support.trash_remake_directory(joinpath(TE, "CheckRead"))
 
-FASTQ.Raw.check(PAC, FQ_, N_JO)
+FASTQ.Raw.check(PAC, fq_, N_JO)
 
 @test sum(collect(endswith(fi, "fastqc.html") for fi in readdir(PAC))) == 2
 
@@ -50,25 +52,25 @@ run(`cp -Rf $S1C/ $S2C/`)
 
 # ---- #
 
-const FQ2_ = FASTQ.Raw.find(S2C)
+fq2_ = FASTQ.Raw.find(S2C)
 
-FASTQ.Raw.concatenate(CO, FQ2_)
+FASTQ.Raw.concatenate(CO, fq2_)
 
-@test round(FASTQ.Support.calculate_size(joinpath(CO, "R1.fastq.gz"))) == 3
+@test round(FASTQ.Support.calculate_size(joinpath(CO, "$(_RN1).fastq.gz"))) == 3
 
 # ---- #
 
-const R1 = joinpath(DAT, "DNA", S1, "test_dna_4k.R1.fastq.gz")
+const R1 = joinpath(DAT, "DNA", S1, "test_dna_4k.$_RN1.fastq.gz")
 
-const R2 = replace(R1, "R1" => "R2")
+const R2 = replace(R1, _RN1 => _RN2)
 
 const RE_ = (R1, R2)
 
 const PA = joinpath(TE, "CheckRaw")
 
-const SOR1 = joinpath(DAT, "DNA", S2, "test_dna_40k.R1.fastq.gz")
+const SOR1 = joinpath(DAT, "DNA", S2, "test_dna_40k.$_RN1.fastq.gz")
 
-const SOR2 = replace(SOR1, "R1" => "R2")
+const SOR2 = replace(SOR1, _RN1 => _RN2)
 
 # ---- #
 
@@ -111,9 +113,9 @@ const ME = 8
 
 # ---- #
 
-const BA = FASTQ.Raw.align_dna(ALD, S1, R1, R2, GE, N_JO, ME)
+ba = FASTQ.Raw.align_dna(ALD, S1, R1, R2, GE, N_JO, ME)
 
-@test round(FASTQ.Support.calculate_size(BA)) > 770
+@test round(FASTQ.Support.calculate_size(ba)) > 770
 
 @test sum(occursin("bam", fi) for fi in readdir(ALD)) == 3
 
@@ -138,9 +140,9 @@ const FR = 51
 
 const SD = 0.05
 
-const R1C = joinpath(CDB, "s1_cdna_4k.R1.fastq.gz")
+const R1C = joinpath(CDB, "s1_cdna_4k.$_RN1.fastq.gz")
 
-const R2C = replace(R1C, "R1" => "R2")
+const R2C = replace(R1C, _RN1 => _RN2)
 
 # ---- #
 
@@ -168,23 +170,23 @@ const ID = FASTQ.Reference.generate_star_genome_file(GE, N_JO; ga = nothing)
 
 # ---- #
 
-const BACG = FASTQ.Raw.align_bulk_cdna_to_genome(ALCG, R1C, R2C, ID, N_JO)
+bacg = FASTQ.Raw.align_bulk_cdna_to_genome(ALCG, R1C, R2C, ID, N_JO)
 
-@test round(FASTQ.Support.calculate_size(BACG)) == 791
+@test round(FASTQ.Support.calculate_size(bacg)) == 791
 
 # ---- #
 
-const BAQ = FASTQ.Raw.align_and_quantify_bulk_cdna_to_genome(ALQ, R1C, R2C, ID, N_JO)
+baq = FASTQ.Raw.align_and_quantify_bulk_cdna_to_genome(ALQ, R1C, R2C, ID, N_JO)
 
-@test round(FASTQ.Support.calculate_size(joinpath(BAQ))) == 791
+@test round(FASTQ.Support.calculate_size(joinpath(baq))) == 791
 
 # ---- #
 
 const DAS = joinpath(DAT, "cDNASingleCell", S1)
 
-const R1S = joinpath(DAS, "400K.R1.fastq.gz")
+const R1S = joinpath(DAS, "400K.$_RN1.fastq.gz")
 
-const R2S = replace(R1S, "R1" => "R2")
+const R2S = replace(R1S, _RN1 => _RN2)
 
 # ---- #
 

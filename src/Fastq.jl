@@ -8,6 +8,8 @@ const TE = joinpath(tempdir(), "FASTQ")
 
 const _DA = joinpath(PR, "data")
 
+const _RN1, _RN2 = "R1", "R2"
+
 const _MA = "manta-1.6.0.centos6_x86_64"
 
 const _ST = "strelka-2.9.10.centos6_x86_64"

@@ -2,13 +2,9 @@ module Command
 
 using ..FASTQ
 
-const RN = "R1"
-
-function concatenate_fastq(dna_read_directory; read_name_scheme = RN)
+function concatenate_fastq(dna_read_directory; read_name_scheme = FASTQ._RN1)
 
     FASTQ.Support.log_top_level_function()
-
-    di_ = readdir(dna_read_directory, join = true)
 
     for sa in readdir(dna_read_directory, join = true)
 
@@ -16,7 +12,7 @@ function concatenate_fastq(dna_read_directory; read_name_scheme = RN)
 
             fq_ = FASTQ.Raw.find(sa)
 
-            if length(fq_) > 2
+            if lastindex(fq_) > 2
 
                 pa = FASTQ.Support.trash_remake_directory(
                     joinpath(splitdir(sa)[1], string(basename(sa), "Concatenated")),
@@ -63,43 +59,43 @@ function _combine_and_annotate_vcf(
 
     paco = FASTQ.VCF.combine_vcf(con, vc_, chn, n_jo)
 
-    vcss = FASTQ.VCF.annotate_with_snpeff(pase, paco, re, se, n_jo, me)
+    vcse = FASTQ.VCF.annotate_with_snpeff(pase, paco, re, se, n_jo, me)
 
-    vcsn = FASTQ.VCF.annotate_with_snpsift(pass, vcss, va, se, n_jo)
+    vcss = FASTQ.VCF.annotate_with_snpsift(pass, vcse, va, se, n_jo)
 
-    FASTQ.VCF.filter_vcf(fl, vcsn, n_jo)
+    FASTQ.VCF.filter_vcf(fl, vcss, n_jo)
 
 end
 
-const CRA = "1.CheckRaw"
+const _CRA = "1.CheckRaw"
 
-const CTR = "CheckTrim"
+const _CTR = "CheckTrim"
 
-const TR = "Trim"
+const _TR = "Trim"
 
-const ALD = "AlignDNA"
+const _ALD = "AlignDNA"
 
-const CG = "CallGermlineVariant"
+const _CG = "CallGermlineVariant"
 
-const AN = "Annotate"
+const _AN = "Annotate"
 
-const CO = "1.Concatenate"
+const _CO = "1.Concatenate"
 
-const SE = "2.Snpeff"
+const _SE = "2.Snpeff"
 
-const SS = "3.Snpsift"
+const _SS = "3.Snpsift"
 
-const FL = "4.Filter"
+const _FL = "4.Filter"
 
-const TW = "2."
+const _TW = "2."
 
-const TH = "3."
+const _TH = "3."
 
-const FO = "4."
+const _FO = "4."
 
-const FI = "5."
+const _FI = "5."
 
-const SI = "6."
+const _SI = "6."
 
 function call_variants_on_germline_dna(
     output_directory,
@@ -110,7 +106,7 @@ function call_variants_on_germline_dna(
     tool_directory,
     number_of_jobs,
     memory;
-    read_name_scheme = RN,
+    read_name_scheme = FASTQ._RN1,
 )
 
     FASTQ.Support.log_top_level_function()
@@ -123,21 +119,21 @@ function call_variants_on_germline_dna(
 
     sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(dna_read_directory, read_name_scheme)
 
-    an = string(SI, AN)
+    an = string(_SI, _AN)
 
     cha, tr, cht, al, va, con, pase, pass, fl = FASTQ.Support.make_analysis_directory(
         output_directory,
         "CallVariantsonGermlineDNA",
         (
-            CRA,
-            string(TW, TR),
-            string(TH, CTR),
-            string(FO, ALD),
-            string(FI, CG),
-            joinpath(an, CO),
-            joinpath(an, SE),
-            joinpath(an, SS),
-            joinpath(an, FL),
+            _CRA,
+            string(_TW, _TR),
+            string(_TH, _CTR),
+            string(_FO, _ALD),
+            string(_FI, _CG),
+            joinpath(an, _CO),
+            joinpath(an, _SE),
+            joinpath(an, _SS),
+            joinpath(an, _FL),
         );
         sa_fq_ = sa_fq_,
     )
@@ -169,8 +165,6 @@ function call_variants_on_germline_dna(
             exome,
             reference_genome,
             chs,
-            chn,
-            variant_database,
             tool_directory,
             number_of_jobs,
             memory,
@@ -197,9 +191,9 @@ function call_variants_on_germline_dna(
 
 end
 
-const GE = "Germline"
+const _GE = "Germline"
 
-const SO = "Somatic"
+const _SO = "Somatic"
 
 function call_variants_on_somatic_dna(
     output_directory,
@@ -233,24 +227,24 @@ function call_variants_on_somatic_dna(
         se,
     ))
 
-    tr, ald, an = string(TW, TR), string(FO, ALD), string(SI, AN)
+    tr, ald, an = string(_TW, _TR), string(_FO, _ALD), string(_SI, _AN)
 
     cha, trge, trso, cht, alg, als, pav, con, pase, pass, fl =
         FASTQ.Support.make_analysis_directory(
             output_directory,
             "CallVariantsonSomaticDNA",
             (
-                CRA,
-                joinpath(tr, GE),
-                joinpath(tr, SO),
-                string(TH, CTR),
-                joinpath(ald, GE),
-                joinpath(ald, SO),
+                _CRA,
+                joinpath(tr, _GE),
+                joinpath(tr, _SO),
+                string(_TH, _CTR),
+                joinpath(ald, _GE),
+                joinpath(ald, _SO),
                 "5.CallSomaticVariant",
-                joinpath(an, CO),
-                joinpath(an, SE),
-                joinpath(an, SS),
-                joinpath(an, FL),
+                joinpath(an, _CO),
+                joinpath(an, _SE),
+                joinpath(an, _SS),
+                joinpath(an, _FL),
             ),
         )
 
@@ -284,8 +278,6 @@ function call_variants_on_somatic_dna(
         exome,
         reference_genome,
         chs,
-        chn,
-        variant_database,
         tool_directory,
         number_of_jobs,
         memory,
@@ -318,7 +310,7 @@ function call_variants_on_bulk_cdna(
     tool_directory,
     number_of_jobs,
     memory;
-    read_name_scheme = RN,
+    read_name_scheme = FASTQ._RN1,
     gene_annotation = nothing,
 )
 
@@ -332,19 +324,19 @@ function call_variants_on_bulk_cdna(
 
     sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
-    an = string(FO, AN)
+    an = string(_FO, _AN)
 
-    cha, al, va, pase, pass = FASTQ.Support.make_analysis_directory(
+    cha, al, va, con, pase, pass, fl = FASTQ.Support.make_analysis_directory(
         output_directory,
         "CallVariantsonBulkCDNA",
         (
-            CRA,
-            string(TW, "AlignBulkCDNAtoGenome"),
-            string(TH, CG),
-            joinpath(an, CO),
-            joinpath(an, SE),
-            joinpath(an, SS),
-            joinpath(an, FL),
+            _CRA,
+            string(_TW, "AlignBulkCDNAtoGenome"),
+            string(_TH, _CG),
+            joinpath(an, _CO),
+            joinpath(an, _SE),
+            joinpath(an, _SS),
+            joinpath(an, _FL),
         );
         sa_fq_ = sa_fq_,
     )
@@ -368,8 +360,6 @@ function call_variants_on_bulk_cdna(
             exome,
             reference_genome,
             chs,
-            chn,
-            variant_database,
             tool_directory,
             number_of_jobs,
             memory,
@@ -399,15 +389,13 @@ end
 function measure_gene_expression_of_bulk_cdna(
     output_directory,
     cdna_read_directory,
-    organism,
     fragment_length,
     fragment_length_standard_deviation,
     reference,
     number_of_jobs;
-    read_name_scheme = RN,
+    read_name_scheme = FASTQ._RN1,
     method = "align_to_transcriptome",
     gene_annotation = nothing,
-    mouse_transcript_to_mouse_gene = nothing,
 )
 
     FASTQ.Support.log_top_level_function()
@@ -424,7 +412,7 @@ function measure_gene_expression_of_bulk_cdna(
     cha, al = FASTQ.Support.make_analysis_directory(
         output_directory,
         "MeasureGeneExpressionofBulkCDNA",
-        (CRA, me_na_[method]);
+        (_CRA, me_na_[method]);
         sa_fq_ = sa_fq_,
     )
 
@@ -483,7 +471,7 @@ function measure_gene_expression_of_single_cell_cdna(
     single_cell_read_directory,
     reference_genome,
     number_of_jobs;
-    read_name_scheme = RN,
+    read_name_scheme = FASTQ._RN1,
     gene_annotation = nothing,
     whitelist = nothing,
     barcodestart = 1,
@@ -509,7 +497,7 @@ function measure_gene_expression_of_single_cell_cdna(
     cha, al = FASTQ.Support.make_analysis_directory(
         output_directory,
         "MeasureGeneExpressionofSingleCellCDNA",
-        (CRA, "2.AlignSingleCellCDNAtoGenome");
+        (_CRA, "2.AlignSingleCellCDNAtoGenome");
         sa_fq_ = sa_fq_,
     )
 

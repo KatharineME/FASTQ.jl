@@ -1,7 +1,5 @@
 module Support
 
-using Dates
-
 using Nucleus
 
 using ..FASTQ
@@ -43,7 +41,7 @@ function _clean_function_name(na)
 
     sp = split(na, "#")
 
-    id = findmax([length(st) for st in sp])[2]
+    id = findmax([lastindex(st) for st in sp])[2]
 
     replace(sp[id], "_" => " ")
 
@@ -83,11 +81,7 @@ function error_if_file_missing(fi_)
 
     for fi in fi_
 
-        if !isfile(fi)
-
-            error("File does not exist: $fi")
-
-        end
+        !isfile(fi) ? error("File does not exist: $fi") : nothing
 
     end
 
@@ -103,17 +97,17 @@ end
 
 function make_sample_to_fastq_dictionary(di, na)
 
-    di = FASTQ.Support.make_path_absolute(di)
+    dia = FASTQ.Support.make_path_absolute(di)
 
     sa_fq_ = Dict{String, Tuple{String, String}}()
 
-    for sa in readdir(di, join = true)
+    for sa in readdir(dia, join = true)
 
         if isdir(sa)
 
             fq_ = FASTQ.Raw.find(sa)
 
-            le = length(fq_)
+            le = lastindex(fq_)
 
             if le > 2
 
@@ -179,7 +173,7 @@ function make_analysis_directory(di, to, su_; sa_fq_ = nothing)
 
         push!(sua_, sua)
 
-        if sa_fq_ != nothing
+        if sa_fq_ !== nothing
 
             for sa in keys(sa_fq_)
 
@@ -211,20 +205,14 @@ function test_strelka_and_manta(pa)
 
     for pr in (FASTQ._MA, FASTQ._ST)
 
-        if !(pr in readdir(pa))
-
-            error("You dont have the correct version ($pr).")
-
-        end
+        !(pr in readdir(pa)) ? error("You dont have the correct version ($pr).") : nothing
 
     end
 
     vo = basename(pa)
 
-    id = readlines(
-        pipeline(
-            `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`,
-        ),
+    id = readchomp(
+        `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`,
     )
 
     for sc in (
@@ -233,9 +221,7 @@ function test_strelka_and_manta(pa)
         joinpath(FASTQ._ST, "bin", "runStrelkaSomaticWorkflowDemo.bash"),
     )
 
-        re = readlines(pipeline(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`))
-
-        @info join(re, " ")
+        run(`docker exec --interactive $id bash -c "./home/$vo/$(sc)"`)
 
     end
 

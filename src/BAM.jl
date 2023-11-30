@@ -69,11 +69,7 @@ end
 
 function _set_output_path(pa)
 
-    past, pama = [joinpath(pa, st) for st in ("strelka", "manta")]
-
-    pav = joinpath("results", "variants")
-
-    past, pama, pav
+    [joinpath(pa, st) for st in ("strelka", "manta")]..., joinpath("results", "variants")
 
 end
 
@@ -87,7 +83,7 @@ function _configure_and_run_manta(id, co, ru, voo, vot)
 
     vom = joinpath(voo, "manta")
 
-    readchomp(
+    run(
         `docker exec --interactive $id bash -c "./$_HO/$vot/$(FASTQ._MA)/bin/configManta.py $co --outputContig --runDir /$_HO/$vom && ./$_HO/$(joinpath(vom, "runWorkflow.py")) $ru"`,
     )
 
@@ -122,7 +118,7 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, to, n_jo, me)
 
     _configure_and_run_manta(id, co, ru, voo, vot)
 
-    readchomp(
+    run(
         `docker exec --interactive $id bash -c "./$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaGermlineWorkflow.py")) $co --runDir /$_HO/$vost && ./$_HO/$vostr $ru"`,
     )
 
@@ -149,7 +145,7 @@ function call_somatic_variant(pa, bage, baso, ex, re, chs, to, n_jo, me)
 
     vom = _configure_and_run_manta(id, co, ru, voo, vot)
 
-    readchomp(
+    run(
         `docker exec --interactive $id bash -c "./$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaSomaticWorkflow.py")) $co --indelCandidates $(joinpath(_HO, vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /$_HO/$vost && ./$_HO/$vostr $ru"`,
     )
 
@@ -159,15 +155,13 @@ function call_somatic_variant(pa, bage, baso, ex, re, chs, to, n_jo, me)
 
     open(io -> write(io, "Germline\nSomatic"), sa; write = true)
 
-    vc_ = (
+    [
         FASTQ.VCF.reheader_vcf(joinpath(el...), sa, n_jo) for el in (
             (past, pav, "somatic.indels.vcf.gz"),
             (past, pav, "somatic.snvs.vcf.gz"),
             (pama, pav, "somaticSV.vcf.gz"),
         )
-    )
-
-    vc_
+    ]
 
 end
 

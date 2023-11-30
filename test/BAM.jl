@@ -26,17 +26,18 @@ const TO = joinpath(FASTQ.PR, "tool")
 
 # ---- #
 
-const ID = FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)[1]
+id = FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)[1]
 
-@test length(readlines(pipeline(`docker exec --interactive $ID bash -c "ls /home/$GEN/"`))) == 16
+@test lastindex(readlines(pipeline(`docker exec --interactive $id bash -c "ls /home/$GEN/"`))) ==
+      16
+
+FASTQ.Support.remove_docker_container(id)
 
 # ---- #
 
-const ST = "path"
+pa_ = FASTQ.BAM._set_output_path("path")
 
-const PA_ = FASTQ.BAM._set_output_path(ST)
-
-@test PA_[4] == joinpath(ST, "concat.vcf.gz")
+@test pa_[3] == joinpath("results", "variants")
 
 # ---- #
 
@@ -62,11 +63,11 @@ const TEG = mkdir(joinpath(TE, "CallGermlineVariant"))
 
 # ---- #
 
-const VCG_, _ = FASTQ.BAM.call_germline_variant(TEG, BAGE, MO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
+vcg_ = FASTQ.BAM.call_germline_variant(TEG, BAGE, MO, EX, GE, CHS, TO, N_JO, ME)
 
-@test length(VCG_) == 2
+@test lastindex(vcg_) == 2
 
-@test all([isfile(fi) for fi in VCG_])
+@test all([isfile(fi) for fi in vcg_])
 
 # ---- #
 
@@ -76,9 +77,8 @@ const TES = mkdir(joinpath(TE, "CallSomaticVariant"))
 
 # ---- #
 
-const VCS_, __ =
-    FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, CHN, VA, TO, N_JO, ME)
+vcs_ = FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, TO, N_JO, ME)
 
-@test length(VCS_) == 3
+@test lastindex(vcs_) == 3
 
-@test all([isfile(fi) for fi in VCS_])
+@test all([isfile(fi) for fi in vcs_])

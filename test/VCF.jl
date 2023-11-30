@@ -10,8 +10,6 @@ const DA = FASTQ._DA
 
 const VC = FASTQ.Support.trash_remake_directory(joinpath(TE, "VCF"))
 
-const CO = joinpath(VC, "concat.vcf.gz")
-
 const DAT = joinpath(DA, "Test")
 
 const DAV = joinpath(DAT, "VCF", "Sample1")
@@ -31,9 +29,9 @@ const N_JO = 8
 
 # ---- #
 
-FASTQ.VCF.combine_vcf(CO, VC_, CHN, N_JO)
+co = FASTQ.VCF.combine_vcf(VC, VC_, CHN, N_JO)
 
-@test round(FASTQ.Support.calculate_size(CO)) == 27
+@test round(FASTQ.Support.calculate_size(co)) == 27
 
 # ---- #
 
@@ -43,9 +41,9 @@ const SA = joinpath(VCS, "Sample.txt")
 
 # ---- #
 
-const PAR = FASTQ.VCF.reheader_vcf(joinpath(VCS, "somatic.indels.vcf.gz"), SA, N_JO)
+par = FASTQ.VCF.reheader_vcf(joinpath(VCS, "somatic.indels.vcf.gz"), SA, N_JO)
 
-@test split(readchomp(`tabix -H $PAR`), "\t")[10:11] == ["Germline", "Somatic"]
+@test split(readchomp(`tabix -H $par`), "\t")[10:11] == ["Germline", "Somatic"]
 
 # ---- #
 
@@ -65,9 +63,9 @@ const ME = 8
 
 # ---- #
 
-const PAP = FASTQ.VCF.annotate_with_snpeff(PASE, CO, GE, SE, N_JO, ME)
+vcse = FASTQ.VCF.annotate_with_snpeff(PASE, co, GE, SE, N_JO, ME)
 
-@test round(FASTQ.Support.calculate_size(joinpath(PASE, "pass.vcf.gz"))) == 20
+@test round(FASTQ.Support.calculate_size(vcse)) == 139
 
 # ---- #
 
@@ -77,6 +75,12 @@ const VA = joinpath(DAR, "homo_sapiens-grch38-chr1_y.vcf.gz")
 
 # ---- #
 
-FASTQ.VCF.annotate_with_snpsift(PASS, PAP, VA, SE, N_JO)
+vcss = FASTQ.VCF.annotate_with_snpsift(PASS, vcse, VA, SE, N_JO)
 
-@test round(FASTQ.Support.calculate_size(joinpath(PASS, "snpsift.vcf.gz"))) == 21
+@test round(FASTQ.Support.calculate_size(vcss)) == 150
+
+# ---- #
+
+vcpa = FASTQ.VCF.filter_vcf(VC, vcss, N_JO)
+
+@test round(FASTQ.Support.calculate_size(vcpa)) == 21

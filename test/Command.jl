@@ -12,6 +12,8 @@ const DAT = joinpath(DA, "Test")
 
 const DAD = joinpath(DAT, "DNA")
 
+const _RN1, _RN2 = FASTQ._RN1, FASTQ._RN2
+
 # ---- #
 
 const CO = joinpath(TE, "TestConcatenate")
@@ -30,7 +32,7 @@ run(`cp -Rf $S1C/ $S2C/`)
 
 # ---- #
 
-FASTQ.Command.concatenate_fastq(CO, read_name_scheme = "R1")
+FASTQ.Command.concatenate_fastq(CO, read_name_scheme = _RN1)
 
 @test sum(endswith(di, "Concatenated") for di in readdir(CO)) == 1
 
@@ -101,13 +103,13 @@ FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
 # ---- #
 
-const R1 = joinpath(DAD, S1, "test_dna_4k.R1.fastq.gz")
+const R1 = joinpath(DAD, S1, "test_dna_4k.$_RN1.fastq.gz")
 
-const R2 = replace(R1, "R1" => "R2")
+const R2 = replace(R1, _RN1 => _RN2)
 
-const SOR1 = joinpath(DAD, S2, "test_dna_40k.R1.fastq.gz")
+const SOR1 = joinpath(DAD, S2, "test_dna_40k.$_RN1.fastq.gz")
 
-const SOR2 = replace(SOR1, "R1" => "R2")
+const SOR2 = replace(SOR1, _RN1 => _RN2)
 
 # ---- #
 
@@ -164,13 +166,11 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
 @test FASTQ.Command.measure_gene_expression_of_bulk_cdna(
     TE,
     CD,
-    OR,
     FR,
     SD,
     TR,
     N_JO;
     method = "align_to_transcriptome",
-    mouse_transcript_to_mouse_gene = MG,
 ) === nothing
 
 @test round(
@@ -184,13 +184,11 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
 @test FASTQ.Command.measure_gene_expression_of_bulk_cdna(
     TE,
     CD,
-    OR,
     FR,
     SD,
     GE,
     N_JO;
     method = "align_to_genome",
-    mouse_transcript_to_mouse_gene = MG,
 ) === nothing
 
 @test round(

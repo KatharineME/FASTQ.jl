@@ -6,11 +6,7 @@ function get_chromosome_file_path(re)
 
     gr = dirname(re)
 
-    chn = joinpath(gr, "chrn_n.tsv")
-
-    chs = joinpath(gr, "chromosome.bed.gz")
-
-    chs, chn
+    joinpath(gr, "chromosome.bed.gz"), joinpath(gr, "chrn_n.tsv")
 
 end
 
@@ -22,29 +18,17 @@ function index_genome_file(ge, chs)
 
         un = splitext(ge)[1]
 
-        if isfile(un)
-
-            geu = un
-
-        end
+        isfile(un) ? geu = un : nothing
 
     end
 
     for fi in (ge, geu)
 
-        if !(isfile("$fi.fai") && ispath("$fi.gzi"))
-
-            run(`samtools faidx $fi`)
-
-        end
+        !(isfile("$fi.fai") && ispath("$fi.gzi")) ? run(`samtools faidx $fi`) : nothing
 
     end
 
-    if !ispath("$chs.tbi")
-
-        run(`tabix --force $chs`)
-
-    end
+    !ispath("$chs.tbi") ? run(`tabix --force $chs`) : nothing
 
     nothing
 
@@ -54,7 +38,7 @@ function generate_star_genome_file(ge, n_jo; ga = nothing)
 
     id = joinpath(dirname(ge), "StarIndex")
 
-    if ga == nothing
+    if ga === nothing
 
         ga = joinpath(
             FASTQ._DA,
@@ -67,21 +51,13 @@ function generate_star_genome_file(ge, n_jo; ga = nothing)
 
     if !ispath(joinpath(id, "geneInfo.tab"))
 
-        if ispath(id)
-
-            rm(id, recursive = true)
-
-        end
+        ispath(id) ? rm(id, recursive = true) : nothing
 
         mkdir(id)
 
         ged = splitext(ge)[1]
 
-        if !isfile(ged)
-
-            run(pipeline(`bgzip --decompress --stdout $ge`, ged))
-
-        end
+        !isfile(ged) ? run(pipeline(`bgzip --decompress --stdout $ge`, ged)) : nothing
 
         run(
             `star --runMode genomeGenerate --runThreadN $n_jo --genomeDir $id --genomeFastaFiles $ged --sjdbGTFfile $ga`,

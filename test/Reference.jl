@@ -24,7 +24,7 @@ run(`cp $GE $CHS $ID`)
 
 FASTQ.Reference.index_genome_file(joinpath(ID, basename(GE)), joinpath(ID, basename(CHS)))
 
-@test length([fi for fi in readdir(ID) if fi != ".DS_Store"]) == 5
+@test lastindex([fi for fi in readdir(ID) if fi != ".DS_Store"]) == 5
 
 # ---- #
 
@@ -32,7 +32,11 @@ const ST = mkdir(joinpath(TE, "GenerateStarFile"))
 
 const GA = joinpath(GEPA, "GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gtf")
 
+# ---- #
+
 run(`cp $GE $GA $ST`)
+
+# ---- #
 
 FASTQ.Reference.generate_star_genome_file(joinpath(ST, basename(GE)), 8; ga = nothing)
 

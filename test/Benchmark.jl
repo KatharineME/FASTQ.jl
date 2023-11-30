@@ -8,8 +8,6 @@ const TE = FASTQ.TE
 
 const DA = FASTQ._DA
 
-const DA = FASTQ._DA
-
 const DAR = joinpath(DA, "GRCh38")
 
 const GEN = "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set"
@@ -36,6 +34,6 @@ const N_JO = 8
 
 # ---- #
 
-@test FASTQ.Benchmark.benchmark(TE, GE, RT, N_JO, VQ, VT, BED) == nothing
+@test FASTQ.Benchmark.benchmark(TE, GE, RT, N_JO, VQ, VT, BED) === nothing
 
-@test length([fi for fi in readdir(joinpath(TE, "Benchmark", "happy")) if fi != ".DS_Store"]) == 11
+@test lastindex([fi for fi in readdir(joinpath(TE, "Benchmark", "happy")) if fi != ".DS_Store"]) == 11
