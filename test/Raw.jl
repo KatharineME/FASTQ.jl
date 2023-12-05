@@ -40,7 +40,11 @@ FASTQ.Raw.check(PAC, fq_, N_JO)
 
 const CO = joinpath(TE, "TestConcatenate")
 
+# ---- #
+
 run(`cp -Rf $DAD $CO`)
+
+# ---- #
 
 const S1C = joinpath(CO, S1)
 
@@ -48,7 +52,15 @@ const S2 = "Sample2"
 
 const S2C = replace(S1C, S1 => S2)
 
-run(`cp -Rf $S1C/ $S2C/`)
+const FI1 = "test_dna_4k.R1.fastq.gz"
+
+const FI2 = replace(FI1, _RN1 => _RN2)
+
+# ---- #
+
+run(`cp -Rf $S1C/$FI1 $S2C/`)
+
+run(`cp -Rf $S1C/$FI2 $S2C/`)
 
 # ---- #
 

@@ -14,11 +14,13 @@ const DAD = joinpath(DAT, "DNA")
 
 const _RN1, _RN2 = FASTQ._RN1, FASTQ._RN2
 
-# ---- #
-
 const CO = joinpath(TE, "TestConcatenate")
 
+# ---- #
+
 run(`cp -Rf $DAD $CO`)
+
+# ---- #
 
 const S1 = "Sample1"
 
@@ -28,7 +30,13 @@ const S1C = joinpath(CO, S1)
 
 const S2C = replace(S1C, S1 => S2)
 
-run(`cp -Rf $S1C/ $S2C/`)
+# ---- #
+
+for fi in readdir(S1C, join = true)
+
+    run(`cp $fi $(joinpath(S2C, basename(fi)))`)
+
+end
 
 # ---- #
 
@@ -143,7 +151,7 @@ const CD = joinpath(DAT, "cDNABulk")
     FASTQ.Support.calculate_size(
         joinpath(TE, "CallVariantsonBulkCDNA", "4.Annotate", SS, S1, SSV),
     ),
-) == 26
+) == 85
 
 # ---- #
 

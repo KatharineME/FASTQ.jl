@@ -4,6 +4,28 @@ using FASTQ
 
 # ---- #
 
+const _RN1, _RN2 = FASTQ._RN1, FASTQ._RN2
+
+const DA = joinpath(FASTQ._DA, "Test")
+
+const DNA = joinpath(DA, "DNA")
+
+const S1, S2 = "Sample1", "Sample2"
+
+const FI1 = joinpath(DNA, S1, "test_dna_4k.R1.fastq.gz")
+
+const FI2 = replace(FI1, _RN1 => _RN2)
+
+const FI11 = joinpath(DNA, S2, "test_dna_40k.R1.fastq.gz")
+
+const FI22 = replace(FI11, _RN1 => _RN2)
+
+# ---- #
+
+@test FASTQ.Support.calculate_size(FI1) > 286
+
+# ---- #
+
 @test FASTQ.Support.test_local_environment() === nothing
 
 # ---- #
@@ -13,14 +35,6 @@ using FASTQ
 # ---- #
 
 @test FASTQ.Support.log_sub_level_function() === nothing
-
-# ---- #
-
-const DA = joinpath(FASTQ._DA, "Test")
-
-const DNA = joinpath(DA, "DNA")
-
-const S1 = "Sample1"
 
 # ---- #
 
@@ -38,12 +52,6 @@ const AB = joinpath("/Users", ENV["USER"], "Downloads")
 
 # ---- #
 
-const S2 = replace(S1, "1" => "2")
-
-const _RN1 = FASTQ._RN1
-
-# ---- #
-
 @test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(DA, _RN1)
 
 # ---- #
@@ -52,7 +60,15 @@ const TE = FASTQ.TE
 
 # ---- #
 
-run(`cp -r $DNA"/" $TE`)
+TES1, TES2 = [FASTQ.Support.trash_remake_directory(joinpath(TE, pa)) for pa in (S1, S2)]
+
+# ---- #
+
+for (fi, sa) in ((FI1, TES1), (FI2, TES1), (FI11, TES2), (FI22, TES2))
+
+    run(`cp $fi $(joinpath(sa, basename(fi)))`)
+
+end
 
 # ---- #
 

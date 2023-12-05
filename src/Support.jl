@@ -4,6 +4,13 @@ using Nucleus
 
 using ..FASTQ
 
+function check_os()
+
+    readchomp(`uname`)
+
+end
+
+
 function calculate_size(fi)
 
     parse(Float64, split(Base.format_bytes(stat(fi).size), " ")[1])
@@ -14,7 +21,7 @@ function test_local_environment()
 
     @info "Checking for programs"
 
-    for pr in [
+    for pr in (
         "fastp",
         "fastqc",
         "multiqc",
@@ -26,7 +33,7 @@ function test_local_environment()
         "kallisto",
         "star",
         "docker",
-    ]
+    )
 
         run(`which $pr`)
 
