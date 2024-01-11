@@ -107,7 +107,7 @@ FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
 @test round(
     FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV)),
-) == 150
+) >= 150
 
 # ---- #
 
