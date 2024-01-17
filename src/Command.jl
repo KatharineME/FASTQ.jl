@@ -6,8 +6,6 @@ function concatenate_fastq(dna_read_directory; read_name_scheme = FASTQ._RN1)
 
     FASTQ.Support.log_top_level_function()
 
-    os = FASTQ.Support.check_os()
-
     for sa in readdir(dna_read_directory, join = true)
 
         if isdir(sa)
