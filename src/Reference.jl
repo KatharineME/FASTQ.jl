@@ -51,7 +51,7 @@ function generate_star_genome_file(ge, n_jo; ga = nothing)
 
     if !ispath(joinpath(id, "geneInfo.tab"))
 
-        ispath(id) ? rm(id, recursive = true) : nothing
+        ispath(id) ? rm(id; recursive = true) : nothing
 
         mkdir(id)
 

@@ -6,7 +6,7 @@ function concatenate_fastq(dna_read_directory; read_name_scheme = FASTQ._RN1)
 
     FASTQ.Support.log_top_level_function()
 
-    for sa in readdir(dna_read_directory, join = true)
+    for sa in readdir(dna_read_directory; join = true)
 
         if isdir(sa)
 
@@ -140,9 +140,13 @@ function call_variants_on_germline_dna(
 
     FASTQ.Reference.index_genome_file(reference_genome, chs)
 
+    FASTQ.Support.start_docker()
+
     for (sa, fq_) in sa_fq_
 
-        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+        san = basename(sa)
+
+        fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
         r1t, r2t = FASTQ.Raw.trim(joinpath(tr, san), fq1, fq2, number_of_jobs)
 
@@ -271,6 +275,8 @@ function call_variants_on_somatic_dna(
 
     FASTQ.Reference.index_genome_file(reference_genome, chs)
 
+    FASTQ.Support.start_docker()
+
     vc_ = FASTQ.BAM.call_somatic_variant(
         pav,
         bagem,
@@ -346,6 +352,8 @@ function call_variants_on_bulk_cdna(
         number_of_jobs;
         ga = gene_annotation,
     )
+
+    FASTQ.Support.start_docker()
 
     for (sa, fq_) in sa_fq_
 

@@ -20,7 +20,7 @@ basename(FASTQ.PR) == "$FA.jl"
 
 @test basename(FASTQ._DA) == "data"
 
-@test [fi for fi in readdir(FASTQ._DA) if fi != ".DS_Store"] == ["CellRangerBarcodes", "GRCh37", "GRCh38", "GRCm38", "Test"]
+@test [fi for fi in readdir(FASTQ._DA) if fi != ".DS_Store"] == ["CellRangerBarcodes", "Dog", "GRCh37", "GRCh38", "GRCm38", "Test"]
 
 # ---- #
 

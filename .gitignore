@@ -42,7 +42,7 @@ data/*
 
 !tool/fastp-0.23.4.zip
 !tool/STAR-2.7.9a.zip
-!tool/minimap2-2.24.zip
+!tool/minimap2-2.28.zip
 !tool/rtg-tools-3.11-nojre.zip
 
 test/data/output/*

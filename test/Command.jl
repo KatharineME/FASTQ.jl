@@ -32,7 +32,7 @@ const S2C = replace(S1C, S1 => S2)
 
 # ---- #
 
-for fi in readdir(S1C, join = true)
+for fi in readdir(S1C; join = true)
 
     run(`cp $fi $(joinpath(S2C, basename(fi)))`)
 
@@ -40,14 +40,14 @@ end
 
 # ---- #
 
-FASTQ.Command.concatenate_fastq(CO, read_name_scheme = _RN1)
+FASTQ.Command.concatenate_fastq(CO; read_name_scheme = _RN1)
 
 @test sum(endswith(di, "Concatenated") for di in readdir(CO)) == 1
 
 @test round(
     sum([
         FASTQ.Support.calculate_size(fi) for
-        fi in readdir(joinpath(CO, string(S2, "Concatenated")), join = true)
+        fi in readdir(joinpath(CO, string(S2, "Concatenated")); join = true)
     ]),
 ) == 6
 

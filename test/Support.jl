@@ -22,6 +22,16 @@ const FI22 = replace(FI11, _RN1 => _RN2)
 
 # ---- #
 
+@test length(FASTQ.Support.check_os()) > 0
+
+# ---- #
+
+FASTQ.Support.start_docker()
+
+@test length(readchomp(`docker ps -a`)) > 0
+
+# ---- #
+
 @test FASTQ.Support.calculate_size(FI1) > 286
 
 # ---- #
@@ -38,7 +48,7 @@ const FI22 = replace(FI11, _RN1 => _RN2)
 
 # ---- #
 
-@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1), join = true)) === nothing
+@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1); join = true)) === nothing
 
 @test_throws ErrorException FASTQ.Support.error_if_file_missing(("Unicorn.txt", "Rainbow.txt"))
 

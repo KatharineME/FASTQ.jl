@@ -133,7 +133,7 @@ function filter_vcf(pa, vc, n_jo)
         ),
     )
 
-    run(`tabix $pap`)
+    run(`tabix -f $pap`)
 
     pap
 

@@ -4,7 +4,7 @@ using ..FASTQ
 
 function find(pa)
 
-    fi_ = readdir(pa, join = true)
+    fi_ = readdir(pa; join = true)
 
     fi_[findall(occursin.(".gz", fi_))]
 
@@ -16,9 +16,9 @@ function check(pa, fq_, n_jo)
 
     run(`fastqc --threads $(minimum((lastindex(fq_), n_jo))) --outdir $pa $fq_`)
 
-    #run(`multiqc --outdir $pa $pa`)
+    run(`multiqc --outdir $pa $pa`)
 
-    basename(pa), fq_[1], fq_[2]
+    fq_[1], fq_[2]
 
 end
 
@@ -60,7 +60,7 @@ function concatenate(pa, fq_; na = FASTQ._RN1)
 
         for (fq_, na) in dr_
 
-            run(pipeline(`cat $fq_`, stdout = joinpath(pa, "$na")))
+            run(pipeline(`cat $fq_`; stdout = joinpath(pa, "$na")))
 
         end
 
@@ -96,13 +96,15 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     !ispath(gei) ? run(`minimap2 -t $n_jo -d $gei $ge`) : nothing
 
+    tm = joinpath(pa, "samtools_sort")
+
     du = joinpath(pa, "$sa.unmarked_duplicates.bam")
 
     run(
         pipeline(
             `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" $gei $r1 $r2`,
             `samtools fixmate --threads $n_jo -u -m - -`,
-            `samtools sort --threads $n_jo -T $(joinpath(pa, "samtools_sort")) -o $du`,
+            `samtools sort --threads $n_jo -T $tm -o $du`,
         ),
     )
 

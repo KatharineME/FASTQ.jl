@@ -10,10 +10,23 @@ function check_os()
 
 end
 
+function start_docker()
 
-function calculate_size(fi)
+    try
 
-    parse(Float64, split(Base.format_bytes(stat(fi).size), " ")[1])
+        run(`docker ps -a`)
+
+    catch
+
+        run(`open -a docker`)
+
+        @info "Started Docker."
+
+    else
+
+        @info "Docker is already running."
+
+    end
 
 end
 
@@ -40,17 +53,6 @@ function test_local_environment()
     end
 
     nothing
-
-end
-
-
-function _clean_function_name(na)
-
-    sp = split(na, "#")
-
-    id = findmax([lastindex(st) for st in sp])[2]
-
-    replace(sp[id], "_" => " ")
 
 end
 
@@ -84,6 +86,22 @@ function log_sub_level_function()
 
 end
 
+function calculate_size(fi)
+
+    parse(Float64, split(Base.format_bytes(stat(fi).size), " ")[1])
+
+end
+
+function _clean_function_name(na)
+
+    sp = split(na, "#")
+
+    id = findmax([lastindex(st) for st in sp])[2]
+
+    replace(sp[id], "_" => " ")
+
+end
+
 function error_if_file_missing(fi_)
 
     for fi in fi_
@@ -108,7 +126,7 @@ function make_sample_to_fastq_dictionary(di, na)
 
     sa_fq_ = Dict{String, Tuple{String, String}}()
 
-    for sa in readdir(dia, join = true)
+    for sa in readdir(dia; join = true)
 
         if isdir(sa)
 
@@ -158,7 +176,7 @@ function trash_remake_directory(di)
 
         @warn "Trashing $dia"
 
-        mv(dia, joinpath(joinpath(homedir(), ".Trash"), basename(dia)), force = true)
+        mv(dia, joinpath(joinpath(homedir(), ".Trash"), basename(dia)); force = true)
 
     end
 
