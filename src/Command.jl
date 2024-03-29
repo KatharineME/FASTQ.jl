@@ -357,7 +357,9 @@ function call_variants_on_bulk_cdna(
 
     for (sa, fq_) in sa_fq_
 
-        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+        san = basename(sa)
+
+        fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
         ba = FASTQ.Raw.align_bulk_cdna_to_genome(joinpath(al, san), fq1, fq2, id, number_of_jobs)
 
@@ -428,7 +430,9 @@ function measure_gene_expression_of_bulk_cdna(
 
         for (sa, fq_) in sa_fq_
 
-            san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+            san = basename(sa)
+
+            fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
             FASTQ.Raw.align_bulk_cdna_to_transcriptome(
                 joinpath(al, san),
@@ -454,7 +458,9 @@ function measure_gene_expression_of_bulk_cdna(
 
         for (sa, fq_) in sa_fq_
 
-            san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+            san = basename(sa)
+
+            fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
             ba = FASTQ.Raw.align_and_quantify_bulk_cdna_to_genome(
                 joinpath(al, san),
@@ -511,7 +517,9 @@ function measure_gene_expression_of_single_cell_cdna(
 
     for (sa, fq_) in sa_fq_
 
-        san, fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
+        san = basename(sa)
+
+        fq1, fq2 = FASTQ.Raw.check(joinpath(cha, basename(sa)), fq_, number_of_jobs)
 
         FASTQ.Raw.align_single_cell_cdna_to_genome(
             joinpath(al, san),
