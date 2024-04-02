@@ -98,7 +98,7 @@ julia --project --eval "using Pkg; Pkg.test()"
 
 ## Keep in Mind
 
-FASTQ.jl assumes the following:
+FASTQ.jl assumes the following
 
 `input/` should be like this
 
