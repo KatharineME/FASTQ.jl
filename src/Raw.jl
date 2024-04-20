@@ -10,6 +10,14 @@ function find(pa)
 
 end
 
+function test()
+
+    # check that "r1" in name or warn
+    # check bgzip -t, if fail run bgzip -d and bgzip align_and_quantify_bulk_cdna_to_genome
+    # count lines 
+
+end
+
 function check(pa, fq_, n_jo)
 
     FASTQ.Support.log_sub_level_function()
