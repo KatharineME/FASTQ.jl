@@ -10,11 +10,40 @@ function find(pa)
 
 end
 
-function test()
+function test(pa, n_jo)
 
-    # check that "r1" in name or warn
-    # check bgzip -t, if fail run bgzip -d and bgzip align_and_quantify_bulk_cdna_to_genome
-    # count lines 
+    fi_ = find(pa)
+
+    r1 = RN1
+
+    r2 = replace(r1, "1" => "2")
+
+    for fi in fi_
+
+        @info "Checking $fi"
+
+        if occursin(r1, fi) | occursin(r2, fi)
+
+            @info "File named correctly: $fi."
+
+        else
+
+            @warn "File named incorrectly, does not contain $r1 or $r2: $fi."
+
+        end
+
+        @info "Testing bgzip integrity"
+
+        try
+            run(`bgzip -t --threads $n_jo $fi`)
+
+            @info "bzip test passed."
+
+        catch er
+
+        end
+
+    end
 
 end
 
@@ -100,9 +129,8 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
 
-    gei = "$ge.mmi"
+    !ispath("$ge.bwt") ? run(`bwa index $ge`) : nothing
 
-    !ispath(gei) ? run(`minimap2 -t $n_jo -d $gei $ge`) : nothing
 
     tm = joinpath(pa, "samtools_sort")
 
@@ -110,7 +138,7 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     run(
         pipeline(
-            `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" $gei $r1 $r2`,
+            `bwa mem -t $n_jo -v 3 -R "@RG\tID:$sa\tSM:$sa" $ge $r1 $r2`,
             `samtools fixmate --threads $n_jo -u -m - -`,
             `samtools sort --threads $n_jo -T $tm -o $du`,
         ),
@@ -129,6 +157,40 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
     ba
 
 end
+
+# function align_dna(pa, sa, r1, r2, ge, n_jo, me)
+# 
+#     FASTQ.Support.log_sub_level_function()
+# 
+#     gei = "$ge.mmi"
+# 
+#     !ispath(gei) ? run(`minimap2 -t $n_jo -d $gei $ge`) : nothing
+# 
+#     tm = joinpath(pa, "samtools_sort")
+# 
+#     du = joinpath(pa, "$sa.unmarked_duplicates.bam")
+# 
+#     run(
+#         pipeline(
+#             `minimap2 -ax sr -t $n_jo -K $(me)G -R "@RG\tID:$sa\tSM:$sa" $gei $r1 $r2`,
+#             `samtools fixmate --threads $n_jo -u -m - -`,
+#             `samtools sort --threads $n_jo -T $tm -o $du`,
+#         ),
+#     )
+# 
+#     ba = joinpath(pa, "$sa.bam")
+# 
+#     run(`samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $du $ba`)
+# 
+#     run(`samtools index -@ $n_jo $ba`)
+# 
+#     run(pipeline(`samtools stats --threads $n_jo $ba`, "$ba.stat"))
+# 
+#     rm(du)
+# 
+#     ba
+# 
+# end
 
 function align_bulk_cdna_to_transcriptome(pa, r1, r2, fr, sd, tr, n_jo)
 
