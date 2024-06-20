@@ -63,11 +63,11 @@ const VC_ =
 
 const DAR = joinpath(DA, "GRCh38")
 
-const GEN = "GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set"
+const GEN = "GRCh38.primary_assembly.genome"
 
 const GEPA = joinpath(DAR, GEN)
 
-const GE = joinpath(GEPA, string(GEN, ".fna.gz"))
+const GE = joinpath(GEPA, string(GEN, ".fa"))
 
 const CHN = joinpath(GEPA, "chrn_n.tsv")
 
@@ -107,7 +107,7 @@ FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
 @test round(
     FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV)),
-) >= 150
+) >= 130
 
 # ---- #
 
