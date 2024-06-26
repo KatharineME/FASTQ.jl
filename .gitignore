@@ -44,6 +44,8 @@ data/*
 !tool/STAR-2.7.9a.zip
 !tool/minimap2-2.28.zip
 !tool/rtg-tools-3.11-nojre.zip
+!tool/HLA/bin
+!tool/HLA/data
 
 test/data/output/*
 
