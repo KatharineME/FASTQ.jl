@@ -2,20 +2,41 @@ module HLAType
 
 using ..FASTQ
 
-function hlatype(output_directory, bam, sample, number_of_jobs)
+function hlatype(output_directory, bam, sample, tool_directory)
 
     FASTQ.Support.log_top_level_function()
 
-    FASTQ.Support.error_if_file_missing((reference,))
+    ba = basename(bam)
 
-    # copy bam to HLA directory
+    bi = string(ba, ".bai")
 
-    # run xhla
-    # docker run -v `pwd`:`pwd` -w `pwd` humanlongevity/hla --sample_id 1020 --input_bam_path tests/1020.bam --output_path test
+    id = joinpath(dirname(bam), bi)
 
-    # copy results over to callgermlinevariants
+    FASTQ.Support.error_if_file_missing((bam, id))
 
-    # delete copied bam file
+    hl = joinpath(tool_directory, "HLA")
+
+    ts = joinpath(hl, "tests")
+
+    run(`cp -f $bam $ip $ts`)
+
+    di = pwd()
+
+    cd(hl)
+
+    run(
+        `docker run -v $hl:$hl -w $hl humanlongevity/hla --sample_id $sample --input_bam_path tests/$ba --output_path test`,
+    )
+
+    run(`cp -Rf $(joinpath(hl, string("hla-", sample))) $output_directory`)
+
+    run(`cp -f $(joinpath(hl, "test", string("report-", sample, "-hla.json"))) $output_directory`)
+
+    rm(joinpath(ts, ba))
+
+    rm(joinpath(ts, bi))
+
+    cd(di)
 
 end
 
