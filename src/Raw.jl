@@ -18,6 +18,8 @@ function test(pa, n_jo)
 
     r2 = replace(r1, "1" => "2")
 
+    li_ = ()
+
     for fi in fi_
 
         @info "Checking $fi"
@@ -40,6 +42,8 @@ function test(pa, n_jo)
             @info "bzip test passed."
 
         catch er
+
+        #wc -l
 
         end
 
