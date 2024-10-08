@@ -1,6 +1,6 @@
 module FASTQ
 
-using Nucleus
+using Omics
 
 const PR = dirname(@__DIR__)
 

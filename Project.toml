@@ -4,7 +4,12 @@ authors = ["KatharineME <katharine.me@icloud.com>"]
 version = "0.1.0"
 
 [deps]
+Omics = "55404059-57b2-473d-9cce-582834f19b54"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
+Omics = "0.1.0"
 Test = "1.11.0"
+
+[sources]
+Omics = {url = "https://github.com/KwatMDPhD/Omics.jl"}
