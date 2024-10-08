@@ -1,11 +1,5 @@
 module Abundance
 
-using CSV
-
-using DataFrames
-
-using Nucleus
-
 using ..FASTQ
 
 function map_mouse_transcript_to_mouse_gene(nu_tr_sa, ma)

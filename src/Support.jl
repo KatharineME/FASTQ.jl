@@ -1,7 +1,5 @@
 module Support
 
-using Nucleus
-
 using ..FASTQ
 
 function check_os()
