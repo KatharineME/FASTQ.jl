@@ -26,7 +26,9 @@ function hlatype(output_directory, bam, sample, tool_directory)
         `docker run -v $hl:$hl -w $hl humanlongevity/hla --sample_id $sample --input_bam_path tests/$ba --output_path test`,
     )
 
-    run(`cp -Rf $(joinpath(hl, string("hla-", sample))) $(joinpath(hl, "test", string("report-", sample, "-hla.json"))) $output_directory`)
+    run(
+        `cp -Rf $(joinpath(hl, string("hla-", sample))) $(joinpath(hl, "test", string("report-", sample, "-hla.json"))) $output_directory`,
+    )
 
     rm(joinpath(ts, ba))
 

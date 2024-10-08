@@ -36,7 +36,20 @@ function _get_snpeff_path(to)
 
 end
 
-function _combine_and_annotate_vcf(co, pe, ps, fl, vc_, re, cn, va, se, n_jo, me; sa = nothing)
+function _combine_and_annotate_vcf(
+    co,
+    pe,
+    ps,
+    fl,
+    vc_,
+    re,
+    cn,
+    va,
+    se,
+    n_jo,
+    me;
+    sa = nothing,
+)
 
     if sa !== nothing
 
@@ -104,7 +117,8 @@ function call_variants_on_germline_dna(
 
     FASTQ.Support.error_if_file_missing((reference_genome, cs, cn, se, variant_database))
 
-    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(dna_read_directory, read_name_scheme)
+    sa_fq_ =
+        FASTQ.Support.make_sample_to_fastq_dictionary(dna_read_directory, read_name_scheme)
 
     an = string(SI, AN)
 
@@ -220,23 +234,24 @@ function call_variants_on_somatic_dna(
 
     tr, ald, an = string(TW, TR), string(FO, AL), string(SI, AN)
 
-    ca, trge, trso, ct, alg, als, pav, co, pe, ps, fl = FASTQ.Support.make_analysis_directory(
-        output_directory,
-        "CallVariantsonSomaticDNA",
-        (
-            CR,
-            joinpath(tr, GE),
-            joinpath(tr, SO),
-            string(TH, CT),
-            joinpath(ald, GE),
-            joinpath(ald, SO),
-            "5.CallSomaticVariant",
-            joinpath(an, CO),
-            joinpath(an, SE),
-            joinpath(an, SS),
-            joinpath(an, FL),
-        ),
-    )
+    ca, trge, trso, ct, alg, als, pav, co, pe, ps, fl =
+        FASTQ.Support.make_analysis_directory(
+            output_directory,
+            "CallVariantsonSomaticDNA",
+            (
+                CR,
+                joinpath(tr, GE),
+                joinpath(tr, SO),
+                string(TH, CT),
+                joinpath(ald, GE),
+                joinpath(ald, SO),
+                "5.CallSomaticVariant",
+                joinpath(an, CO),
+                joinpath(an, SE),
+                joinpath(an, SS),
+                joinpath(an, FL),
+            ),
+        )
 
     FASTQ.Raw.check(ca, (read1, read2, somatic_read1, somatic_read2), number_of_jobs)
 
@@ -252,7 +267,15 @@ function call_variants_on_somatic_dna(
 
         push!(
             ba_,
-            FASTQ.Raw.align_dna(pa, sample, r1, r2, reference_genome, number_of_jobs, memory),
+            FASTQ.Raw.align_dna(
+                pa,
+                sample,
+                r1,
+                r2,
+                reference_genome,
+                number_of_jobs,
+                memory,
+            ),
         )
 
     end
@@ -314,7 +337,8 @@ function call_variants_on_bulk_cdna(
 
     FASTQ.Support.error_if_file_missing((reference_genome, cs, cn, se, variant_database))
 
-    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
+    sa_fq_ =
+        FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
     an = string(FO, AN)
 
@@ -347,7 +371,13 @@ function call_variants_on_bulk_cdna(
 
         f1, f2 = FASTQ.Raw.check(joinpath(ca, basename(sa)), fq_, number_of_jobs)
 
-        ba = FASTQ.Raw.align_bulk_cdna_to_genome(joinpath(al, sn), f1, f2, id, number_of_jobs)
+        ba = FASTQ.Raw.align_bulk_cdna_to_genome(
+            joinpath(al, sn),
+            f1,
+            f2,
+            id,
+            number_of_jobs,
+        )
 
         vc_ = FASTQ.BAM.call_germline_variant(
             joinpath(va, sn),
@@ -398,7 +428,8 @@ function measure_gene_expression_of_bulk_cdna(
 
     FASTQ.Support.error_if_file_missing((reference,))
 
-    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
+    sa_fq_ =
+        FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
     me_na_ = Dict(
         "align_to_transcriptome" => "2.AlignBulkCDNAtoTranscriptome",
@@ -485,8 +516,10 @@ function measure_gene_expression_of_single_cell_cdna(
 
     FASTQ.Support.error_if_file_missing((reference_genome,))
 
-    sa_fq_ =
-        FASTQ.Support.make_sample_to_fastq_dictionary(single_cell_read_directory, read_name_scheme)
+    sa_fq_ = FASTQ.Support.make_sample_to_fastq_dictionary(
+        single_cell_read_directory,
+        read_name_scheme,
+    )
 
     id = FASTQ.Reference.generate_star_genome_file(
         reference_genome,

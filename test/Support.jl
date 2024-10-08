@@ -48,9 +48,13 @@ FASTQ.Support.start_docker()
 
 # ---- #
 
-@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1); join = true)) === nothing
+@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1); join = true)) ===
+      nothing
 
-@test_throws ErrorException FASTQ.Support.error_if_file_missing(("Unicorn.txt", "Rainbow.txt"))
+@test_throws ErrorException FASTQ.Support.error_if_file_missing((
+    "Unicorn.txt",
+    "Rainbow.txt",
+))
 
 # ---- #
 

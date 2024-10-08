@@ -53,13 +53,16 @@ FASTQ.Command.concatenate_fastq(CO; read_name_scheme = _RN1)
 
 # ---- #
 
-const CON, SEO, SSO, FL =
-    [mkdir(joinpath(TE, st)) for st in ("1.Concatenate", "2.Snpeff", "3.Snpsift", "4.Filter")]
+const CON, SEO, SSO, FL = [
+    mkdir(joinpath(TE, st)) for st in ("1.Concatenate", "2.Snpeff", "3.Snpsift", "4.Filter")
+]
 
 const DAV = joinpath(DAT, "VCF", S1)
 
-const VC_ =
-    (joinpath(DAV, "Manta", "diploidSV.vcf.gz"), joinpath(DAV, "Strelka", "variants.vcf.gz"))
+const VC_ = (
+    joinpath(DAV, "Manta", "diploidSV.vcf.gz"),
+    joinpath(DAV, "Strelka", "variants.vcf.gz"),
+)
 
 const DAR = joinpath(DA, "GRCh38")
 
@@ -106,7 +109,9 @@ const AN, SS, SSV = "6.Annotate", "3.Snpsift", "snpsift.vcf.gz"
 FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
 @test round(
-    FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV)),
+    FASTQ.Support.calculate_size(
+        joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV),
+    ),
 ) >= 130
 
 # ---- #
@@ -136,8 +141,9 @@ const SOR2 = replace(SOR1, _RN1 => _RN2)
     ME,
 ) === nothing
 
-@test round(FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV))) ==
-      19
+@test round(
+    FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV)),
+) == 19
 
 # ---- #
 

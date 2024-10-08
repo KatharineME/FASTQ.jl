@@ -14,8 +14,10 @@ const DAT = joinpath(DA, "Test")
 
 const DAV = joinpath(DAT, "VCF", "Sample1")
 
-const VC_ =
-    (joinpath(DAV, "Manta", "diploidSV.vcf.gz"), joinpath(DAV, "Strelka", "variants.vcf.gz"))
+const VC_ = (
+    joinpath(DAV, "Manta", "diploidSV.vcf.gz"),
+    joinpath(DAV, "Strelka", "variants.vcf.gz"),
+)
 
 const DAR = joinpath(DA, "GRCh38")
 

@@ -33,7 +33,16 @@ function _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = nothi
         "$pa:/$_HO/$voo",
     )
 
-    com = ("docker", "run", "--interactive", "--detach", "--tty", "--user", "root", "--memory=30g")
+    com = (
+        "docker",
+        "run",
+        "--interactive",
+        "--detach",
+        "--tty",
+        "--user",
+        "root",
+        "--memory=30g",
+    )
 
     con = ("centos:centos6", "bash")
 

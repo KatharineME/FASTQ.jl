@@ -28,8 +28,9 @@ const TO = joinpath(FASTQ.PR, "tool")
 
 id = FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)[1]
 
-@test lastindex(readlines(pipeline(`docker exec --interactive $id bash -c "ls /home/$GEN/"`))) >=
-      11
+@test lastindex(
+    readlines(pipeline(`docker exec --interactive $id bash -c "ls /home/$GEN/"`)),
+) >= 11
 
 FASTQ.Support.remove_docker_container(id)
 
@@ -55,7 +56,8 @@ const ME = 8
 
 # ---- #
 
-@test FASTQ.BAM._set_strelka_manta_run(N_JO, ME) == "--mode local --jobs $N_JO --memGb $ME --quiet"
+@test FASTQ.BAM._set_strelka_manta_run(N_JO, ME) ==
+      "--mode local --jobs $N_JO --memGb $ME --quiet"
 
 # ---- #
 

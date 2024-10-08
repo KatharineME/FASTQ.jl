@@ -48,7 +48,8 @@ function _run_happy(ha, vtr, vqn, sd, red, co, rt)
     pvt, pvqn, pbd, pre =
         [dirname(FASTQ.Support.make_path_absolute(pa)) for pa in (vtr, vqn, co, red)]
 
-    vvt, vvqn, vre, vrt, vsd = [joinpath(ho, basename(pa)) for pa in (pvt, pvqn, pre, rt, sd)]
+    vvt, vvqn, vre, vrt, vsd =
+        [joinpath(ho, basename(pa)) for pa in (pvt, pvqn, pre, rt, sd)]
 
     vbd = joinpath(ho, "confident_regions_bed/")
 
@@ -87,7 +88,13 @@ function benchmark(
     FASTQ.Support.log_top_level_function()
 
     chs, chn = FASTQ.Reference.get_chromosome_file_path(reference_genome)
-    FASTQ.Support.error_if_file_missing((chn, chs, query_vcf, truth_vcf, confident_regions_bed))
+    FASTQ.Support.error_if_file_missing((
+        chn,
+        chs,
+        query_vcf,
+        truth_vcf,
+        confident_regions_bed,
+    ))
 
     ha = FASTQ.Support.make_analysis_directory(output_directory, "Benchmark", ("Happy",))
 

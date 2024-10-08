@@ -43,7 +43,7 @@ function test(pa, n_jo)
 
         catch er
 
-        #wc -l
+            #wc -l
 
         end
 

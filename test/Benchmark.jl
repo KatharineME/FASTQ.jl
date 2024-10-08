@@ -36,4 +36,6 @@ const N_JO = 8
 
 @test FASTQ.Benchmark.benchmark(TE, GE, RT, N_JO, VQ, VT, BED) === nothing
 
-@test lastindex([fi for fi in readdir(joinpath(TE, "Benchmark", "Happy")) if fi != ".DS_Store"]) == 11
+@test lastindex([
+    fi for fi in readdir(joinpath(TE, "Benchmark", "Happy")) if fi != ".DS_Store"
+]) == 11
