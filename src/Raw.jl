@@ -122,7 +122,7 @@ function trim(pa, r1, r2, n_jo)
     ou2 = replace(ou1, FASTQ._RN1 => FASTQ._RN2)
 
     run(
-        `fastp --detect_adapter_for_pe --thread $n_jo --json $(joinpath(pa, "fastp.json")) --html $(joinpath(pa, "fastp.html")) --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2`,
+        `fastp --in1 $r1 --in2 $r2 --out1 $ou1 --out2 $ou2 --detect_adapter_for_pe --cut_tail --trim_poly_g --trim_poly_x --length_required 48 --thread $n_jo --json $(joinpath(pa, "fastp.json")) --html $(joinpath(pa, "fastp.html"))`,
     )
 
     ou1, ou2
@@ -196,7 +196,7 @@ end
 # 
 # end
 
-function align_bulk_cdna_to_transcriptome(pa, r1, r2, fr, sd, tr, n_jo)
+function align_bulk_cdna_to_transcriptome(pa, r1, r2, tr, n_jo; fr = 51, sd = 0.5)
 
     FASTQ.Support.log_sub_level_function()
 

@@ -415,8 +415,6 @@ end
 function measure_gene_expression_of_bulk_cdna(
     output_directory,
     cdna_read_directory,
-    fragment_length,
-    fragment_length_standard_deviation,
     reference,
     number_of_jobs;
     read_name_scheme = FASTQ._RN1,
@@ -432,14 +430,14 @@ function measure_gene_expression_of_bulk_cdna(
         FASTQ.Support.make_sample_to_fastq_dictionary(cdna_read_directory, read_name_scheme)
 
     me_na_ = Dict(
-        "align_to_transcriptome" => "2.AlignBulkCDNAtoTranscriptome",
-        "align_to_genome" => "2.AlignandQuantifyBulkCDNAtoGenome",
+        "align_to_transcriptome" => "4.AlignBulkCDNAtoTranscriptome",
+        "align_to_genome" => "4.AlignandQuantifyBulkCDNAtoGenome",
     )
 
-    ca, al = FASTQ.Support.make_analysis_directory(
+    ca, tr, ct, al = FASTQ.Support.make_analysis_directory(
         output_directory,
         "MeasureGeneExpressionofBulkCDNA",
-        (CR, me_na_[method]);
+        (CR, string(TW, TR), string(TH, CT), me_na_[method]);
         sa_fq_ = sa_fq_,
     )
 
@@ -451,12 +449,14 @@ function measure_gene_expression_of_bulk_cdna(
 
             f1, f2 = FASTQ.Raw.check(joinpath(ca, basename(sa)), fq_, number_of_jobs)
 
+            t1, t2 = FASTQ.Raw.trim(joinpath(tr, sn), f1, f2, number_of_jobs)
+
+            FASTQ.Raw.check(joinpath(ct, sn), (t1, t2), number_of_jobs)
+
             FASTQ.Raw.align_bulk_cdna_to_transcriptome(
                 joinpath(al, sn),
-                f1,
-                f2,
-                fragment_length,
-                fragment_length_standard_deviation,
+                t1,
+                t2,
                 reference,
                 number_of_jobs,
             )

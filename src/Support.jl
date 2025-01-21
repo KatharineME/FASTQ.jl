@@ -1,5 +1,7 @@
 module Support
 
+using Dates: now
+
 using ..FASTQ
 
 function check_os()
@@ -50,22 +52,16 @@ function test_local_environment()
 
     end
 
-    nothing
-
 end
 
 function log_top_level_function()
 
     fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
-    ti = Nucleus.Time.stamp()
-
     @info "============================================================
     $fu 
-    $ti
+    $(now())
     =============================================================="
-
-    nothing
 
 end
 
@@ -73,14 +69,10 @@ function log_sub_level_function()
 
     fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
-    ti = Nucleus.Time.stamp()
-
     @info "------------------------------
     $fu 
-    $ti
+    $(now())
     --------------------------------"
-
-    nothing
 
 end
 

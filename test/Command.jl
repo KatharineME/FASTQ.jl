@@ -163,10 +163,6 @@ const CD = joinpath(DAT, "cDNABulk")
 
 const OR = "human"
 
-const FR = 51
-
-const SD = 0.05
-
 const TRN = "Homo_sapiens.GRCh38.cdna.all"
 
 const TR = joinpath(DAR, TRN, string(TRN, ".fa.gz"))
@@ -180,8 +176,6 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
 @test FASTQ.Command.measure_gene_expression_of_bulk_cdna(
     TE,
     CD,
-    FR,
-    SD,
     TR,
     N_JO;
     method = "align_to_transcriptome",
@@ -189,9 +183,9 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
 
 @test round(
     FASTQ.Support.calculate_size(
-        joinpath(TE, MGE, "2.AlignBulkCDNAtoTranscriptome", S1, "abundance.tsv"),
+        joinpath(TE, MGE, "4.AlignBulkCDNAtoTranscriptome", S1, "abundance.tsv"),
     ),
-) == 6
+) == 7
 
 # ---- #
 

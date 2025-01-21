@@ -1,4 +1,6 @@
-DNA and cDNA sequence analysis ❄️
+# DNA and cDNA sequence analysis ❄️
+
+🚧 This README is under construction 🚧
 
 ## [Use](#use)
 
@@ -42,7 +44,7 @@ julia> FASTQ.Command.measure_gene_expression()
 Get [Homebrew](https://brew.sh).
 
 ```bash
-brew install fastqc kallisto samtools bcftools
+brew install fastp fastqc kallisto samtools bcftools
 
 pip3 install multiqc
 ```
@@ -51,7 +53,7 @@ pip3 install multiqc
 
 [Download](http://pcingola.github.io/SnpEff/download/) and put in `tool/`.
 
-#### 3. Get fastp, minimap2, and STAR
+#### 3. Get minimap2 and STAR
 
 ###### Mac
 
@@ -61,9 +63,7 @@ If programs in `tool/` fail then [compile programs](compile_program.md).
 
 ###### Linux
 
-Get precompiled Linux versions from sources: [fastp](https://github.com/OpenGene/fastp), [minimap2](https://github.com/lh3/minimap2), [STAR](https://github.com/alexdobin/STAR).
-
-For fastp,
+Get precompiled Linux versions from sources: [minimap2](https://github.com/lh3/minimap2), [STAR](https://github.com/alexdobin/STAR).
 
 #### 4. Get Docker, Manta, and Strelka
 
@@ -120,8 +120,6 @@ FASTQ.jl assumes the following
 [ 416] tool/
 ├── [ 544] STAR-2.7.9a
 ├── [ 15M] STAR-2.7.9a.zip
-├── [ 352] fastp-0.23.4
-├── [3.3M] fastp-0.23.4.zip
 ├── [ 192] manta-1.6.0.centos6_x86_64
 ├── [2.6K] minimap2-2.24
 ├── [1.1M] minimap2-2.24.zip
