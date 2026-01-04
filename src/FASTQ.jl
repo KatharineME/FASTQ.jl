@@ -1,7 +1,5 @@
 module FASTQ
 
-using Omics
-
 const PR = dirname(@__DIR__)
 
 const TE = joinpath(tempdir(), "FASTQ")

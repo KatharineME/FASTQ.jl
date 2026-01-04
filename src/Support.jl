@@ -1,7 +1,5 @@
 module Support
 
-using Dates: now
-
 using ..FASTQ
 
 function check_os()
