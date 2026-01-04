@@ -89,7 +89,6 @@ git clone https://github.com/KatharineME/FASTQ.jl
 cd FASTQ.jl
 
 julia --project --eval "using Pkg; Pkg.instantiate()"
-
 ```
 
 ## Test

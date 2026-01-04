@@ -135,11 +135,11 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     !ispath("$ge.bwt") ? run(`bwa index $ge`) : nothing
 
-
     tm = joinpath(pa, "samtools_sort")
 
     du = joinpath(pa, "$sa.unmarked_duplicates.bam")
 
+    #TODO: Check bwa mem call
     run(
         pipeline(
             `bwa mem -t $n_jo -v 3 -R "@RG\tID:$sa\tSM:$sa" $ge $r1 $r2`,
@@ -162,6 +162,7 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
 end
 
+<<<<<<< HEAD
 # function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 # 
 #     FASTQ.Support.log_sub_level_function()
@@ -197,6 +198,9 @@ end
 # end
 
 function align_bulk_cdna_to_transcriptome(pa, r1, r2, tr, n_jo; fr = 51, sd = 0.5)
+=======
+function align_bulk_cdna_to_transcriptome(pa, r1, r2, fr, sd, tr, n_jo)
+>>>>>>> e7d0ed3 (unknown changes)
 
     FASTQ.Support.log_sub_level_function()
 

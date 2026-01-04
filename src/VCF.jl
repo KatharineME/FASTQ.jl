@@ -97,25 +97,33 @@ function annotate_with_snpeff(pa, vc, re, se, n_jo, me)
 
 end
 
-function annotate_with_snpsift(pa, vc, va, se, n_jo)
+function annotate_with_snpsift(pa, vc, va, cl, se, n_jo, me)
 
     FASTQ.Support.log_sub_level_function()
 
-    vcs = joinpath(pa, "snpsift.vcf.gz")
+    s1 = joinpath(pa, "snpsift.vcf.gz")
 
     ss = joinpath(dirname(se), "SnpSift.jar")
 
+    s2 = joinpath(pa, "clinvar.vcf.gz")
+
     run(
         pipeline(
-            `java -jar $ss annotate -tabix -v $va $vc`,
+            `java -Xmx$(me)g -jar $ss annotate -tabix -v $va $vc`,
             `bgzip --threads $n_jo --stdout`,
-            vcs,
+            s1,
         ),
     )
 
-    run(`tabix $vcs`)
+    run(
+        pipeline(
+            `java -Xmx$(me)g -jar $ss annotate -tabix -v $cl $s1`,
+            `bgzip --threads $n_jo --stdout`,
+            s2,
+        ),
+    )
 
-    vcs
+    s2
 
 end
 

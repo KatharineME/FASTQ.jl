@@ -56,24 +56,48 @@ end
 
 function log_top_level_function()
 
-    fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
+    #fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
+<<<<<<< HEAD
     @info "============================================================
     $fu 
     $(now())
     =============================================================="
 
+=======
+    #ti = Nucleus.Time.stamp()
+
+    #@info "============================================================
+    #$fu 
+    #$ti
+    # =============================================================="
+
+    #nothing
+
+>>>>>>> e7d0ed3 (unknown changes)
 end
 
 function log_sub_level_function()
 
-    fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
+    #fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
+<<<<<<< HEAD
     @info "------------------------------
     $fu 
     $(now())
     --------------------------------"
 
+=======
+    #ti = Nucleus.Time.stamp()
+
+    #@info "------------------------------
+    #$fu 
+    #$ti
+    #--------------------------------"
+
+    #nothing
+
+>>>>>>> e7d0ed3 (unknown changes)
 end
 
 function calculate_size(fi)
@@ -227,7 +251,7 @@ function test_strelka_and_manta(pa)
     vo = basename(pa)
 
     id = readchomp(
-        `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo centos:centos6 bash`,
+        `docker run --interactive --detach --tty --user root --volume $pa:/home/$vo docker pull quay.io/wtsicgp/strelka2-manta:latest bash`,
     )
 
     for sc in (

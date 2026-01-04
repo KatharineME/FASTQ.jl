@@ -45,6 +45,7 @@ function _combine_and_annotate_vcf(
     re,
     cn,
     va,
+    cl,
     se,
     n_jo,
     me;
@@ -59,9 +60,19 @@ function _combine_and_annotate_vcf(
 
     paco = FASTQ.VCF.combine_vcf(co, vc_, cn, n_jo)
 
+<<<<<<< HEAD
     vcse = FASTQ.VCF.annotate_with_snpeff(pe, paco, re, se, n_jo, me)
 
     vcss = FASTQ.VCF.annotate_with_snpsift(ps, vcse, va, se, n_jo)
+=======
+    pano = joinpath(dirname(paco), "norm.vcf.gz")
+
+    run(pipeline(`bcftools norm -m "+" $paco`, `bgzip --threads 8 --stdout`, pano))
+
+    vcse = FASTQ.VCF.annotate_with_snpeff(pase, pano, re, se, n_jo, me)
+
+    vcss = FASTQ.VCF.annotate_with_snpsift(pass, vcse, va, cl, se, n_jo, me)
+>>>>>>> e7d0ed3 (unknown changes)
 
     FASTQ.VCF.filter_vcf(fl, vcss, n_jo)
 
@@ -103,6 +114,7 @@ function call_variants_on_germline_dna(
     exome,
     reference_genome,
     variant_database,
+    clinvar_database,
     tool_directory,
     number_of_jobs,
     memory;
@@ -184,6 +196,7 @@ function call_variants_on_germline_dna(
             reference_genome,
             cn,
             variant_database,
+            clinvar_database,
             se,
             number_of_jobs,
             memory;
@@ -372,9 +385,15 @@ function call_variants_on_bulk_cdna(
         f1, f2 = FASTQ.Raw.check(joinpath(ca, basename(sa)), fq_, number_of_jobs)
 
         ba = FASTQ.Raw.align_bulk_cdna_to_genome(
+<<<<<<< HEAD
             joinpath(al, sn),
             f1,
             f2,
+=======
+            joinpath(al, san),
+            fq1,
+            fq2,
+>>>>>>> e7d0ed3 (unknown changes)
             id,
             number_of_jobs,
         )
@@ -422,6 +441,8 @@ function measure_gene_expression_of_bulk_cdna(
     gene_annotation = nothing,
 )
 
+    println("1")
+
     FASTQ.Support.log_top_level_function()
 
     FASTQ.Support.error_if_file_missing((reference,))
@@ -440,6 +461,8 @@ function measure_gene_expression_of_bulk_cdna(
         (CR, string(TW, TR), string(TH, CT), me_na_[method]);
         sa_fq_ = sa_fq_,
     )
+
+    println("2")
 
     if method == "align_to_transcriptome"
 
@@ -465,6 +488,8 @@ function measure_gene_expression_of_bulk_cdna(
 
         end
 
+    println("3")
+    
     elseif method == "align_to_genome"
 
         id = FASTQ.Reference.generate_star_genome_file(

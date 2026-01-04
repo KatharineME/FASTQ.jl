@@ -106,13 +106,22 @@ const AN, SS, SSV = "6.Annotate", "3.Snpsift", "snpsift.vcf.gz"
 
 # ---- #
 
-FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
+FASTQ.Command.call_variants_on_germline_dna(
+  TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
+<<<<<<< HEAD
 @test round(
     FASTQ.Support.calculate_size(
         joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV),
     ),
 ) >= 130
+=======
+#@test round(
+#    FASTQ.Support.calculate_size(
+#        joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV),
+#    ),
+#) >= 130
+>>>>>>> e7d0ed3 (unknown changes)
 
 # ---- #
 

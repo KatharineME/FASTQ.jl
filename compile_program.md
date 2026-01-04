@@ -12,7 +12,6 @@ cd fastp
 make
 
 sudo make install
-
 ```
 
 ## Compile minimap2 from source

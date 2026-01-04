@@ -44,7 +44,7 @@ function _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = nothi
         "--memory=30g",
     )
 
-    con = ("centos:centos6", "bash")
+    con = ("quay.io/wtsicgp/strelka2-manta:latest", "bash")
 
     vost = joinpath(voo, "strelka")
 
@@ -93,7 +93,7 @@ function _configure_and_run_manta(id, co, ru, voo, vot)
     vom = joinpath(voo, "manta")
 
     run(
-        `docker exec --interactive $id bash -c "./$_HO/$vot/$(FASTQ._MA)/bin/configManta.py $co --outputContig --runDir /$_HO/$vom && ./$_HO/$(joinpath(vom, "runWorkflow.py")) $ru"`,
+        `docker exec --interactive $id bash -c "/$_HO/$vot/$(FASTQ._MA)/bin/configManta.py $co --outputContig --runDir /$_HO/$vom && /$_HO/$(joinpath(vom, "runWorkflow.py")) $ru"`,
     )
 
     vom
@@ -109,7 +109,7 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, to, n_jo, me)
 
     past, pama, pav = _set_output_path(pa)
 
-    co = "--referenceFasta /$_HO/$vorfi --callRegions $_HO/$voc --bam $_HO/$voba"
+    co = "--referenceFasta /$_HO/$vorfi --callRegions /$_HO/$voc --bam /$_HO/$voba"
 
     vc_ = (joinpath(pama, pav, "diploidSV.vcf.gz"), joinpath(past, pav, "variants.vcf.gz"))
 
@@ -128,7 +128,7 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, to, n_jo, me)
     _configure_and_run_manta(id, co, ru, voo, vot)
 
     run(
-        `docker exec --interactive $id bash -c "./$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaGermlineWorkflow.py")) $co --runDir /$_HO/$vost && ./$_HO/$vostr $ru"`,
+        `docker exec --interactive $id bash -c "/$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaGermlineWorkflow.py")) $co --runDir /$_HO/$vost && /$_HO/$vostr $ru"`,
     )
 
     FASTQ.Support.remove_docker_container(id)
@@ -155,7 +155,7 @@ function call_somatic_variant(pa, bage, baso, ex, re, chs, to, n_jo, me)
     vom = _configure_and_run_manta(id, co, ru, voo, vot)
 
     run(
-        `docker exec --interactive $id bash -c "./$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaSomaticWorkflow.py")) $co --indelCandidates $(joinpath(_HO, vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /$_HO/$vost && ./$_HO/$vostr $ru"`,
+        `docker exec --interactive $id bash -c "/$_HO/$vot/$(joinpath(FASTQ._ST, "bin", "configureStrelkaSomaticWorkflow.py")) $co --indelCandidates $(joinpath(_HO, vom, pav, "candidateSmallIndels.vcf.gz")) --runDir /$_HO/$vost && /$_HO/$vostr $ru"`,
     )
 
     FASTQ.Support.remove_docker_container(id)
