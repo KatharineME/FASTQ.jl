@@ -29,7 +29,9 @@ const TO = joinpath(FASTQ.PR, "tool")
 id = FASTQ.BAM._run_strelka_manta_docker_container(TE, BAGE, GE, CHS, TO)[1]
 
 @test lastindex(
-    readlines(pipeline(`docker exec --interactive $id bash -c "ls /home/$GEN/"`)),
+    readlines(
+        pipeline(`docker exec --interactive $id bash -c "ls /home/$GEN/"`),
+    ),
 ) >= 11
 
 FASTQ.Support.remove_docker_container(id)
@@ -79,7 +81,8 @@ const TES = mkdir(joinpath(TE, "CallSomaticVariant"))
 
 # ---- #
 
-vcs_ = FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, TO, N_JO, ME)
+vcs_ =
+    FASTQ.BAM.call_somatic_variant(TES, BAGE, BASO, EX, GE, CHS, TO, N_JO, ME)
 
 @test lastindex(vcs_) == 3
 

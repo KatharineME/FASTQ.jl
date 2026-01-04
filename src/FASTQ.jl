@@ -1,5 +1,11 @@
 module FASTQ
 
+const P1 = pkgdir(FASTQ, "in")
+
+const P2 = pkgdir(FASTQ, "ou")
+
+# ------------------------------------ #
+
 const PR = dirname(@__DIR__)
 
 const TE = joinpath(tempdir(), "FASTQ")

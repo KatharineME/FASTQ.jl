@@ -22,7 +22,10 @@ const CHS = joinpath(GEPA, "chromosome.bed.gz")
 
 run(`cp $GE $CHS $ID`)
 
-FASTQ.Reference.index_genome_file(joinpath(ID, basename(GE)), joinpath(ID, basename(CHS)))
+FASTQ.Reference.index_genome_file(
+    joinpath(ID, basename(GE)),
+    joinpath(ID, basename(CHS)),
+)
 
 @test lastindex([fi for fi in readdir(ID) if fi != ".DS_Store"]) == 5
 
@@ -30,7 +33,10 @@ FASTQ.Reference.index_genome_file(joinpath(ID, basename(GE)), joinpath(ID, basen
 
 const ST = mkdir(joinpath(TE, "GenerateStarFile"))
 
-const GA = joinpath(GEPA, "GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gtf")
+const GA = joinpath(
+    GEPA,
+    "GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gtf",
+)
 
 # ---- #
 
@@ -38,6 +44,10 @@ run(`cp $GE $GA $ST`)
 
 # ---- #
 
-FASTQ.Reference.generate_star_genome_file(joinpath(ST, basename(GE)), 8; ga = nothing)
+FASTQ.Reference.generate_star_genome_file(
+    joinpath(ST, basename(GE)),
+    8;
+    ga = nothing,
+)
 
 @test round(FASTQ.Support.calculate_size(joinpath(ST, "StarIndex", "SA"))) == 23

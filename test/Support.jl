@@ -48,8 +48,9 @@ FASTQ.Support.start_docker()
 
 # ---- #
 
-@test FASTQ.Support.error_if_file_missing(readdir(joinpath(DNA, S1); join = true)) ===
-      nothing
+@test FASTQ.Support.error_if_file_missing(
+    readdir(joinpath(DNA, S1); join = true),
+) === nothing
 
 @test_throws ErrorException FASTQ.Support.error_if_file_missing((
     "Unicorn.txt",
@@ -66,7 +67,10 @@ const AB = joinpath("/Users", ENV["USER"], "Downloads")
 
 # ---- #
 
-@test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(DA, _RN1)
+@test_throws ErrorException FASTQ.Support.make_sample_to_fastq_dictionary(
+    DA,
+    _RN1,
+)
 
 # ---- #
 
@@ -74,7 +78,8 @@ const TE = FASTQ.TE
 
 # ---- #
 
-TES1, TES2 = [FASTQ.Support.trash_remake_directory(joinpath(TE, pa)) for pa in (S1, S2)]
+TES1, TES2 =
+    [FASTQ.Support.trash_remake_directory(joinpath(TE, pa)) for pa in (S1, S2)]
 
 # ---- #
 
@@ -98,10 +103,16 @@ const AN = joinpath(FASTQ.TE, "Analysis")
 
 # ---- #
 
-FASTQ.Support.make_analysis_directory(FASTQ.TE, "Analysis", ("One", "Two"); sa_fq_ = sa_fq_)
+FASTQ.Support.make_analysis_directory(
+    FASTQ.TE,
+    "Analysis",
+    ("One", "Two");
+    sa_fq_ = sa_fq_,
+)
 
 @test readdir(joinpath(AN, "One")) == [S1, S2]
 
 # ---- #
 
-@test FASTQ.Support.test_strelka_and_manta(joinpath(FASTQ.PR, "tool")) === nothing
+@test FASTQ.Support.test_strelka_and_manta(joinpath(FASTQ.PR, "tool")) ===
+      nothing

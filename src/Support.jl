@@ -54,15 +54,6 @@ end
 
 function log_top_level_function()
 
-    #fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
-
-<<<<<<< HEAD
-    @info "============================================================
-    $fu 
-    $(now())
-    =============================================================="
-
-=======
     #ti = Nucleus.Time.stamp()
 
     #@info "============================================================
@@ -72,20 +63,12 @@ function log_top_level_function()
 
     #nothing
 
->>>>>>> e7d0ed3 (unknown changes)
 end
 
 function log_sub_level_function()
 
     #fu = _clean_function_name(string(StackTraces.stacktrace()[2].func))
 
-<<<<<<< HEAD
-    @info "------------------------------
-    $fu 
-    $(now())
-    --------------------------------"
-
-=======
     #ti = Nucleus.Time.stamp()
 
     #@info "------------------------------
@@ -95,7 +78,6 @@ function log_sub_level_function()
 
     #nothing
 
->>>>>>> e7d0ed3 (unknown changes)
 end
 
 function calculate_size(fi)
@@ -148,7 +130,9 @@ function make_sample_to_fastq_dictionary(di, na)
 
             if le > 2
 
-                error("Sample $sa has more than two fastq files. Concatenate first.")
+                error(
+                    "Sample $sa has more than two fastq files. Concatenate first.",
+                )
 
             elseif 2 > le
 
@@ -188,7 +172,11 @@ function trash_remake_directory(di)
 
         @warn "Trashing $dia"
 
-        mv(dia, joinpath(joinpath(homedir(), ".Trash"), basename(dia)); force = true)
+        mv(
+            dia,
+            joinpath(joinpath(homedir(), ".Trash"), basename(dia));
+            force = true,
+        )
 
     end
 
@@ -242,7 +230,8 @@ function test_strelka_and_manta(pa)
 
     for pr in (FASTQ._MA, FASTQ._ST)
 
-        !(pr in readdir(pa)) ? error("You dont have the correct version ($pr).") : nothing
+        !(pr in readdir(pa)) ?
+        error("You dont have the correct version ($pr).") : nothing
 
     end
 

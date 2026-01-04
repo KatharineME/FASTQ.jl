@@ -18,7 +18,9 @@ function _make_benchmark_files(vc, re, rt, nc, n_jo)
 
         @warn "Renaming query vcf chromosomes"
 
-        run(`bcftools annotate --threads=$n_jo --rename-chrs=$nc --output=$vqn $vc`)
+        run(
+            `bcftools annotate --threads=$n_jo --rename-chrs=$nc --output=$vqn $vc`,
+        )
 
     end
 
@@ -45,8 +47,10 @@ function _run_happy(ha, vtr, vqn, sd, red, co, rt)
 
     vha = joinpath(ho, basename(ha[1]))
 
-    pvt, pvqn, pbd, pre =
-        [dirname(FASTQ.Support.make_path_absolute(pa)) for pa in (vtr, vqn, co, red)]
+    pvt, pvqn, pbd, pre = [
+        dirname(FASTQ.Support.make_path_absolute(pa)) for
+        pa in (vtr, vqn, co, red)
+    ]
 
     vvt, vvqn, vre, vrt, vsd =
         [joinpath(ho, basename(pa)) for pa in (pvt, pvqn, pre, rt, sd)]
@@ -96,10 +100,19 @@ function benchmark(
         confident_regions_bed,
     ))
 
-    ha = FASTQ.Support.make_analysis_directory(output_directory, "Benchmark", ("Happy",))
+    ha = FASTQ.Support.make_analysis_directory(
+        output_directory,
+        "Benchmark",
+        ("Happy",),
+    )
 
-    red, sd, vqn =
-        _make_benchmark_files(query_vcf, reference_genome, rtg_tools, chn, number_of_jobs)
+    red, sd, vqn = _make_benchmark_files(
+        query_vcf,
+        reference_genome,
+        rtg_tools,
+        chn,
+        number_of_jobs,
+    )
 
     @info "Running vcfeval"
 
@@ -117,7 +130,15 @@ function benchmark(
 
     @info "Running hap.py"
 
-    id = _run_happy(ha, truth_vcf, vqn, sd, red, confident_regions_bed, rtg_tools)
+    id = _run_happy(
+        ha,
+        truth_vcf,
+        vqn,
+        sd,
+        red,
+        confident_regions_bed,
+        rtg_tools,
+    )
 
     FASTQ.Support.remove_docker_container(id)
 

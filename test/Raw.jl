@@ -87,7 +87,8 @@ const SOR2 = replace(SOR1, _RN1 => _RN2)
 # ---- #
 
 const GEC, SOC = [
-    FASTQ.Support.trash_remake_directory(joinpath(TE, pa)) for pa in ("Germline", "Somatic")
+    FASTQ.Support.trash_remake_directory(joinpath(TE, pa)) for
+    pa in ("Germline", "Somatic")
 ]
 
 for (pa, re_, le) in ((GEC, RE_, 2), (SOC, [RE_..., SOR1, SOR2], 4))

@@ -4,9 +4,17 @@ using ..FASTQ
 
 const _HO = "home"
 
-function _run_strelka_manta_docker_container(pa, bage, re, chs, to; baso = nothing)
+function _run_strelka_manta_docker_container(
+    pa,
+    bage,
+    re,
+    chs,
+    to;
+    baso = nothing,
+)
 
-    bage, re, pa = [FASTQ.Support.make_path_absolute(pan) for pan in (bage, re, pa)]
+    bage, re, pa =
+        [FASTQ.Support.make_path_absolute(pan) for pan in (bage, re, pa)]
 
     vot, voo = [basename(pan) for pan in (to, pa)]
 
@@ -78,7 +86,8 @@ end
 
 function _set_output_path(pa)
 
-    [joinpath(pa, st) for st in ("strelka", "manta")]..., joinpath("results", "variants")
+    [joinpath(pa, st) for st in ("strelka", "manta")]...,
+    joinpath("results", "variants")
 
 end
 
@@ -111,7 +120,10 @@ function call_germline_variant(pa, ba, mo, ex, re, chs, to, n_jo, me)
 
     co = "--referenceFasta /$_HO/$vorfi --callRegions /$_HO/$voc --bam /$_HO/$voba"
 
-    vc_ = (joinpath(pama, pav, "diploidSV.vcf.gz"), joinpath(past, pav, "variants.vcf.gz"))
+    vc_ = (
+        joinpath(pama, pav, "diploidSV.vcf.gz"),
+        joinpath(past, pav, "variants.vcf.gz"),
+    )
 
     ex ? co = "$co --exome" : nothing
 

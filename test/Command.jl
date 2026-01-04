@@ -54,7 +54,8 @@ FASTQ.Command.concatenate_fastq(CO; read_name_scheme = _RN1)
 # ---- #
 
 const CON, SEO, SSO, FL = [
-    mkdir(joinpath(TE, st)) for st in ("1.Concatenate", "2.Snpeff", "3.Snpsift", "4.Filter")
+    mkdir(joinpath(TE, st)) for
+    st in ("1.Concatenate", "2.Snpeff", "3.Snpsift", "4.Filter")
 ]
 
 const DAV = joinpath(DAT, "VCF", S1)
@@ -86,11 +87,24 @@ const ME = 8
 
 # ---- #
 
-FASTQ.Command._combine_and_annotate_vcf(CON, SEO, SSO, FL, VC_, GE, CHN, VA, SE, N_JO, ME)
+FASTQ.Command._combine_and_annotate_vcf(
+    CON,
+    SEO,
+    SSO,
+    FL,
+    VC_,
+    GE,
+    CHN,
+    VA,
+    SE,
+    N_JO,
+    ME,
+)
 
 @test round(FASTQ.Support.calculate_size(joinpath(CON, "concat.vcf.gz"))) == 27
 
-@test round(FASTQ.Support.calculate_size(joinpath(SSO, "snpsift.vcf.gz"))) == 150
+@test round(FASTQ.Support.calculate_size(joinpath(SSO, "snpsift.vcf.gz"))) ==
+      150
 
 @test round(FASTQ.Support.calculate_size(joinpath(FL, "pass.vcf.gz"))) == 21
 
@@ -106,22 +120,19 @@ const AN, SS, SSV = "6.Annotate", "3.Snpsift", "snpsift.vcf.gz"
 
 # ---- #
 
-FASTQ.Command.call_variants_on_germline_dna(
-  TE, DAD, EX, GE, VA, TO, N_JO, ME;)
+FASTQ.Command.call_variants_on_germline_dna(TE, DAD, EX, GE, VA, TO, N_JO, ME;)
 
-<<<<<<< HEAD
 @test round(
     FASTQ.Support.calculate_size(
         joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV),
     ),
 ) >= 130
-=======
+
 #@test round(
 #    FASTQ.Support.calculate_size(
 #        joinpath(TE, "CallVariantsonGermlineDNA", AN, SS, S1, SSV),
 #    ),
 #) >= 130
->>>>>>> e7d0ed3 (unknown changes)
 
 # ---- #
 
@@ -151,7 +162,9 @@ const SOR2 = replace(SOR1, _RN1 => _RN2)
 ) === nothing
 
 @test round(
-    FASTQ.Support.calculate_size(joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV)),
+    FASTQ.Support.calculate_size(
+        joinpath(TE, "CallVariantsonSomaticDNA", AN, SS, SSV),
+    ),
 ) == 19
 
 # ---- #
@@ -160,7 +173,16 @@ const CD = joinpath(DAT, "cDNABulk")
 
 # ---- #
 
-@test FASTQ.Command.call_variants_on_bulk_cdna(TE, CD, EX, GE, VA, TO, N_JO, ME) === nothing
+@test FASTQ.Command.call_variants_on_bulk_cdna(
+    TE,
+    CD,
+    EX,
+    GE,
+    VA,
+    TO,
+    N_JO,
+    ME,
+) === nothing
 
 @test round(
     FASTQ.Support.calculate_size(
@@ -192,7 +214,13 @@ const MGE = "MeasureGeneExpressionofBulkCDNA"
 
 @test round(
     FASTQ.Support.calculate_size(
-        joinpath(TE, MGE, "4.AlignBulkCDNAtoTranscriptome", S1, "abundance.tsv"),
+        joinpath(
+            TE,
+            MGE,
+            "4.AlignBulkCDNAtoTranscriptome",
+            S1,
+            "abundance.tsv",
+        ),
     ),
 ) == 7
 

@@ -152,4 +152,4 @@ The reference genome should be adjacent to chromosome and gtf files.
 
 ---
 
-Made by [Kata](https://github.com/KwatMDPhD/Kata.jl) 🥋
+Made by [Kata](https://github.com/KwatMDPhD/Kata.jl) ✅

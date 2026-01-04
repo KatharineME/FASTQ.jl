@@ -1,8 +1,8 @@
 using FASTQ
 
-using Test: @test
+# ------------------------------------ #
 
-# ----------------------------------------------------------------------------------------------- #
+using Test: @test
 
 const FA = "FASTQ"
 
@@ -54,7 +54,8 @@ const TE_ = Nucleus.Path.read(@__DIR__; ig_ = IG_)
 
 for jl in MO_
 
-    @test chop(jl; tail = 3) == chop(readline(joinpath(SR, jl)); head = 7, tail = 0)
+    @test chop(jl; tail = 3) ==
+          chop(readline(joinpath(SR, jl)); head = 7, tail = 0)
 
 end
 

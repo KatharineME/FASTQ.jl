@@ -24,7 +24,8 @@ function index_genome_file(ge, chs)
 
     for fi in (ge, geu)
 
-        !(isfile("$fi.fai") && ispath("$fi.gzi")) ? run(`samtools faidx $fi`) : nothing
+        !(isfile("$fi.fai") && ispath("$fi.gzi")) ? run(`samtools faidx $fi`) :
+        nothing
 
     end
 
@@ -57,7 +58,8 @@ function generate_star_genome_file(ge, n_jo; ga = nothing)
 
         ged = splitext(ge)[1]
 
-        !isfile(ged) ? run(pipeline(`bgzip --decompress --stdout $ge`, ged)) : nothing
+        !isfile(ged) ? run(pipeline(`bgzip --decompress --stdout $ge`, ged)) :
+        nothing
 
         run(
             `star --runMode genomeGenerate --runThreadN $n_jo --genomeDir $id --genomeFastaFiles $ged --sjdbGTFfile $ga`,

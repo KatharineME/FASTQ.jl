@@ -150,7 +150,9 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
     ba = joinpath(pa, "$sa.bam")
 
-    run(`samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $du $ba`)
+    run(
+        `samtools markdup --threads $n_jo --reference $ge --output-fmt BAM $du $ba`,
+    )
 
     run(`samtools index -@ $n_jo $ba`)
 
@@ -162,7 +164,6 @@ function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 
 end
 
-<<<<<<< HEAD
 # function align_dna(pa, sa, r1, r2, ge, n_jo, me)
 # 
 #     FASTQ.Support.log_sub_level_function()
@@ -197,10 +198,7 @@ end
 # 
 # end
 
-function align_bulk_cdna_to_transcriptome(pa, r1, r2, tr, n_jo; fr = 51, sd = 0.5)
-=======
 function align_bulk_cdna_to_transcriptome(pa, r1, r2, fr, sd, tr, n_jo)
->>>>>>> e7d0ed3 (unknown changes)
 
     FASTQ.Support.log_sub_level_function()
 
@@ -283,7 +281,12 @@ function align_single_cell_cdna_to_genome(
     FASTQ.Support.log_sub_level_function()
 
     if wh === nothing
-        wh = joinpath(FASTQ.PR, "data", "CellRangerBarcodes", "3M-february-2018.txt")
+        wh = joinpath(
+            FASTQ.PR,
+            "data",
+            "CellRangerBarcodes",
+            "3M-february-2018.txt",
+        )
     else
         nothing
     end
