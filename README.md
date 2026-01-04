@@ -1,4 +1,4 @@
-# DNA and cDNA sequence analysis ❄️
+# DNA and cDNA sequence analysis
 
 🚧 This README is under construction 🚧
 
